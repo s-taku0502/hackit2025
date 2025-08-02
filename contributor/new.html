@@ -29,16 +29,23 @@
         <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
 
             <div id="year-input-container">
+                <label for="year">年度（西暦：半角）
+                    <a class="required-mark">*</a>
+                </label>
                 <!--contribute.jsに記載-->
             </div>
 
             <div>
-                <label for="subject">科目:</label>
+                <label for="subject">科目
+                    <a class="required-mark">*</a>
+                </label>
                 <input type="text" id="subject" name="subject" required>
             </div>
 
             <div>
-                <label for="file">ファイル:</label>
+                <label for="file">ファイル
+                    <a class="required-mark">*</a>
+                </label>
                 <input type="file" id="file" name="file" accept=".pdf,.image/*" required>
             </div>
 
