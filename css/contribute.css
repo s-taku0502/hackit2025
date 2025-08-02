@@ -1,0 +1,124 @@
+.header {
+    display: flex;
+    align-items: center;
+    /* 垂直方向中央揃え */
+    gap: 32px;
+    /* 要素間の余白（必要に応じて調整） */
+    border-bottom: 2px solid #ccc;
+    /* 追加: 下線 */
+    padding-bottom: 8px;
+    /* 線との余白（任意） */
+}
+
+.header>div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+    /* ロゴサイズ調整（任意） */
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    /* ナビゲーション項目の間隔 */
+    list-style: none;
+}
+
+.main {
+    text-align: left;
+    /* 追加: 左寄せ */
+    margin-top: 24px;
+    /* headerとの間隔（任意） */
+}
+
+button {
+    margin-top: 24px;
+    /* 上部余白 */
+    padding: 8px 16px;
+    /* ボタンのパディング */
+    background-color: #007bff;
+    /* ボタンの背景色 */
+    color: white;
+    /* ボタンの文字色 */
+    border: none;
+    /* ボーダーなし */
+    border-radius: 4px;
+    /* 角を丸くする */
+    cursor: pointer;
+    /* カーソルをポインターに変更 */
+    font-weight: bold;
+}
+
+.submit {
+    /* 文字の色を白色にする */
+    color: white;
+
+    /* 文字の下線を消す */
+    text-decoration: none;
+}
+
+form {
+    background: #f9f9f9;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form>div {
+    margin-bottom: 24px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.header .nav a:hover {
+    background: #e3f2fd;
+}
+
+a.home,
+a.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    /* 下に余白 */
+    font-weight: bold;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+a.back:hover,
+a.home:hover {
+    background-color: #bbdefb;
+}
