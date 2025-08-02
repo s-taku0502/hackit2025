@@ -4,8 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     const label = document.createElement('label');
-    label.setAttribute('for', 'year');
-    label.textContent = '年度(西暦(半角)):';
 
     const input = document.createElement('input');
     input.type = 'text';
