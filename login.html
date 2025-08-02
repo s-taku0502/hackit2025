@@ -8,12 +8,14 @@
 <body>
     <h1>ログイン</h1>
     <form action="/login" method="POST">
-        <label for="username">ユーザー名:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">パスワード:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
+        <div>
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         <button type="submit">ログイン</button>
         <button type="reset">リセット</button>
         <br>
