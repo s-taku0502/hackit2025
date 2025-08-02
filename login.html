@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <form action="/login" method="POST">
+        <label for="username">ユーザー名:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">ログイン</button>
+        <button type="reset">リセット</button>
+        <br>
+        <a href="/register">新規登録はこちら</a>
+        <br>
+        <a href="/forgot-password">パスワードを忘れた場合</a>
+        <br>
+        <a href="/terms">利用規約</a>
+        <br>
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <br>
+    </form>
+</body>
+</html>
