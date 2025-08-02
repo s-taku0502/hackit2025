@@ -1,0 +1,34 @@
+.header {
+    display: flex;
+    align-items: center; /* 垂直方向中央揃え */
+    gap: 32px; /* 要素間の余白（必要に応じて調整） */
+    border-bottom: 2px solid #ccc; /* 追加: 下線 */
+    padding-bottom: 8px; /* 線との余白（任意） */
+}
+
+.header > div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px; /* ロゴサイズ調整（任意） */
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px; /* ナビゲーション項目の間隔 */
+    list-style: none;
+}
+
+.main {
+    text-align: left; /* 追加: 左寄せ */
+    margin-top: 24px; /* headerとの間隔（任意） */
+}
+
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px; /* 上部余白 */
+    width: 20%; /* 画像を画面幅に合わせる */
+}
