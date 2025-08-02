@@ -6,7 +6,7 @@
     padding-bottom: 8px; /* 線との余白（任意） */
 }
 
-.header > block {
+.header > div {
     display: flex;
     align-items: center;
 }
@@ -19,9 +19,6 @@
     display: flex;
     gap: 16px; /* ナビゲーション項目の間隔 */
     list-style: none;
-    margin: 0;
-    padding: 0;
-    text-align:left;
 }
 
 .main {
@@ -29,17 +26,9 @@
     margin-top: 24px; /* headerとの間隔（任意） */
 }
 
-img.pastpapers{
-    margin-top: 24px; /* 過去問セクションの上部余白 */
-    width: 20%; /* 画像を画面幅に合わせる */
-}
-
-img.recentQandA {
-    margin-top: 24px; /* 最近のQ&Aセクションの上部余白 */
-    width: 20%; /* 画像を画面幅に合わせる */
-}
-
-img.recent{
-    margin-top: 24px; /* 最近のオススメセクションの上部余白 */
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px; /* 上部余白 */
     width: 20%; /* 画像を画面幅に合わせる */
 }
