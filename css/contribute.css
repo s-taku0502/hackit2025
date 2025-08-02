@@ -52,7 +52,7 @@ button {
     font-weight: bold;
 }
 
-a {
+.submit {
     /* 文字の色を白色にする */
     color: white;
 

@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/contributor.css">
+    <link rel="stylesheet" href="/css/contribute.css">
     <title>過去問投稿</title>
 </head>
 
 <body>
-    <script src="/js/contributor.js"></script>
     <header class="header">
         <div>
             <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
@@ -26,10 +25,11 @@
     <main class="main">
         <h1 class="username">過去問アップロード</h1>
 
-        <form action="/contributor/upload" method="post" enctype="multipart/form-data">
+        <form action="upload.html">
+        <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
+
             <div id="year-input-container">
-                <label for="year">年度:</label>
-                <input type="number" id="year" name="year" min="2000" required>
+                <!--contribute.jsに記載-->
             </div>
 
             <div>
@@ -42,10 +42,13 @@
                 <input type="file" id="file" name="file" accept=".pdf,.image/*" required>
             </div>
 
-            <button type="submit">
-                <a href="/contributor/upload.html">アップロード</a>
-            </button>
+                <button type="submit" class="submit">アップロード</button>
+
+            </form>
+            
+        </form>
     </main>
+    <script src="/js/contributor.js"></script>
 </body>
 
 </html>
