@@ -13,14 +13,14 @@
     <header class="header">
         <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
         <nav class="nav">
-            <a href="/index.html">ホーム</a>
-            <a href="/contributor/new.html">過去問投稿</a>
-            <a href="/viewer/question/list.html">質問・返答</a>
-            <a href="/login.html">ログイン</a>
+            <a href="/index">ホーム</a>
+            <a href="/contributor/new">過去問投稿</a>
+            <a href="/viewer/question/list">質問・返答</a>
+            <a href="/login">ログイン</a>
         </nav>
     </header>
     <div class="container">
-        <a href="/viewer/past_question/past_questions_all.html">過去問</a> /
+        <a href="/viewer/past_question/past_questions_all">過去問</a> /
         <span id="subject-name">教科</span>
         <h1>質問投稿</h1>
         <form id="questionForm">
@@ -62,8 +62,8 @@
             // フッターの読み込み
             const loadFooter = async () => {
                 try {
-                    // components/footer.html へのパスを指定。サイトのルートからの相対パスが最も安全です。
-                    const response = await fetch('/components/footer.html'); 
+                    // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer'); 
                     
                     if (!response.ok) {
                         throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);

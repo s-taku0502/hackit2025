@@ -16,10 +16,10 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
+                <li><a href="index">ホーム</a></li>
+                <li><a href="/contributor/new">過去問投稿</a></li>
+                <li><a href="/viewer/question/list">質問・返答</a></li>
+                <li><a href="/login">ログイン</a></li>
             </ul>
         </nav>
     </header>
@@ -27,18 +27,18 @@
         <h1 class="username">ようこそ, ゲストさん!</h1>
         
         <h2 class="past-papers">過去問一覧</h2>
-        <a href="/viewer/past_question/past_questions_all.html">
+        <a href="/viewer/past_question/past_questions_all">
             <!--過去問の年度を選択!-->
             <img src="/img/pastpaper.png" alt="過去問一覧" class="pastpapers">
         </a>
 
         <h2 class="recent-q-and-a">最近のQ&A</h2>
-        <a href="/viewer/question/list.html">
+        <a href="/viewer/question/list">
             <!--最近の質問を表示-->
             <img src="/img/Q&A.png" alt="最近のQ&A" class="recentQandA">
         </a>
         <h2 class="recommend-for-you">過去問履歴</h2>
-        <a href="/viewer/question_history.html">
+        <a href="/viewer/question_history">
             <!--最近見た過去問表示-->
         <img src="/img/recent for you.png" alt="過去問履歴" class="recent">
         </a>
@@ -132,14 +132,14 @@
           }
         } else {
           // ユーザーがログインしていない場合
-          window.location.href = '/login.html';
+          window.location.href = '/login';
         }
       });
 
       // フッターの読み込み
       const loadFooter = async () => {
         try {
-          const response = await fetch('/components/footer.html');
+          const response = await fetch('/components/footer');
           
           if (!response.ok) {
             throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}`);
