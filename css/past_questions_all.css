@@ -35,9 +35,75 @@ body {
 }
 
 /* --- レスポンシブ（このページ専用のレスポンシブスタイル） --- */
-@media (max-width: 600px) {
-    .past-list a {
-        padding: 10px 8px;
-        font-size: 15px;
+.site-footer {
+    /* 必要に応じて、フッターの見た目と配置のスタイルを記述 */
+    margin-top: auto; /* Flexboxでフッターを最下部に押し下げる */
+    flex-shrink: 0;   /* フッターが縮まないようにする */
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.site-footer .footer-content {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* リンク間のスペース */
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.site-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* その他のフッター内の要素のスタイル調整 */
+.site-footer .footer-content p {
+    margin: 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .site-footer .footer-content {
+        flex-direction: column;
+        gap: 5px;
     }
 }
+
+/* /css/past_questions_all.css の内容 */
+
+/* --- 過去問一覧リスト --- */
+.past-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.past-list li {
+    margin-bottom: 18px;
+}
+
+.past-list a {
+    display: block;
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    transition: background 0.2s;
+}
+
+.past-list a:hover {
+    background: #bbdefb;
+}
+
+/* ここにこのページ特有のレスポンシブスタイルなどを追加 */
