@@ -25,7 +25,8 @@
             </nav>
         </header>
 
-        <main class="container"> <h1 class="username">過去問アップロード完了</h1>
+        <main class="container">
+            <h1 class="username">過去問アップロード完了</h1>
             <p>過去問のアップロードが完了しました。</p>
             <p>アップロードされた内容は、管理者による確認後、公開されます。</p>
             <a href="/contributor/new.html" class="back">新しい過去問を投稿する</a>
@@ -33,14 +34,9 @@
         </main>
 
         <div id="footer-placeholder"></div>
+    </div>
 
-                        // XSS対策: DOMParserを使用してHTMLを安全に解析・追加
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(htmlContent, 'text/html');
-                        const footerElement = doc.querySelector('footer');
-                        if (footerElement) {
-                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
-                        }
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loadFooter = async () => {
                 try {
@@ -54,7 +50,13 @@
                     
                     const footerPlaceholder = document.getElementById('footer-placeholder');
                     if (footerPlaceholder) {
-                        footerPlaceholder.innerHTML = htmlContent;
+                        // XSS対策: DOMParserを使用してHTMLを安全に解析
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
                     } else {
                         console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
                     }
