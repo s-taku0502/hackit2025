@@ -8,30 +8,58 @@
     <link rel="stylesheet" href="/css/past_questions_all.css">
 </head>
 <body>
-    <header class="header">
-        <div>
-            <img src="../../img/Hackit.png" alt="Hackit ロゴ" class="logo">
-        </div>
-        <nav class="nav">
-            <ul>
-                <li><a href="../../index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/new.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
+    <div class="wrapper">
+        <header class="header">
+            <div>
+                <img src="../../img/Hackit.png" alt="Hackit ロゴ" class="logo">
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="../../index.html">ホーム</a></li>
+                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/new.html">質問・返答</a></li>
+                    <li><a href="/login.html">ログイン</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main class="container">
+            <h1>過去問一覧</h1>
+            <ul class="past-list">
+                <li><a href="past_questions.html?year=2024&subject=数学">2024年 数学</a></li>
+                <li><a href="past_questions.html?year=2023&subject=英語">2023年 英語</a></li>
+                <li><a href="past_questions.html?year=2022&subject=物理">2022年 物理</a></li>
             </ul>
-        </nav>
-    </header>
-    <main class="container">
-        <h1>過去問一覧</h1>
-        <ul class="past-list">
-            <li><a href="past_questions.html?year=2024&subject=数学">2024年 数学</a></li>
-            <li><a href="past_questions.html?year=2023&subject=英語">2023年 英語</a></li>
-            <li><a href="past_questions.html?year=2022&subject=物理">2022年 物理</a></li>
-            <!-- 必要に応じてリスト追加 -->
-        </ul>
-    </main>
-    <script>
-        // ここは必要に応じて動的生成も可能です
+            </main>
+        
+        <div id="footer-placeholder"></div>
+        
+    </div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadFooter = async () => {
+                try {
+                    // components/footer.html へのパスを指定。
+                    // 環境に合わせてパスを調整してください。
+                    const response = await fetch('/components/footer.html'); 
+                    
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+                    
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = htmlContent;
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+
+            loadFooter();
+        });
     </script>
 </body>
 </html>

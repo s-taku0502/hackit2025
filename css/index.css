@@ -148,3 +148,34 @@ img.recent {
     width: 100%;
     max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
 }
+
+footer {
+ background-color: #fff; /* 背景色を白に */
+ color: #333; /* テキストの色を濃い灰色に */
+ padding: 20px;
+ text-align: center;
+ font-size: 0.9em;
+ border-top: 1px solid #ccc; /* 上部に薄いグレーのボーダーを追加して区切りを明確に */
+}
+
+
+footer a {
+ color: #007bff; /* リンクの色を青に */
+ text-decoration: none;
+}
+
+
+footer a:hover {
+ text-decoration: underline;
+}
+
+
+footer .footer-content {
+ max-width: 960px;
+ margin: 0 auto;
+}
+
+
+footer .footer-content p {
+ margin: 5px 0; /* 上下の余白を少し調整 */
+}

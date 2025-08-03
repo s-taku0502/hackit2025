@@ -1,17 +1,44 @@
-/* 共通スタイル - 複数のページで使用される共通デザイン */
+/* /css/common.css の内容 */
 
-/* --- ヘッダー --- */
+/* --- 全体的なリセットと基本設定 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* HTMLとbodyの高さがビューポート全体に広がるようにする */
+html, body {
+    height: 100%; /* これがフッター固定の出発点 */
+    font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- ラッパーの設定 (フッター固定のために非常に重要) --- */
+/* .wrapperがページ全体のコンテナであり、最低でもビューポートの高さを持ち、
+   子要素（ヘッダー、メイン、フッター）を縦に並べるFlexコンテナになる */
+.wrapper {
+    min-height: 100vh; /* ビューポートの高さの最低100%を確保 */
+    display: flex;     /* Flexboxコンテナにする */
+    flex-direction: column; /* 子要素を縦方向に並べる */
+}
+
+/* --- ヘッダーのスタイル --- */
 .header {
     background: #fff;
     border-bottom: 1px solid #e0e0e0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 要素間のスペースを均等にする */
     align-items: center;
     padding: 16px 32px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    position: sticky;
+    position: sticky; /* スクロールしても上部に固定 */
     top: 0;
     z-index: 1000;
+    width: 100%; /* 全幅を確保 */
+    flex-shrink: 0; /* ヘッダーが縮まないようにする */
 }
 
 .header > div {
@@ -26,7 +53,7 @@
 
 .nav ul {
     display: flex;
-    gap: 24px;
+    gap: 24px; /* ナビゲーション項目の間隔 */
     list-style: none;
     margin: 0;
     padding: 0;
@@ -41,18 +68,24 @@
     transition: background 0.2s;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a.active { /* activeクラスは現在選択中のページを示す場合に使う */
     background: #e3f2fd;
 }
 
 /* --- メインコンテナ --- */
-.container {
-    max-width: 700px;
-    margin: 40px auto;
+/* main.containerが利用可能な残りのスペースを全て埋めることで、
+   フッターが自動的に下へ押しやられる */
+main.container {
+    flex: 1; /* 残りのスペースを全て埋めるように伸縮させる */
+    padding: 32px 24px; /* 上下左右のパディング */
+    width: 1200px; /* ★どんな時もこの横幅にする (画面からはみ出す可能性あり)★ */
+    margin: 40px auto; /* 上下のマージンと中央揃え */
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 32px 24px;
+    text-align: left;
+    overflow-y: auto; /* コンテンツが長い場合にメイン部分のみスクロール可能にする */
 }
 
 /* --- エラーメッセージコンテナ --- */
@@ -84,25 +117,161 @@ h1 {
     text-align: center;
 }
 
-/* --- レスポンシブ --- */
-@media (max-width: 600px) {
-    .container {
-        margin: 10px;
-        padding: 16px;
-    }
-    
+/* --- その他の共通要素のスタイル（index.cssから移動した一部） --- */
+button {
+    margin-top: 24px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form {
+    background: #f9f9f9;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 500px; /* フォームの最大幅 */
+    margin: 0 auto;
+}
+
+form > div {
+    margin-bottom: 24px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea { /* textareaも追加 */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.required-mark {
+    color: #D32F2F;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.form-buttons .delete,
+.form-buttons .submit {
+    width: 48%; /* ボタンの幅 */
+    margin-top: 0;
+}
+
+.delete {
+    background-color: #f44336;
+    color: white;
+}
+
+/* --- リンクボタンのようなスタイル --- */
+a.home,
+a.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+a.back:hover,
+a.home:hover {
+    background-color: #bbdefb;
+}
+
+/* --- 画像スタイル --- */
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
+}
+
+
+/* --- フッターのスタイル --- */
+.site-footer {
+    /* これがフッターを最下部に固定する魔法のプロパティ */
+    margin-top: auto; /* Flexコンテナ（.wrapper）の残りのスペースを全て上マージンとして使う */
+    flex-shrink: 0;   /* フッターが縮まないようにする */
+
+    background-color: #fff;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    border-top: 1px solid #ccc;
+}
+
+.site-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+.site-footer .footer-content {
+    max-width: 960px; /* フッターコンテンツ自体の最大幅 */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.site-footer .footer-content p {
+    margin: 0;
+}
+
+/* --- レスポンシブ対応（共通部分） --- */
+@media (max-width: 768px) {
     .header {
         flex-direction: column;
-        gap: 8px;
-        padding: 12px 8px;
+        gap: 16px;
+        padding: 12px 8px; /* スマホ時のパディング調整 */
     }
-    
-    .nav ul {
-        gap: 12px;
+    .header .nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px; /* スマホ時のナビゲーション間隔 */
     }
-    
     .logo {
-        height: 36px;
+        height: 36px; /* スマホ時のロゴサイズ */
         margin-right: 8px;
+    }
+    /* main.containerのレスポンシブ調整 */
+    main.container {
+        width: auto; /* 画面幅に合わせて自動調整 */
+        margin: 10px; /* スマホ時のマージン */
+        padding: 16px; /* スマホ時のパディング */
+        max-width: none; /* 幅の固定を解除し、レスポンシブに対応させる */
+    }
+    .site-footer .footer-content {
+        flex-direction: column;
+        gap: 5px;
     }
 }
