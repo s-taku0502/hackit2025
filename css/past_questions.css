@@ -1,274 +1,72 @@
-/* ログイン・登録フォームのスタイル */
+/* --- 共通 --- */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
     background-color: #f5f5f5;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     color: #333;
 }
 
-/* ページヘッダー（past_questions.html用） */
 .header {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    margin-bottom: 20px;
-}
-
-.nav {
     display: flex;
     align-items: center;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    background-color: #fff;
+    border-bottom: 2px solid #ccc;
+    padding: 16px 32px 8px 32px;
 }
 
-.nav .logo {
-    width: 60px;
-    height: auto;
-}
-
-.nav a {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.nav a:hover {
-    color: #3498db;
-}
-
-/* フォームコンテナ */
-.container {
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 30px;
+.header > div {
+    display: flex;
+    align-items: center;
 }
 
 .logo {
-    width: 80px;
-    height: auto;
-    margin-bottom: 20px;
+    height: 48px;
+    margin-right: 24px;
 }
 
-.header h1 {
-    color: #2c3e50;
-    margin: 0;
-    font-size: 24px;
-}
-
-/* フォームスタイル */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-}
-
-/* チェックボックスグループ */
-.checkbox-group {
+.nav ul {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.checkbox-group input[type="checkbox"] {
-    margin-top: 4px;
-    flex-shrink: 0;
-}
-
-.checkbox-group label {
-    margin-bottom: 0;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-/* ボタングループ */
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.submit-btn,
-.reset-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.submit-btn {
-    background-color: #3498db;
-    color: white;
-}
-
-.submit-btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-1px);
-}
-
-.reset-btn {
-    background-color: #95a5a6;
-    color: white;
-}
-
-.reset-btn:hover {
-    background-color: #7f8c8d;
-    transform: translateY(-1px);
-}
-
-/* フォームリンク */
-.form-links {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.form-links a {
-    display: block;
-    margin-bottom: 8px;
-    color: #3498db;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
-}
-
-.form-links a:hover {
-    color: #2980b9;
-    text-decoration: underline;
-}
-
-.form-links a:last-child {
-    margin-bottom: 0;
-}
-
-/* その他のリンク */
-.links {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.links p {
-    margin-bottom: 10px;
-    color: #666;
-    font-size: 14px;
-}
-
-.login-link {
-    display: inline-block;
-    color: #3498db;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.login-link:hover {
-    color: #2980b9;
-    text-decoration: underline;
-}
-
-/* フッター */
-.footer {
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-.footer-links {
-    margin-bottom: 15px;
-}
-
-.footer-links a {
-    display: block;
-    margin-bottom: 8px;
-    color: #7f8c8d;
-    text-decoration: none;
-    font-size: 12px;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-    color: #34495e;
-    text-decoration: underline;
-}
-
-.footer-links a:last-child {
-    margin-bottom: 0;
-}
-
-.copyright {
+    gap: 24px;
     margin: 0;
-    color: #bdc3c7;
-    font-size: 12px;
+    padding: 0;
 }
 
-/* エラーメッセージ */
-.error-message {
-    color: #e74c3c;
-    font-size: 14px;
-    margin-top: 5px;
-    display: block;
+.nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 480px) {
-    .container {
-        margin: 10px;
-        padding: 20px;
-    }
-    
-    .button-group {
-        flex-direction: column;
-    }
-    
-    .submit-btn,
-    .reset-btn {
-        margin-bottom: 10px;
-    }
-    
-    .reset-btn {
-        margin-bottom: 0;
-    }
+.nav a:hover {
+    background: #e3f2fd;
 }
 
-/* 過去問表示ページのスタイル */
+.header .nav ul {
+  list-style: none;
+}
+
+/* --- メインコンテナ --- */
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 32px 24px;
+}
+
+h1 {
+    color: #1976d2;
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* --- パンくずリスト --- */
 .breadcrumb {
     margin-bottom: 20px;
     font-size: 14px;
@@ -276,7 +74,7 @@ body {
 }
 
 .breadcrumb a {
-    color: #3498db;
+    color: #1976d2;
     text-decoration: none;
 }
 
@@ -284,16 +82,19 @@ body {
     text-decoration: underline;
 }
 
+/* --- 過去問詳細 --- */
 .paper-title {
     color: #2c3e50;
     margin-bottom: 15px;
     font-size: 24px;
+    text-align: center;
 }
 
 .paper-meta {
     margin-bottom: 30px;
     color: #666;
     font-size: 14px;
+    text-align: center;
 }
 
 .past-paper-image {
@@ -306,11 +107,12 @@ body {
     height: auto;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .download__btn {
     text-align: center;
+    margin-bottom: 24px;
 }
 
 .download-link {
@@ -328,7 +130,7 @@ body {
     background-color: #229954;
 }
 
-/* 画像エラー時のスタイル */
+/* --- 画像エラー時 --- */
 .image-error {
     background-color: #f8f9fa;
     border: 2px dashed #dee2e6;
@@ -344,46 +146,22 @@ body {
     font-size: 14px;
 }
 
-/* アクセシビリティの改善 */
-.download-link:focus {
-    outline: 2px solid #3498db;
-    outline-offset: 2px;
-}
-
-/* ダウンロード状態のフィードバック */
-.download-link.downloading {
-    background-color: #f39c12;
-    cursor: wait !important;
-    pointer-events: none;
-}
-
-.download-link.completed {
-    background-color: #27ae60;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-}
-
-/* ダウンロードリンクの追加スタイル */
-.download-link {
-    position: relative;
-    overflow: hidden;
-}
-
-.download-link::before {
-    content: '📥';
-    margin-right: 8px;
-}
-
-.download-link.downloading::before {
-    content: '⏳';
-    animation: pulse 1s infinite;
-}
-
-.download-link.completed::before {
-    content: '✅';
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+/* --- レスポンシブ --- */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 16px;
+    }
+    .header {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 8px;
+    }
+    .nav ul {
+        gap: 12px;
+    }
+    .logo {
+        height: 36px;
+        margin-right: 8px;
+    }
 }

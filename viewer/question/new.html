@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/question.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>質問投稿</title>
 </head>
+
 <body>
     <header class="header">
         <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
@@ -22,44 +24,36 @@
         <h1>質問投稿</h1>
         <form id="questionForm">
             <label for="title">質問タイトル <span class="required-mark">*</span></label>
-            <input
-                type="text"
-                id="title"
-                name="title"
-                required
-            />
+            <input type="text" id="title" name="title" required />
             <label for="detailed">詳細な内容 <span class="required-mark">*</span></label>
-            <textarea
-                id="detailed"
-                name="detailed"
-                required
-            ></textarea>
+            <textarea id="detailed" name="detailed" required></textarea>
             <label for="year">年度選択 <span class="required-mark">*</span></label>
             <select name="year" id="year" required>
                 <option value="">--年を選択--</option>
             </select>
             <label for="subject">科目選択 <span class="required-mark">*</span></label>
-            <input type="text" id="subject" name="subject" required/>
+            <input type="text" id="subject" name="subject" required />
             <button type="submit">質問を投稿</button>
         </form>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const yearSelect = document.getElementById('year');
-            const currentYear = new Date().getFullYear();
-            const startYear = 2000;
-            for (let year = currentYear; year >= startYear; year--) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year + '年';
-                yearSelect.appendChild(option);
-            }
+            document.addEventListener('DOMContentLoaded', function () {
+                const yearSelect = document.getElementById('year');
+                const currentYear = new Date().getFullYear();
+                const startYear = 2000;
+                for (let year = currentYear; year >= startYear; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year + '年';
+                    yearSelect.appendChild(option);
+                }
 
-            document.getElementById('questionForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                alert('質問を送信しました');
+                document.getElementById('questionForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    alert('質問を送信しました');
+                });
             });
-        });
         </script>
     </div>
 </body>
+
 </html>

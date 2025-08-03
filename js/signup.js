@@ -1,9 +1,11 @@
 // 新規登録フォーム専用のJavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.querySelector('.signup-form');
+    const signupForm = document.getElementById('signup-form');
+    if (!signupForm) return;
+
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirm-password');
-    
+
     // エラーメッセージ表示用の要素を作成
     function createErrorMessage(id, message) {
         const existingError = document.getElementById(id);
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirmPassword === '') {
             removeErrorMessage('password-match-error');
+            confirmPasswordInput.style.borderColor = '';
             return;
         }
         
@@ -108,131 +111,111 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmPasswordInput.addEventListener('input', checkPasswordMatch);
     }
     
-    // フォーム送信時のバリデーション
-    if (signupForm) {
-        signupForm.addEventListener('submit', function(event) {
-            const password = passwordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const termsCheckbox = document.getElementById('terms');
-            
-            let hasErrors = false;
-            
-            // ユーザー名チェック
-            if (username.length < 3) {
-                const errorMessage = createErrorMessage('username-error', 'ユーザー名は3文字以上で入力してください');
-                const usernameGroup = document.getElementById('username').closest('.form-group');
-                if (!document.getElementById('username-error')) {
-                    usernameGroup.appendChild(errorMessage);
-                }
-                hasErrors = true;
-            } else {
-                removeErrorMessage('username-error');
-            }
-            
-            // メールアドレスチェック
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                const errorMessage = createErrorMessage('email-error', '正しいメールアドレスを入力してください');
-                const emailGroup = document.getElementById('email').closest('.form-group');
-                if (!document.getElementById('email-error')) {
-                    emailGroup.appendChild(errorMessage);
-                }
-                hasErrors = true;
-            } else {
-                removeErrorMessage('email-error');
-            }
-            
-            // パスワード強度チェック
-            const strengthError = checkPasswordStrength(password);
-            if (strengthError) {
-                const errorMessage = createErrorMessage('password-strength-error', strengthError);
-                const passwordGroup = passwordInput.closest('.form-group');
-                if (!document.getElementById('password-strength-error')) {
-                    passwordGroup.appendChild(errorMessage);
-                }
-                hasErrors = true;
-            }
-            
-            // パスワード一致チェック
-            if (password !== confirmPassword) {
-                const errorMessage = createErrorMessage('password-match-error', 'パスワードが一致しません');
-                const confirmPasswordGroup = confirmPasswordInput.closest('.form-group');
-                if (!document.getElementById('password-match-error')) {
-                    confirmPasswordGroup.appendChild(errorMessage);
-                }
-                hasErrors = true;
-            }
-            
-            // 利用規約チェック
-            if (termsCheckbox && !termsCheckbox.checked) {
-                const errorMessage = createErrorMessage('terms-error', '利用規約に同意してください');
-                const termsGroup = termsCheckbox.closest('.form-group');
-                if (!document.getElementById('terms-error')) {
-                    termsGroup.appendChild(errorMessage);
-                }
-                hasErrors = true;
-            } else {
-                removeErrorMessage('terms-error');
-            }
-            
-            // エラーがある場合は送信を中止
-            if (hasErrors) {
-                event.preventDefault();
+    signupForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 既存のフォーム全体のエラーをクリア
+        removeErrorMessage('form-api-error');
+        
+        // 各フィールドの既存エラーメッセージもクリア
+        removeErrorMessage('username-error');
+        removeErrorMessage('email-error');
+        removeErrorMessage('password-strength-error');
+        removeErrorMessage('password-match-error');
+        removeErrorMessage('terms-error');
+
+        let hasErrors = false;
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const termsCheckbox = document.getElementById('terms');
+
+        // 各フィールドのバリデーションを実行し、具体的なエラーメッセージを表示
+        if (username.length < 3) {
+            hasErrors = true;
+            const usernameGroup = document.getElementById('username').closest('.form-group');
+            const errorMessage = createErrorMessage('username-error', 'ユーザー名は3文字以上で入力してください');
+            usernameGroup.appendChild(errorMessage);
+            document.getElementById('username').style.borderColor = '#e74c3c';
+        } else {
+            document.getElementById('username').style.borderColor = '';
+        }
+        
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            hasErrors = true;
+            const emailGroup = document.getElementById('email').closest('.form-group');
+            const errorMessage = createErrorMessage('email-error', '正しいメールアドレス形式で入力してください');
+            emailGroup.appendChild(errorMessage);
+            document.getElementById('email').style.borderColor = '#e74c3c';
+        } else {
+            document.getElementById('email').style.borderColor = '';
+        }
+        
+        if (checkPasswordStrength(password)) {
+            hasErrors = true;
+            // パスワード強度チェック関数が既にエラーメッセージを表示するので、ここでは追加処理不要
+        }
+        
+        if (password !== confirmPassword) {
+            hasErrors = true;
+            const confirmPasswordGroup = confirmPasswordInput.closest('.form-group');
+            const errorMessage = createErrorMessage('password-match-error', 'パスワードが一致しません');
+            confirmPasswordGroup.appendChild(errorMessage);
+            confirmPasswordInput.style.borderColor = '#e74c3c';
+        } else if (confirmPassword !== '') {
+            confirmPasswordInput.style.borderColor = '';
+        }
+        
+        if (!termsCheckbox.checked) {
+            hasErrors = true;
+            const termsGroup = termsCheckbox.closest('.form-group');
+            const errorMessage = createErrorMessage('terms-error', '利用規約に同意してください');
+            termsGroup.appendChild(errorMessage);
+        }
+
+        if (hasErrors) {
+            return;
+        }
+
+        // Firebaseの関数を呼び出す
+        window.signupWithEmailPasswordAndSaveUser(email, password, username)
+            .then(userCredential => {
+                console.log('signup successful', userCredential);
                 
-                // 最初のエラー要素にスクロール
-                const firstError = document.querySelector('.error-message');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // 成功メッセージを表示
+                const successMessage = createErrorMessage('form-api-success', '新規登録が完了しました。2秒後にログインページに移動します。');
+                successMessage.style.color = '#27ae60';
+                successMessage.style.textAlign = 'center';
+                signupForm.prepend(successMessage);
+
+                // フォームを無効化
+                Array.from(signupForm.elements).forEach(el => el.disabled = true);
+
+                // 2秒後にリダイレクト
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('signup error', error);
+                let errorMessageText = '登録に失敗しました。';
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessageText = 'このメールアドレスは既に使用されています。';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessageText = 'メールアドレスの形式が正しくありません。';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessageText = 'パスワードが弱すぎます。もっと複雑なパスワードを設定してください。';
+                        break;
+                    default:
+                        errorMessageText = '登録中にエラーが発生しました。しばらくしてから再度お試しください。';
                 }
-                
-                // フィードバック表示
-                showFormFeedback('入力内容を確認してください', 'error');
-            } else {
-                // 成功フィードバック
-                showFormFeedback('登録情報を送信中...', 'success');
-            }
-        });
-    }
-    
-    // フィードバック表示機能
-    function showFormFeedback(message, type) {
-        // 既存のフィードバック要素を削除
-        const existingFeedback = document.querySelector('.form-feedback');
-        if (existingFeedback) {
-            existingFeedback.remove();
-        }
-        
-        const feedback = document.createElement('div');
-        feedback.className = 'form-feedback';
-        feedback.textContent = message;
-        feedback.style.padding = '10px';
-        feedback.style.borderRadius = '5px';
-        feedback.style.margin = '10px 0';
-        feedback.style.textAlign = 'center';
-        feedback.style.fontWeight = 'bold';
-        
-        if (type === 'error') {
-            feedback.style.backgroundColor = '#f8d7da';
-            feedback.style.color = '#721c24';
-            feedback.style.border = '1px solid #f5c6cb';
-        } else if (type === 'success') {
-            feedback.style.backgroundColor = '#d4edda';
-            feedback.style.color = '#155724';
-            feedback.style.border = '1px solid #c3e6cb';
-        }
-        
-        const form = document.querySelector('.signup-form');
-        form.parentNode.insertBefore(feedback, form);
-        
-        // 3秒後に自動削除（成功メッセージの場合）
-        if (type === 'success') {
-            setTimeout(() => {
-                if (feedback.parentNode) {
-                    feedback.remove();
-                }
-            }, 3000);
-        }
-    }
+                const errorMessage = createErrorMessage('form-api-error', errorMessageText);
+                errorMessage.style.textAlign = 'center';
+                signupForm.prepend(errorMessage);
+            });
+    });
 });

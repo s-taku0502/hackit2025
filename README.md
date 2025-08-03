@@ -159,13 +159,26 @@ git push origin ブランチ名
 ## プロジェクト構成
 
 ```text
-Hackit/
-├── README.md          # このファイル
-├── LICENSE           # MITライセンス
-├── docs/             # ドキュメント
-├── src/              # ソースコード
-├── tests/            # テストファイル
-└── assets/           # 画像やリソース
+hackit2025/
+├── README.md
+├── LICENSE
+├── firebase.json
+├── firestore.rules
+├── storage.rules
+├── index.html
+├── login.html
+├── signup.html
+├── css/
+│   ├── login.css
+│   └── signup.css
+├── js/
+│   ├── login.js
+│   └── signup.js
+├── img/
+│   └── Hackit.png
+├── node_modules/
+├── package.json
+└── package-lock.json
 ```
 
 ※プロジェクトの進行に応じて構成は変更される可能性があります。

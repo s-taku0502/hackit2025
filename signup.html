@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録画面</title>
+    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/signup.css">
 </head>
 
@@ -15,7 +16,7 @@
             <h1>新規登録</h1>
         </div>
         
-        <form action="/register" method="POST" class="signup-form">
+        <form id="signup-form">
             <div class="form-group">
                 <label for="username">ユーザー名:</label>
                 <input type="text" id="username" name="username" required autocomplete="username" placeholder="ユーザー名を入力">
@@ -63,7 +64,9 @@
         </footer>
     </div>
     
-    <script src="js/signup.js"></script>
+    <!-- firebase.js と signup.js をモジュールとして読み込む -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="js/signup.js"></script>
 </body>
 
 </html>

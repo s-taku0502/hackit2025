@@ -1,0 +1,23 @@
+rules_version='2'
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ユーザーは自身のユーザー情報ドキュメントのみ読み書き可能
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 他のコレクションへのアクセスルールはここに追加
+    // 例: 投稿は認証済みユーザーなら誰でも読めるが、作成者のみが更新・削除できる
+    // match /posts/{postId} {
+    //   allow read: if request.auth != null;
+    //   allow create: if request.auth != null;
+    //   allow update, delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+    // }
+
+    // 上記以外のドキュメントへのアクセスをデフォルトで拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
