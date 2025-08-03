@@ -1,0 +1,103 @@
+ body {
+     background: #f7f7fa;
+     font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+     color: #222;
+     margin: 0;
+     padding: 0;
+ }
+
+ .header {
+     display: flex;
+     align-items: center;
+     gap: 32px;
+     border-bottom: 2px solid #ccc;
+     padding: 16px 32px 8px 32px;
+     background: #fff;
+ }
+
+ .logo {
+     height: 48px;
+     margin-right: 24px;
+ }
+
+ .nav {
+     display: flex;
+     gap: 24px;
+ }
+
+ .nav a {
+     text-decoration: none;
+     color: #1976d2;
+     font-weight: bold;
+     padding: 6px 12px;
+     border-radius: 4px;
+     transition: background 0.2s;
+ }
+
+ .nav a:hover {
+     background: #e3f2fd;
+ }
+
+ .container {
+     max-width: 500px;
+     margin: 40px auto;
+     background: #fff;
+     border-radius: 12px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+     padding: 32px 24px;
+ }
+
+ h1 {
+     color: #1976d2;
+     margin-top: 0;
+     margin-bottom: 24px;
+     text-align: center;
+ }
+
+ form label {
+     display: block;
+     font-weight: bold;
+     margin-bottom: 8px;
+     color: #333;
+ }
+
+ .required-mark {
+     color: #d32f2f;
+     font-size: 1em;
+     margin-left: 4px;
+ }
+
+/* css/question.css の例 */
+form input[type="text"],
+form input[type="file"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+form textarea {
+    resize: vertical; /* 縦方向のリサイズのみ許可 */
+}
+
+ form button[type="submit"] {
+     background: #1976d2;
+     color: #fff;
+     border: none;
+     border-radius: 6px;
+     padding: 12px 24px;
+     font-size: 1rem;
+     cursor: pointer;
+     transition: background 0.2s;
+     width: 100%;
+     margin-top: 12px;
+ }
+
+ form button[type="submit"]:hover {
+     background: #1565c0;
+ }
