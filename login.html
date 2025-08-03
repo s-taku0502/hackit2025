@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="img/Hackit.png" alt="Hackit ロゴ" class="logo">
+            <h1>ログイン</h1>
+        </div>
+        
+        <form action="/login" method="POST" class="login-form">
+            <div class="form-group">
+                <label for="username">ユーザー名:</label>
+                <input type="text" id="username" name="username" required autocomplete="username" placeholder="ユーザー名を入力">
+            </div>
+            <div class="form-group">
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="パスワードを入力">
+            </div>
+        <div class="button-group">
+            <button type="submit" class="submit-btn">ログイン</button>
+            <button type="reset" class="reset-btn">リセット</button>
+        </div>
+        
+        <div class="form-links">
+            <a href="signup.html">新規登録はこちら</a>
+            <a href="/forgot-password">パスワードを忘れた場合</a>
+        </div>
+    </form>
+    
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/terms">利用規約</a>
+            <a href="/privacy-policy">プライバシーポリシー</a>
+        </div>
+        <p class="copyright">&copy; 2025 Hackit さぁ、きっと</p>
+    </footer>
+    </div>
+    
+    <script src="js/login.js"></script>
+</body>
+
+</html>
