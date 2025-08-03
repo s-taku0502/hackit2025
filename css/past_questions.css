@@ -1,48 +1,252 @@
-/* ログイン・登録フォームのスタイル */
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 20px;
-    color: #333;
-}
-
-/* ページヘッダー（past_questions.html用） */
 .header {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    margin-bottom: 20px;
-}
-
-.nav {
     display: flex;
     align-items: center;
-    gap: 20px;
-    max-width: 1200px;
+    /* 垂直方向中央揃え */
+    gap: 32px;
+    /* 要素間の余白（必要に応じて調整） */
+    border-bottom: 2px solid #ccc;
+    /* 追加: 下線 */
+    padding-bottom: 8px;
+    /* 線との余白（任意） */
+}
+
+.header>div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+    /* ロゴサイズ調整（任意） */
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    /* ナビゲーション項目の間隔 */
+    list-style: none;
+}
+
+.main {
+    text-align: left;
+    /* 追加: 左寄せ */
+    margin-top: 24px;
+    /* headerとの間隔（任意） */
+}
+
+button {
+    margin-top: 24px;
+    /* 上部余白 */
+    padding: 8px 16px;
+    /* ボタンのパディング */
+    background-color: #007bff;
+    /* ボタンの背景色 */
+    color: white;
+    /* ボタンの文字色 */
+    border: none;
+    /* ボーダーなし */
+    border-radius: 4px;
+    /* 角を丸くする */
+    cursor: pointer;
+    /* カーソルをポインターに変更 */
+    font-weight: bold;
+}
+
+
+form {
+    background: #f9f9f9;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
     margin: 0 auto;
-    padding: 0 20px;
 }
 
-.nav .logo {
-    width: 60px;
-    height: auto;
+form>div {
+    margin-bottom: 24px;
 }
 
-.nav a {
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
     color: #333;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.header .nav a {
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
-.nav a:hover {
-    color: #3498db;
+.header .nav a:hover {
+    background: #e3f2fd;
 }
 
-/* フォームコンテナ */
-.container {
-    max-width: 400px;
+a.home,
+a.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    /* 下に余白 */
+    font-weight: bold;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+a.back:hover,
+a.home:hover {
+    background-color: #bbdefb;
+}
+
+.main .required-mark{
+    color: #D32F2F;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.form-buttons .delete,
+.form-buttons .submit {
+    width: 48%;
+    margin-top: 0;
+}
+
+.delete{
+    background-color: #f44336;
+    /* 削除ボタンの背景色 */
+    color: white;
+    /* 文字色を白に */
+}
+
+/* --- 画像スタイル --- */
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px;
+    width: 20%;
+}
+
+/* --- Main content and general container styles --- */
+.main, .container {
+    text-align: left;
+    margin-top: 24px;
+    max-width: 900px; /* コンテンツの最大幅を統一 */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px; /* サイト左右の余白を統一 */
+    box-sizing: border-box;
+}
+
+/* --- Button and download link styles --- */
+button,
+.download-link {
+    margin-top: 24px;
+    padding: 8px 16px;
+    background-color: #007bff; /* デフォルトのボタン背景色 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 120px; /* ボタン幅を統一 */
+    text-align: center;
+    text-decoration: none; /* ダウンロードリンク用 */
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #0056b3; /* デフォルトのボタンホバー色 */
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.form-buttons .delete,
+.form-buttons .submit {
+    width: 48%;
+    margin-top: 0;
+}
+
+.delete {
+    background-color: #f44336; /* 削除ボタンの背景色 */
+    color: white;
+}
+
+/* --- Form styles (general) --- */
+form {
+    background: #f9f9f9;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form > div {
+    margin-bottom: 24px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form input[type="email"],
+form input[type="password"] { /* すべてのテキスト系入力欄に適用 */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.main .required-mark {
+    color: #D32F2F;
+}
+
+/* --- Form specific container and headers (renamed to avoid conflicts) --- */
+.form-container {
+    max-width: 400px; /* フォームコンテナの最大幅 */
     margin: 0 auto;
     background-color: white;
     padding: 30px;
@@ -50,24 +254,24 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.header {
+.form-header {
     text-align: center;
     margin-bottom: 30px;
 }
 
-.logo {
+.form-header .logo {
     width: 80px;
     height: auto;
     margin-bottom: 20px;
 }
 
-.header h1 {
+.form-header h1 {
     color: #2c3e50;
     margin: 0;
     font-size: 24px;
 }
 
-/* フォームスタイル */
+/* --- Form group styles --- */
 .form-group {
     margin-bottom: 20px;
 }
@@ -79,25 +283,7 @@ body {
     color: #555;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-}
-
-/* チェックボックスグループ */
+/* --- Checkbox group --- */
 .checkbox-group {
     display: flex;
     align-items: flex-start;
@@ -116,7 +302,7 @@ body {
     line-height: 1.4;
 }
 
-/* ボタングループ */
+/* --- Button group within forms --- */
 .button-group {
     display: flex;
     gap: 10px;
@@ -155,7 +341,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* フォームリンク */
+/* --- Form links (e.g., forgot password) --- */
 .form-links {
     text-align: center;
     margin-bottom: 30px;
@@ -179,7 +365,26 @@ body {
     margin-bottom: 0;
 }
 
-/* その他のリンク */
+/* --- General navigation links (e.g., home/back buttons) --- */
+a.home,
+a.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+a.back:hover,
+a.home:hover {
+    background-color: #bbdefb;
+}
+
+/* --- Other links (e.g., login prompt) --- */
 .links {
     text-align: center;
     margin-bottom: 30px;
@@ -204,7 +409,7 @@ body {
     text-decoration: underline;
 }
 
-/* フッター */
+/* --- Footer styles --- */
 .footer {
     text-align: center;
     border-top: 1px solid #eee;
@@ -239,7 +444,7 @@ body {
     font-size: 12px;
 }
 
-/* エラーメッセージ */
+/* --- Error message styles --- */
 .error-message {
     color: #e74c3c;
     font-size: 14px;
@@ -247,28 +452,7 @@ body {
     display: block;
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 480px) {
-    .container {
-        margin: 10px;
-        padding: 20px;
-    }
-    
-    .button-group {
-        flex-direction: column;
-    }
-    
-    .submit-btn,
-    .reset-btn {
-        margin-bottom: 10px;
-    }
-    
-    .reset-btn {
-        margin-bottom: 0;
-    }
-}
-
-/* 過去問表示ページのスタイル */
+/* --- Past questions display page specific styles --- */
 .breadcrumb {
     margin-bottom: 20px;
     font-size: 14px;
@@ -302,7 +486,8 @@ body {
 }
 
 .past-paper-image img {
-    max-width: 100%;
+    max-width: 100%; /* 親要素の幅を超えないようにする */
+    width: 80%; /* デフォルトは親要素の80%幅で表示 */
     height: auto;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -314,43 +499,32 @@ body {
 }
 
 .download-link {
-    display: inline-block;
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    background-color: #27ae60; /* ダウンロードリンクの背景色を専用に設定 */
+    position: relative;
+    overflow: hidden;
 }
 
 .download-link:hover {
-    background-color: #229954;
+    background-color: #229954; /* ダウンロードリンクのホバー色 */
 }
 
-/* 画像エラー時のスタイル */
-.image-error {
-    background-color: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    padding: 20px;
-    text-align: center;
-    color: #6c757d;
-    border-radius: 5px;
-    margin: 20px 0;
+/* Image styles for small images like icons/previews */
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px;
+    width: 20%; /* これらの画像は小さく表示 */
+    height: auto; /* 比率を保つ */
 }
 
-.image-error p {
-    margin: 5px 0;
-    font-size: 14px;
-}
 
-/* アクセシビリティの改善 */
+/* Accessibility improvement */
 .download-link:focus {
     outline: 2px solid #3498db;
     outline-offset: 2px;
 }
 
-/* ダウンロード状態のフィードバック */
+/* Download state feedback */
 .download-link.downloading {
     background-color: #f39c12;
     cursor: wait !important;
@@ -363,12 +537,7 @@ body {
     transition: all 0.3s ease;
 }
 
-/* ダウンロードリンクの追加スタイル */
-.download-link {
-    position: relative;
-    overflow: hidden;
-}
-
+/* Download link additional styles */
 .download-link::before {
     content: '📥';
     margin-right: 8px;
@@ -384,6 +553,35 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* --- Responsive design --- */
+@media (max-width: 480px) {
+    .container, .form-container { /* モバイルでの左右余白を調整 */
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .submit-btn,
+    .reset-btn {
+        margin-bottom: 10px;
+    }
+
+    .reset-btn {
+        margin-bottom: 0;
+    }
+
+    .past-paper-image img {
+        width: 100%; /* モバイルでは画像幅を100%に */
+    }
 }
