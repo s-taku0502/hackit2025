@@ -135,12 +135,39 @@
           window.location.href = '/login.html';
         }
       });
+
+      // フッターの読み込み
+      const loadFooter = async () => {
+        try {
+          const response = await fetch('/components/footer.html');
+          
+          if (!response.ok) {
+            throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}`);
+          }
+          const htmlContent = await response.text();
+          
+          const footerPlaceholder = document.getElementById('footer-placeholder');
+          if (footerPlaceholder) {
+            // XSS対策のため、安全な方法でフッターを挿入
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            const footerElement = doc.querySelector('footer');
+            if (footerElement) {
+              footerPlaceholder.appendChild(footerElement.cloneNode(true));
+            }
+          } else {
+            console.error('エラー: フッターのプレースホルダー要素が見つかりません。');
+          }
+        } catch (error) {
+          console.error('フッターの読み込み中にエラーが発生しました:', error);
+        }
+      };
+
+      await loadFooter();
     </script>
+  </div>
+  
+  <div id="footer-placeholder"></div>
 </body>
-<footer>
-    <div class="footer-content">
-        <p><a href="/#">利用規約</a></p>
-        <p>&copy; 2025 Hackit さぁ、きっと。</p>
-    </div>
-</footer>
+
 </html>
