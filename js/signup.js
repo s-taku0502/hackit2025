@@ -1,9 +1,20 @@
 // 新規登録フォーム専用のJavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.querySelector('.signup-form');
+    const signupForm = document.getElementById('signup-form');
+    if (!signupForm) return;
+
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirm-password');
-    
+
+    // パスワードが一致するかチェック
+    confirmPasswordInput.addEventListener('input', () => {
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            confirmPasswordInput.setCustomValidity('パスワードが一致しません。');
+        } else {
+            confirmPasswordInput.setCustomValidity('');
+        }
+    });
+
     // エラーメッセージ表示用の要素を作成
     function createErrorMessage(id, message) {
         const existingError = document.getElementById(id);
@@ -111,12 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // フォーム送信時のバリデーション
     if (signupForm) {
         signupForm.addEventListener('submit', function(event) {
-            const password = passwordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
+            event.preventDefault();
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
-            const termsCheckbox = document.getElementById('terms');
-            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
             let hasErrors = false;
             
             // ユーザー名チェック
@@ -166,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 利用規約チェック
+            const termsCheckbox = document.getElementById('terms');
             if (termsCheckbox && !termsCheckbox.checked) {
                 const errorMessage = createErrorMessage('terms-error', '利用規約に同意してください');
                 const termsGroup = termsCheckbox.closest('.form-group');
@@ -190,8 +202,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 // フィードバック表示
                 showFormFeedback('入力内容を確認してください', 'error');
             } else {
-                // 成功フィードバック
-                showFormFeedback('登録情報を送信中...', 'success');
+                // Firebaseの関数を呼び出す
+                window.signupWithEmailPasswordAndSaveUser(email, password, username)
+                    .then(userCredential => {
+                        console.log('signup successful', userCredential);
+                        alert('新規登録が完了しました。ログインページに移動します。');
+                        window.location.href = '/login.html';
+                    })
+                    .catch(error => {
+                        console.error('signup error', error);
+                        alert('登録に失敗しました: ' + error.message);
+                    });
             }
         });
     }

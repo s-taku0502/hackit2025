@@ -23,7 +23,7 @@
         </nav>
     </header>
     <main class="main">
-        <h1 class="username">ようこそ, username!</h1>
+        <h1 class="username">ようこそ, ゲストさん!</h1>
         
         <h2 class="past-papers">過去問一覧</h2>
         <a href="/viewer/past_questions.html">
@@ -43,6 +43,27 @@
         <img src="/img/recent for you.png" alt="あなたへのオススメ" class="recent">
         </a>
     </main>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module">
+      const usernameElement = document.querySelector('.username');
+
+      window.onAuth(async (user) => {
+        if (user) {
+          // ユーザーがログインしている場合
+          const userProfile = await window.getUserProfile(user.uid);
+          if (userProfile.exists()) {
+            usernameElement.textContent = `ようこそ, ${userProfile.data().username}さん!`;
+          } else {
+            // Firestoreにユーザー情報がない場合
+            usernameElement.textContent = 'ようこそ, ユーザーさん!';
+          }
+        } else {
+          // ユーザーがログインしていない場合
+          window.location.href = '/login.html';
+        }
+      });
+    </script>
 </body>
 
 </html>

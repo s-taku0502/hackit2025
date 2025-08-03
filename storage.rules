@@ -1,12 +1,17 @@
 rules_version = '2';
 
-// Craft rules based on data in your Firestore database
-// allow write: if firestore.get(
-//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if request.auth != null;
+    // 認証済みユーザーのみが読み書き可能
+    // より詳細なルールを設定することを推奨
+    // 例：ユーザーは自分のUID名のフォルダにのみ書き込み可能
+    match /users/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
+
+    // 公開ファイル用のルール（例: プロフィール画像など）
+    // match /public/{allPaths=**} {
+    //   allow read;
+    // }
   }
 }
