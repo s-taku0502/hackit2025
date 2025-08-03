@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             // 現在のいいね数を取得
             const currentText = this.textContent;
-            const currentCount = parseInt(currentText.match(/\d+/)[0]);
+            const match = currentText.match(/\d+/);
+            const currentCount = match ? parseInt(match[0], 10) : 0;
             
             // いいね状態を切り替え
             if (this.classList.contains('liked')) {
