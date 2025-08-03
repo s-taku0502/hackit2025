@@ -127,19 +127,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const cards = Array.from(questionCards);
         
         cards.sort((a, b) => {
+            // data-* 属性からデータを取得することをおすすめします
+            // 例: const aDate = new Date(a.dataset.date);
             switch(sortType) {
                 case 'date-desc':
                     return new Date(b.querySelector('.date').textContent) - new Date(a.querySelector('.date').textContent);
                 case 'date-asc':
                     return new Date(a.querySelector('.date').textContent) - new Date(b.querySelector('.date').textContent);
                 case 'likes-desc':
-                    return parseInt(b.querySelector('.like-btn').textContent.match(/\d+/)[0]) - parseInt(a.querySelector('.like-btn').textContent.match(/\d+/)[0]);
+                    return (parseInt(b.querySelector('.like-btn').textContent.match(/\d+/)?.[0]) || 0) - (parseInt(a.querySelector('.like-btn').textContent.match(/\d+/)?.[0]) || 0);
                 case 'likes-asc':
-                    return parseInt(a.querySelector('.like-btn').textContent.match(/\d+/)[0]) - parseInt(b.querySelector('.like-btn').textContent.match(/\d+/)[0]);
+                    return (parseInt(a.querySelector('.like-btn').textContent.match(/\d+/)?.[0]) || 0) - (parseInt(b.querySelector('.like-btn').textContent.match(/\d+/)?.[0]) || 0);
                 case 'answers-desc':
-                    return parseInt(b.querySelector('.answers-count').textContent.match(/\d+/)[0]) - parseInt(a.querySelector('.answers-count').textContent.match(/\d+/)[0]);
+                    return (parseInt(b.querySelector('.answers-count').textContent.match(/\d+/)?.[0]) || 0) - (parseInt(a.querySelector('.answers-count').textContent.match(/\d+/)?.[0]) || 0);
                 case 'answers-asc':
-                    return parseInt(a.querySelector('.answers-count').textContent.match(/\d+/)[0]) - parseInt(b.querySelector('.answers-count').textContent.match(/\d+/)[0]);
+                    return (parseInt(a.querySelector('.answers-count').textContent.match(/\d+/)?.[0]) || 0) - (parseInt(b.querySelector('.answers-count').textContent.match(/\d+/)?.[0]) || 0);
                 default:
                     return 0;
             }
