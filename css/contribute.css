@@ -133,16 +133,3 @@ a.home:hover {
     gap: 16px;
     margin-top: 32px;
 }
-
-.form-buttons .delete,
-.form-buttons .submit {
-    width: 48%;
-    margin-top: 0;
-}
-
-.delete{
-    background-color: #f44336;
-    /* 削除ボタンの背景色 */
-    color: white;
-    /* 文字色を白に */
-}

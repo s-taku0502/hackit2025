@@ -6,11 +6,6 @@
     padding-bottom: 8px; /* 線との余白（任意） */
 }
 
-.header > div {
-    display: flex;
-    align-items: center;
-}
-
 .header .logo {
     height: 48px; /* ロゴサイズ調整（任意） */
 }
@@ -30,5 +25,6 @@ img.pastpapers,
 img.recentQandA,
 img.recent {
     margin-top: 24px; /* 上部余白 */
-    width: 20%; /* 画像を画面幅に合わせる */
+    width: 100%; /* 画像を親要素の幅に合わせる */
+    max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
 }
