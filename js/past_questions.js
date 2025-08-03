@@ -234,18 +234,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (downloadLink) {
         downloadLink.addEventListener('click', (event) => {
             // クリックされた要素から過去問の情報を取得
-            const paperId = event.target.getAttribute('data-paper-id');
-            const paperTitle = event.target.getAttribute('data-paper-title');
+            const paperId = event.currentTarget.getAttribute('data-paper-id');
+            const paperTitle = event.currentTarget.getAttribute('data-paper-title');
             
             // ユーザーがログインしているか確認
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // ログインしていれば履歴を保存
-                    addHistory(user.uid, paperId, paperTitle);
-                } else {
-                    console.log("ユーザーはログインしていません。履歴は保存されません。");
-                }
-            });
+            const user = auth.currentUser;
+            if (user) {
+                // ログインしていれば履歴を保存
+                addHistory(user.uid, paperId, paperTitle);
+            } else {
+                console.log("ユーザーはログインしていません。履歴は保存されません。");
+            }
         });
     }
 });

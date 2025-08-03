@@ -1,5 +1,6 @@
 /* --- 共通 --- */
 @import url("header.css");
+@import url("header_style.css");
 
 body {
     font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
@@ -7,40 +8,6 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-}
-
-.header>div {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    height: 48px;
-    margin-right: 24px;
-}
-
-.nav ul {
-    display: flex;
-    gap: 24px;
-    margin: 0;
-    padding: 0;
-}
-
-.nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.nav a:hover {
-    background: #e3f2fd;
-}
-
-.header .nav ul {
-    list-style: none;
 }
 
 /* --- メインコンテナ --- */

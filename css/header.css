@@ -4,6 +4,5 @@
     align-items: center;
     justify-content: space-between; /* ロゴを左、ナビゲーションを右に配置 */
     border-bottom: 2px solid #ccc;
-    padding-bottom: 8px;
     padding: 16px 24px; /* ヘッダーの上下左右の余白を調整 */
 }
