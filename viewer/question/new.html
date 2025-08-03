@@ -20,7 +20,7 @@
         </nav>
     </header>
     <div class="container">
-        <a href="/viewer/past_quesion/past_questions_all.html">過去問</a> /
+        <a href="/viewer/past_question/past_questions_all.html">過去問</a> /
         <span id="subject-name">教科</span>
         <h1>質問投稿</h1>
         <form id="questionForm">
@@ -36,19 +36,11 @@
             <input type="text" id="subject" name="subject" required />
             <button type="submit">質問を投稿</button>
         </form>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const yearSelect = document.getElementById('year');
-                const currentYear = new Date().getFullYear();
-                const startYear = 2000;
-                for (let year = currentYear; year >= startYear; year--) {
-                    const option = document.createElement('option');
-                    option.value = year;
-                    option.textContent = year + '年';
-                    yearSelect.appendChild(option);
-                }
 
-    </div> <script>
+        <div id="footer-placeholder"></div>
+    </div>
+    
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 年選択ドロップダウンの生成
             const yearSelect = document.getElementById('year');
@@ -80,7 +72,13 @@
                     
                     const footerPlaceholder = document.getElementById('footer-placeholder');
                     if (footerPlaceholder) {
-                        footerPlaceholder.innerHTML = htmlContent;
+                        // XSS対策のため、安全な方法でフッターを挿入します
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
                     } else {
                         console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
                     }

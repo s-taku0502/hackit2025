@@ -221,9 +221,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Firebaseの設定（初期化）は済んでいる前提です。
-const db = firebase.firestore();
-const auth = firebase.auth(); 
+// Firebase v9 モジュラー形式のimport
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+// Firebase インスタンスの取得
+const db = getFirestore();
+const auth = getAuth(); 
 
 // ページが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', () => {
@@ -238,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const paperTitle = event.target.getAttribute('data-paper-title');
             
             // ユーザーがログインしているか確認
-            auth.onAuthStateChanged((user) => {
+            onAuthStateChanged(auth, (user) => {
                 if (user) {
                     // ログインしていれば履歴を保存
                     addHistory(user.uid, paperId, paperTitle);
@@ -256,11 +260,11 @@ function addHistory(userId, paperId, paperTitle) {
     // ここではシンプルに毎回追加する方式とします。
     // 重複を避ける場合は、過去の履歴に同じpaperIdがあるかget()で確認してからadd()を実行します。
     
-    db.collection("history").add({
+    addDoc(collection(db, "history"), {
         userId: userId, 
         paperId: paperId,
         paperTitle: paperTitle,
-        viewedAt: firebase.firestore.FieldValue.serverTimestamp() // サーバーのタイムスタンプを使用
+        viewedAt: serverTimestamp() // v9のserverTimestamp()を使用
     })
     .then(() => {
         console.log("閲覧履歴が正常に保存されました。");
