@@ -1,0 +1,235 @@
+/* ログイン・登録フォームのスタイル */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 24px;
+}
+
+/* フォームスタイル */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* チェックボックスグループ */
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* ボタングループ */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.submit-btn,
+.reset-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.reset-btn {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.reset-btn:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-1px);
+}
+
+/* フォームリンク */
+.form-links {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-links a {
+    display: block;
+    margin-bottom: 8px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.form-links a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.form-links a:last-child {
+    margin-bottom: 0;
+}
+
+/* その他のリンク */
+.links {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.links p {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.login-link {
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* フッター */
+.footer {
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.footer-links {
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    display: block;
+    margin-bottom: 8px;
+    color: #7f8c8d;
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #34495e;
+    text-decoration: underline;
+}
+
+.footer-links a:last-child {
+    margin-bottom: 0;
+}
+
+.copyright {
+    margin: 0;
+    color: #bdc3c7;
+    font-size: 12px;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        padding: 20px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .submit-btn,
+    .reset-btn {
+        margin-bottom: 10px;
+    }
+    
+    .reset-btn {
+        margin-bottom: 0;
+    }
+}

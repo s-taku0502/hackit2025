@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録画面</title>
+    <link rel="stylesheet" href="css/signup.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="img/Hackit.png" alt="Hackit Logo" class="logo">
+            <h1>新規登録</h1>
+        </div>
+        
+        <form action="/register" method="POST" class="signup-form">
+            <div class="form-group">
+                <label for="username">ユーザー名:</label>
+                <input type="text" id="username" name="username" required autocomplete="username" placeholder="ユーザー名を入力">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">メールアドレス:</label>
+                <input type="email" id="email" name="email" required autocomplete="email" placeholder="example@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="パスワードを入力">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">パスワード確認:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required autocomplete="new-password" placeholder="パスワードを再入力">
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    <a href="/terms" target="_blank">利用規約</a>と<a href="/privacy-policy" target="_blank">プライバシーポリシー</a>に同意します
+                </label>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="submit-btn">新規登録</button>
+                <button type="reset" class="reset-btn">リセット</button>
+            </div>
+        </form>
+        
+        <div class="links">
+            <p>すでにアカウントをお持ちの方は</p>
+            <a href="login.html" class="login-link">ログインはこちら</a>
+        </div>
+        
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="/terms">利用規約</a>
+                <a href="/privacy-policy">プライバシーポリシー</a>
+            </div>
+            <p class="copyright">&copy; 2025 Hackit さぁ、きっと</p>
+        </footer>
+    </div>
+    
+    <script src="js/signup.js"></script>
+</body>
+
+</html>
