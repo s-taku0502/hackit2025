@@ -50,13 +50,23 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" class="delete">投稿を削除する</button>
+                <button type="button" class="delete" id="delete-btn">投稿を削除する</button>
                 <button type="submit" class="submit">アップロード</button>
             </div>
 
         </form>
     </main>
     <script src="/js/contributor.js"></script>
+    <script>
+        document.getElementById('delete-btn').addEventListener('click', () => {
+            const fileInput = document.getElementById('file');
+            if (!fileInput.files.length) {
+                alert('削除するファイルを選択してください');
+                return;
+            }
+            window.location.href = '/deletescreen/deletescreen.html';
+        });
+    </script>
 </body>
 
 </html>
