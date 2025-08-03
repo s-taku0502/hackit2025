@@ -46,7 +46,7 @@ window.uploadPastPaper = async (year, subject, teacher, file) => {
   const fileId = newFileRef.id;
 
   // 2. Storageのパスを決定
-  const storagePath = `files/${user.uid}/${fileId}/${file.name}`;
+  const storagePath = `files/${user.uid}/${fileId}/${file.name.replace(/[/]/g, '_')}`;
   const storageRef = ref(storage, storagePath);
 
   // 3. ファイルをStorageにアップロード

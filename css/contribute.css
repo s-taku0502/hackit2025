@@ -133,3 +133,10 @@ a.home:hover {
     gap: 16px;
     margin-top: 32px;
 }
+
+.form-message {
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: red;
+    display: none;
+}
