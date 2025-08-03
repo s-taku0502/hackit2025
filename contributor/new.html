@@ -4,60 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/contribute.css">
     <title>過去問投稿</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/contribute.css">
 </head>
 
 <body>
-    <header class="header">
-        <div>
-            <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-        </div>
-        <nav class="nav">
-            <ul>
-                <li><a href="../index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="main">
-        <h1 class="username">過去問アップロード</h1>
-
-        <form action="upload.html">
-            <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
-
-            <div id="year-input-container">
-                <label for="year">年度（西暦：半角）
-                    <a class="required-mark">*</a>
-                </label>
-                <!--contribute.jsに記載-->
-            </div>
-
+    <div class="wrapper">
+        <header class="header">
             <div>
-                <label for="subject">科目
-                    <a class="required-mark">*</a>
-                </label>
-                <input type="text" id="subject" name="subject" required>
+                <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
             </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="../index.html">ホーム</a></li>
+                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/list.html">質問・返答</a></li>
+                    <li><a href="/login.html">ログイン</a></li>
+                </ul>
+            </nav>
+        </header>
 
-            <div>
-                <label for="teacher">担当教員名（任意）</label>
-                <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
-            </div>
+        <main class="container"> 
+            <h1 class="username">過去問アップロード</h1>
 
-            <div>
-                <label for="file">ファイル
-                    <a class="required-mark">*</a>
-                </label>
-                <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
-            </div>
+            <form action="upload.html">
+                <div id="year-input-container">
+                    <label for="year">年度（西暦：半角）
+                        <a class="required-mark">*</a>
+                    </label>
+                    </div>
 
-            <button type="submit" class="submit">アップロード</button>
+                <div>
+                    <label for="subject">科目
+                        <a class="required-mark">*</a>
+                    </label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
 
-        </form>
-    </main>
+                <div>
+                    <label for="teacher">担当教員名（任意）</label>
+                    <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
+                </div>
+
+                <div>
+                    <label for="file">ファイル
+                        <a class="required-mark">*</a>
+                    </label>
+                    <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
+                </div>
+
+                <button type="submit" class="submit">アップロード</button>
+
+            </form>
+        </main>
+
+        <div id="footer-placeholder"></div>
+
+    </div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadFooter = async () => {
+                try {
+                    // components/footer.html へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer.html'); 
+                    
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+                    
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = htmlContent;
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+
+            loadFooter();
+        });
+    </script>
     <script src="/js/contributor.js"></script>
 </body>
 
