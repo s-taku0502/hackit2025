@@ -112,7 +112,7 @@
                 const file = filesData[url] || {};
                 const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="${url}" target="_blank" class="pdf-link">${file.year || ''} ${file.name || ''} ${file.teacher || ''}</a> <span style="font-size:0.9em;color:#888;">${dateStr}</span>`;
+                li.innerHTML = `<a href="${url}" target="_blank" class="pdf-link">${file.year || ''} ${file.name || ''} ${file.teacher || ''} ${file.exam_name || ''}</a> <span style="font-size:0.9em;color:#888;">${dateStr}</span>`;
                 historyList.appendChild(li);
             });
         }
