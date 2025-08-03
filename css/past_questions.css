@@ -1,4 +1,6 @@
 /* --- 共通 --- */
+@import url("header.css");
+
 body {
     font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
     background-color: #f5f5f5;
@@ -7,15 +9,7 @@ body {
     color: #333;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-bottom: 2px solid #ccc;
-    padding: 16px 32px 8px 32px;
-}
-
-.header > div {
+.header>div {
     display: flex;
     align-items: center;
 }
@@ -46,7 +40,7 @@ body {
 }
 
 .header .nav ul {
-  list-style: none;
+    list-style: none;
 }
 
 /* --- メインコンテナ --- */
@@ -55,7 +49,7 @@ body {
     margin: 40px auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     padding: 32px 24px;
 }
 
@@ -107,7 +101,7 @@ h1 {
     height: auto;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .download__btn {
@@ -152,14 +146,17 @@ h1 {
         margin: 10px;
         padding: 16px;
     }
+
     .header {
         flex-direction: column;
         gap: 8px;
         padding: 12px 8px;
     }
+
     .nav ul {
         gap: 12px;
     }
+
     .logo {
         height: 36px;
         margin-right: 8px;

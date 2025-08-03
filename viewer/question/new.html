@@ -10,40 +10,43 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <header class="header">
-            <div>
-                <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="/index.html">ホーム</a></li>
-                    <li><a href="/contributor/new.html">過去問投稿</a></li> <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                    <li><a href="/login.html">ログイン</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <main class="container">
-            <a href="/viewer/past_questions.html">過去問</a> /
-            <span id="subject-name">教科</span>
-            <h1>質問投稿</h1>
-            <form id="questionForm">
-                <label for="title">質問タイトル <span class="required-mark">*</span></label>
-                <input type="text" id="title" name="title" required />
-                <label for="detailed">詳細な内容 <span class="required-mark">*</span></label>
-                <textarea id="detailed" name="detailed" required></textarea>
-                <label for="year">年度選択 <span class="required-mark">*</span></label>
-                <select name="year" id="year" required>
-                    <option value="">--年を選択--</option>
-                </select>
-                <label for="subject">科目選択 <span class="required-mark">*</span></label>
-                <input type="text" id="subject" name="subject" required />
-                <button type="submit">質問を投稿</button>
-            </form>
-        </main>
-
-        <div id="footer-placeholder"></div>
+    <header class="header">
+        <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+        <nav class="nav">
+            <a href="/index.html">ホーム</a>
+            <a href="/contributor/new.html">過去問投稿</a>
+            <a href="/viewer/question/list.html">質問・返答</a>
+            <a href="/login.html">ログイン</a>
+        </nav>
+    </header>
+    <div class="container">
+        <a href="/viewer/past_quesion/past_questions_all.html">過去問</a> /
+        <span id="subject-name">教科</span>
+        <h1>質問投稿</h1>
+        <form id="questionForm">
+            <label for="title">質問タイトル <span class="required-mark">*</span></label>
+            <input type="text" id="title" name="title" required />
+            <label for="detailed">詳細な内容 <span class="required-mark">*</span></label>
+            <textarea id="detailed" name="detailed" required></textarea>
+            <label for="year">年度選択 <span class="required-mark">*</span></label>
+            <select name="year" id="year" required>
+                <option value="">--年を選択--</option>
+            </select>
+            <label for="subject">科目選択 <span class="required-mark">*</span></label>
+            <input type="text" id="subject" name="subject" required />
+            <button type="submit">質問を投稿</button>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const yearSelect = document.getElementById('year');
+                const currentYear = new Date().getFullYear();
+                const startYear = 2000;
+                for (let year = currentYear; year >= startYear; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year + '年';
+                    yearSelect.appendChild(option);
+                }
 
     </div> <script>
         document.addEventListener('DOMContentLoaded', () => {

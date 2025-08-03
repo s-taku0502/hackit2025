@@ -1,26 +1,4 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    /* ... */
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* ★この行を追加または変更★ */
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    /* 垂直方向中央揃え */
-    gap: 32px;
-    /* 要素間の余白（必要に応じて調整） */
-    border-bottom: 2px solid #ccc;
-    /* 線との余白（任意） */
-    padding: 16px 24px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+@import url("header.css");
 
 .header>div {
     display: flex;
@@ -129,7 +107,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark{
+.main .required-mark {
     color: #D32F2F;
 }
 
@@ -146,7 +124,7 @@ a.home:hover {
     margin-top: 0;
 }
 
-.delete{
+.delete {
     background-color: #f44336;
     /* 削除ボタンの背景色 */
     color: white;
@@ -159,36 +137,6 @@ img.recentQandA,
 img.recent {
     margin-top: 24px;
     width: 100%;
-    max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
-}
-
-footer {
- background-color: #fff; /* 背景色を白に */
- color: #333; /* テキストの色を濃い灰色に */
- padding: 20px;
- text-align: center;
- font-size: 0.9em;
- border-top: 1px solid #ccc; /* 上部に薄いグレーのボーダーを追加して区切りを明確に */
-}
-
-
-footer a {
- color: #007bff; /* リンクの色を青に */
- text-decoration: none;
-}
-
-
-footer a:hover {
- text-decoration: underline;
-}
-
-
-footer .footer-content {
- max-width: 960px;
- margin: 0 auto;
-}
-
-
-footer .footer-content p {
- margin: 5px 0; /* 上下の余白を少し調整 */
+    max-width: 200px;
+    /* 例: PC表示時の最大幅を200pxに制限 */
 }

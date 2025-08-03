@@ -1,0 +1,31 @@
+@import url("header.css");
+
+.header>div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+    /* ロゴサイズ調整（任意） */
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    /* ナビゲーション項目の間隔 */
+    list-style: none;
+}
+
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.header .nav a:hover {
+    background: #e3f2fd;
+}
