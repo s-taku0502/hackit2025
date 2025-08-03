@@ -34,7 +34,13 @@
 
         <div id="footer-placeholder"></div>
 
-    </div> <script>
+                        // XSS対策: DOMParserを使用してHTMLを安全に解析・追加
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
         document.addEventListener('DOMContentLoaded', () => {
             const loadFooter = async () => {
                 try {
