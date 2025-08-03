@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^7.0.6"
+  },
+  "dependencies": {
+    "firebase": "^12.0.0"
+  }
+}

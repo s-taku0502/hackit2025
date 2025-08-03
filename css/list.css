@@ -1,0 +1,349 @@
+/* 基本設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ヘッダー */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    border-bottom: 2px solid #ccc;
+    padding: 16px 24px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header > div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+}
+
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.header .nav a:hover,
+.header .nav a.active {
+    background: #e3f2fd;
+}
+
+/* メインコンテンツ */
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* ページヘッダー */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.page-header h1 {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.new-question-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.new-question-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 検索・フィルターセクション */
+.search-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #218838;
+}
+
+.filter-options {
+    display: flex;
+    gap: 16px;
+}
+
+.filter-options select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+/* 質問カード */
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.question-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.category-tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.category-tag.math {
+    background-color: #6f42c1;
+}
+
+.category-tag.physics {
+    background-color: #fd7e14;
+}
+
+.category-tag.chemistry {
+    background-color: #20c997;
+}
+
+.category-tag.programming {
+    background-color: #dc3545;
+}
+
+.category-tag.other {
+    background-color: #6c757d;
+}
+
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status.answered {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.unanswered {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.question-title {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.question-preview {
+    color: #666;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.question-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 16px;
+}
+
+.question-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-btn {
+    background-color: #1976d2;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.view-btn:hover {
+    background-color: #1565c0;
+}
+
+.like-btn {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.like-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+/* ページネーション */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 20px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-weight: bold;
+    color: #333;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .main {
+        padding: 16px;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .search-bar {
+        flex-direction: column;
+    }
+    
+    .filter-options {
+        flex-direction: column;
+    }
+    
+    .question-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .question-actions {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .header .nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
