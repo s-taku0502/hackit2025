@@ -1,7 +1,7 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 // .envファイルからFirebase設定を読み込む (Viteなどのビルドツールを想定)
 const firebaseConfig = {
@@ -27,7 +27,7 @@ window.signupWithEmailPasswordAndSaveUser = async (email, password, username) =>
     uid: user.uid,
     username: username,
     email: email,
-    createdAt: new Date()
+    createdAt: serverTimestamp()
   });
   return userCredential;
 };

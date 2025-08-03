@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // エラーメッセージ表示用のコンテナをフォームの先頭に追加
     const errorContainer = document.createElement('div');
+    errorContainer.classList.add('error-message-container');
     loginForm.prepend(errorContainer);
 
     // エラーメッセージを表示する関数
     function showLoginError(message) {
-        errorContainer.innerHTML = `<p style="color: #e74c3c; text-align: center; margin-bottom: 15px;">${message}</p>`;
+        errorContainer.innerHTML = `<p>${message}</p>`;
     }
 
     // エラーメッセージをクリアする関数
