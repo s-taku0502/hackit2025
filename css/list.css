@@ -12,46 +12,6 @@ body {
     line-height: 1.6;
 }
 
-/* ヘッダー */
-.header {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    border-bottom: 2px solid #ccc;
-    padding: 16px 24px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header > div {
-    display: flex;
-    align-items: center;
-}
-
-.header .logo {
-    height: 48px;
-}
-
-.header .nav ul {
-    display: flex;
-    gap: 16px;
-    list-style: none;
-}
-
-.header .nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-}
-
-.header .nav a:hover,
-.header .nav a.active {
-    background: #e3f2fd;
-}
-
 /* メインコンテンツ */
 .main {
     max-width: 1200px;
