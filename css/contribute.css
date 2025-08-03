@@ -137,6 +137,7 @@ a.home:hover {
 .form-buttons .delete,
 .form-buttons .submit {
     width: 48%;
+    margin-top: 0;
 }
 
 .delete{
