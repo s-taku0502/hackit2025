@@ -26,7 +26,7 @@
         <h1 class="username">過去問アップロード</h1>
 
         <form action="upload.html">
-        <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
+            <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
 
             <div id="year-input-container">
                 <label for="year">年度（西暦：半角）
@@ -46,13 +46,16 @@
                 <label for="file">ファイル
                     <a class="required-mark">*</a>
                 </label>
-                <input type="file" id="file" name="file" accept=".pdf,.image/*" required>
+                <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
             </div>
 
+            <div class="form-buttons">
+                <button type="delete" class="delete">投稿を削除する</button>
                 <button type="submit" class="submit">アップロード</button>
+            </div>
 
-            </form>
-            
+        </form>
+
         </form>
     </main>
     <script src="/js/contributor.js"></script>
