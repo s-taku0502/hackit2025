@@ -114,6 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
     signupForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
+        // 既存のフォーム全体のエラーをクリア
+        removeErrorMessage('form-api-error');
+
         let hasErrors = false;
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
@@ -139,7 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (hasErrors) {
-            alert('入力内容に誤りがあります。各項目のエラーメッセージを確認してください。');
+            const formError = createErrorMessage('form-api-error', '入力内容に誤りがあります。各項目のエラーメッセージを確認してください。');
+            formError.style.textAlign = 'center';
+            signupForm.prepend(formError);
             return;
         }
 
@@ -147,12 +152,40 @@ document.addEventListener('DOMContentLoaded', function() {
         window.signupWithEmailPasswordAndSaveUser(email, password, username)
             .then(userCredential => {
                 console.log('signup successful', userCredential);
-                alert('新規登録が完了しました。ログインページに移動します。');
-                window.location.href = '/login.html';
+                
+                // 成功メッセージを表示
+                const successMessage = createErrorMessage('form-api-success', '新規登録が完了しました。2秒後にログインページに移動します。');
+                successMessage.style.color = '#27ae60';
+                successMessage.style.textAlign = 'center';
+                signupForm.prepend(successMessage);
+
+                // フォームを無効化
+                Array.from(signupForm.elements).forEach(el => el.disabled = true);
+
+                // 2秒後にリダイレクト
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 2000);
             })
             .catch(error => {
                 console.error('signup error', error);
-                alert('登録に失敗しました: ' + error.message);
+                let errorMessageText = '登録に失敗しました。';
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessageText = 'このメールアドレスは既に使用されています。';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessageText = 'メールアドレスの形式が正しくありません。';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessageText = 'パスワードが弱すぎます。もっと複雑なパスワードを設定してください。';
+                        break;
+                    default:
+                        errorMessageText = '登録中にエラーが発生しました。しばらくしてから再度お試しください。';
+                }
+                const errorMessage = createErrorMessage('form-api-error', errorMessageText);
+                errorMessage.style.textAlign = 'center';
+                signupForm.prepend(errorMessage);
             });
     });
 });
