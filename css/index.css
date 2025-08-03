@@ -1,14 +1,4 @@
-.header {
-    display: flex;
-    align-items: center;
-    /* 垂直方向中央揃え */
-    gap: 32px;
-    /* 要素間の余白（必要に応じて調整） */
-    border-bottom: 2px solid #ccc;
-    /* 追加: 下線 */
-    padding-bottom: 8px;
-    /* 線との余白（任意） */
-}
+@import url("header.css");
 
 .header>div {
     display: flex;
@@ -116,7 +106,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark{
+.main .required-mark {
     color: #D32F2F;
 }
 
@@ -133,7 +123,7 @@ a.home:hover {
     margin-top: 0;
 }
 
-.delete{
+.delete {
     background-color: #f44336;
     /* 削除ボタンの背景色 */
     color: white;
@@ -146,5 +136,6 @@ img.recentQandA,
 img.recent {
     margin-top: 24px;
     width: 100%;
-    max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
+    max-width: 200px;
+    /* 例: PC表示時の最大幅を200pxに制限 */
 }

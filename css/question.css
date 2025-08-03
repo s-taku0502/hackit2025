@@ -1,71 +1,64 @@
- body {
-     background: #f7f7fa;
-     font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
-     color: #222;
-     margin: 0;
-     padding: 0;
- }
+@import url("header.css");
 
- .header {
-     display: flex;
-     align-items: center;
-     gap: 32px;
-     border-bottom: 2px solid #ccc;
-     padding: 16px 32px 8px 32px;
-     background: #fff;
- }
+.header > div {
+    display: flex;
+    align-items: center;
+}
 
- .logo {
-     height: 48px;
-     margin-right: 24px;
- }
+.header .logo {
+    height: 48px;
+    margin-right: 24px;
+}
 
- .nav {
-     display: flex;
-     gap: 24px;
- }
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
- .nav a {
-     text-decoration: none;
-     color: #1976d2;
-     font-weight: bold;
-     padding: 6px 12px;
-     border-radius: 4px;
-     transition: background 0.2s;
- }
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
 
- .nav a:hover {
-     background: #e3f2fd;
- }
+.header .nav a:hover {
+    background: #e3f2fd;
+}
 
- .container {
-     max-width: 500px;
-     margin: 40px auto;
-     background: #fff;
-     border-radius: 12px;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-     padding: 32px 24px;
- }
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 32px 24px;
+}
 
- h1 {
-     color: #1976d2;
-     margin-top: 0;
-     margin-bottom: 24px;
-     text-align: center;
- }
+h1 {
+    color: #1976d2;
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-align: center;
+}
 
- form label {
-     display: block;
-     font-weight: bold;
-     margin-bottom: 8px;
-     color: #333;
- }
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
 
- .required-mark {
-     color: #d32f2f;
-     font-size: 1em;
-     margin-left: 4px;
- }
+.required-mark {
+    color: #d32f2f;
+    font-size: 1em;
+    margin-left: 4px;
+}
 
 form input[type="text"],
 form input[type="file"],
@@ -81,7 +74,8 @@ form select {
 }
 
 form textarea {
-    resize: vertical; /* 縦方向のリサイズのみ許可 */
+    resize: vertical;
+    /* 縦方向のリサイズのみ許可 */
 }
 
 form button[type="submit"] {
