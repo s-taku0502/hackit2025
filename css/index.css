@@ -1,21 +1,5 @@
 @import url("header.css");
-
-.header>div {
-    display: flex;
-    align-items: center;
-}
-
-.header .logo {
-    height: 48px;
-    /* ロゴサイズ調整（任意） */
-}
-
-.header .nav ul {
-    display: flex;
-    gap: 16px;
-    /* ナビゲーション項目の間隔 */
-    list-style: none;
-}
+@import url("header_style.css");
 
 .main {
     text-align: left;
@@ -74,6 +58,7 @@ form input[type="file"] {
     font-size: 1rem;
 }
 
+<<<<<<< HEAD
 .header .nav a {
     text-decoration: none;
     color: #1976d2;
@@ -88,6 +73,8 @@ form input[type="file"] {
     background: #e3f2fd;
 }
 
+=======
+>>>>>>> 348b5500f49513a49d0129ed07b18abfb442b960
 a.home,
 a.back {
     display: inline-block;
