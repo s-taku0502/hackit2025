@@ -116,6 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 既存のフォーム全体のエラーをクリア
         removeErrorMessage('form-api-error');
+        
+        // 各フィールドの既存エラーメッセージもクリア
+        removeErrorMessage('username-error');
+        removeErrorMessage('email-error');
+        removeErrorMessage('password-strength-error');
+        removeErrorMessage('password-match-error');
+        removeErrorMessage('terms-error');
 
         let hasErrors = false;
         const username = document.getElementById('username').value;
@@ -124,27 +131,50 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmPassword = confirmPasswordInput.value;
         const termsCheckbox = document.getElementById('terms');
 
-        // 各フィールドのバリデーションを実行
+        // 各フィールドのバリデーションを実行し、具体的なエラーメッセージを表示
         if (username.length < 3) {
             hasErrors = true;
+            const usernameGroup = document.getElementById('username').closest('.form-group');
+            const errorMessage = createErrorMessage('username-error', 'ユーザー名は3文字以上で入力してください');
+            usernameGroup.appendChild(errorMessage);
+            document.getElementById('username').style.borderColor = '#e74c3c';
+        } else {
+            document.getElementById('username').style.borderColor = '';
         }
+        
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             hasErrors = true;
+            const emailGroup = document.getElementById('email').closest('.form-group');
+            const errorMessage = createErrorMessage('email-error', '正しいメールアドレス形式で入力してください');
+            emailGroup.appendChild(errorMessage);
+            document.getElementById('email').style.borderColor = '#e74c3c';
+        } else {
+            document.getElementById('email').style.borderColor = '';
         }
+        
         if (checkPasswordStrength(password)) {
             hasErrors = true;
+            // パスワード強度チェック関数が既にエラーメッセージを表示するので、ここでは追加処理不要
         }
+        
         if (password !== confirmPassword) {
             hasErrors = true;
+            const confirmPasswordGroup = confirmPasswordInput.closest('.form-group');
+            const errorMessage = createErrorMessage('password-match-error', 'パスワードが一致しません');
+            confirmPasswordGroup.appendChild(errorMessage);
+            confirmPasswordInput.style.borderColor = '#e74c3c';
+        } else if (confirmPassword !== '') {
+            confirmPasswordInput.style.borderColor = '';
         }
+        
         if (!termsCheckbox.checked) {
             hasErrors = true;
+            const termsGroup = termsCheckbox.closest('.form-group');
+            const errorMessage = createErrorMessage('terms-error', '利用規約に同意してください');
+            termsGroup.appendChild(errorMessage);
         }
 
         if (hasErrors) {
-            const formError = createErrorMessage('form-api-error', '入力内容に誤りがあります。各項目のエラーメッセージを確認してください。');
-            formError.style.textAlign = 'center';
-            signupForm.prepend(formError);
             return;
         }
 

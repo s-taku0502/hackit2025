@@ -1,66 +1,10 @@
-/* --- 共通 --- */
+/* --- 過去問一覧ページ専用スタイル --- */
 body {
     font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
     color: #333;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-bottom: 2px solid #ccc;
-    padding: 16px 32px 8px 32px;
-}
-
-.header > div {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    height: 48px;
-    margin-right: 24px;
-}
-
-.nav ul {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.nav a:hover {
-    background: #e3f2fd;
-}
-
-/* --- メインコンテナ --- */
-.container {
-    max-width: 700px;
-    margin: 40px auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 32px 24px;
-}
-
-h1 {
-    color: #1976d2;
-    margin-top: 0;
-    margin-bottom: 24px;
-    text-align: center;
 }
 
 /* --- 過去問一覧リスト --- */
@@ -90,24 +34,8 @@ h1 {
     background: #bbdefb;
 }
 
-/* --- レスポンシブ --- */
+/* --- レスポンシブ（このページ専用のレスポンシブスタイル） --- */
 @media (max-width: 600px) {
-    .container {
-        margin: 10px;
-        padding: 16px;
-    }
-    .header {
-        flex-direction: column;
-        gap: 8px;
-        padding: 12px 8px;
-    }
-    .nav ul {
-        gap: 12px;
-    }
-    .logo {
-        height: 36px;
-        margin-right: 8px;
-    }
     .past-list a {
         padding: 10px 8px;
         font-size: 15px;
