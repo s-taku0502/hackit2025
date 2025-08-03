@@ -58,63 +58,83 @@
             // Firestoreにユーザー情報がない場合
             usernameElement.textContent = 'ようこそ, ユーザーさん!';
           }
+
+          // ユーザーログイン後に履歴を読み込み
+          const historyList = document.getElementById('history-list');
+          if (historyList) {
+            const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
+            const db = getFirestore();
+            
+            // 現在のユーザーの履歴のみを取得（プライバシー保護）
+            const q = query(
+              collection(db, "history"), 
+              where("uid", "==", user.uid), 
+              orderBy("time", "desc")
+            );
+            const snapshot = await getDocs(q);
+
+            if (snapshot.empty) {
+                const li = document.createElement('li');
+                li.textContent = '閲覧履歴はまだありません';
+                historyList.appendChild(li);
+            } else {
+                // urlごとに最新1件だけを抽出
+                const urlMap = new Map();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.url && !urlMap.has(data.url)) {
+                        urlMap.set(data.url, { ...data });
+                    }
+                });
+
+                // 最新の異なるurlで10件だけ表示
+                const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
+
+                // filesコレクションから必要なurlのみ取得
+                const urlList = urlEntries.map(([url]) => url);
+                let filesData = {};
+                if (urlList.length > 0) {
+                    // Firestoreのin句は最大10件なので分割
+                    const urlChunks = [];
+                    for (let i = 0; i < urlList.length; i += 10) {
+                        urlChunks.push(urlList.slice(i, i + 10));
+                    }
+                    for (const chunk of urlChunks) {
+                        const filesQ = query(collection(db, "files"), where("url", "in", chunk));
+                        const filesSnap = await getDocs(filesQ);
+                        filesSnap.forEach(doc => {
+                            const d = doc.data();
+                            if (d.url) filesData[d.url] = d;
+                        });
+                    }
+                }
+
+                urlEntries.forEach(([url, data]) => {
+                    const file = filesData[url] || {};
+                    const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
+                    const li = document.createElement('li');
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.target = '_blank';
+                    link.className = 'pdf-link';
+                    link.textContent = `${file.year || ''} ${file.name || ''} ${file.teacher || ''}`;
+
+                    const dateSpan = document.createElement('span');
+                    dateSpan.style.cssText = 'font-size:0.9em;color:#888;';
+                    dateSpan.textContent = ` ${dateStr}`;
+
+                    li.appendChild(link);
+                    li.appendChild(dateSpan);
+                    historyList.appendChild(li);
+                });
+            }
+          }
         } else {
           // ユーザーがログインしていない場合
           window.location.href = '/login.html';
         }
       });
-
-      const historyList = document.getElementById('history-list');
-      if (historyList) {
-        const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
-        const db = getFirestore();
-        // 最新順で多めに取得（重複除去のため20件取得）
-        const q = query(collection(db, "history"), orderBy("time", "desc"));
-        const snapshot = await getDocs(q);
-
-        if (snapshot.empty) {
-            historyList.innerHTML = '<li>閲覧履歴はまだありません</li>';
-        } else {
-            // urlごとに最新1件だけを抽出
-            const urlMap = new Map();
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                if (data.url && !urlMap.has(data.url)) {
-                    urlMap.set(data.url, { ...data });
-                }
-            });
-
-            // 最新の異なるurlで10件だけ表示
-            const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
-
-            // filesコレクションから必要なurlのみ取得
-            const urlList = urlEntries.map(([url]) => url);
-            let filesData = {};
-            if (urlList.length > 0) {
-                // Firestoreのin句は最大10件なので分割
-                const urlChunks = [];
-                for (let i = 0; i < urlList.length; i += 10) {
-                    urlChunks.push(urlList.slice(i, i + 10));
-                }
-                for (const chunk of urlChunks) {
-                    const filesQ = query(collection(db, "files"), where("url", "in", chunk));
-                    const filesSnap = await getDocs(filesQ);
-                    filesSnap.forEach(doc => {
-                        const d = doc.data();
-                        if (d.url) filesData[d.url] = d;
-                    });
-                }
-            }
-
-            urlEntries.forEach(([url, data]) => {
-                const file = filesData[url] || {};
-                const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="${url}" target="_blank" class="pdf-link">${file.year || ''} ${file.name || ''} ${file.teacher || ''}</a> <span style="font-size:0.9em;color:#888;">${dateStr}</span>`;
-                historyList.appendChild(li);
-            });
-        }
-      }
     </script>
 </body>
 <footer>
