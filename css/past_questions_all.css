@@ -28,6 +28,7 @@ body {
 .nav ul {
     display: flex;
     gap: 24px;
+    list-style: none;
     margin: 0;
     padding: 0;
 }
@@ -43,10 +44,6 @@ body {
 
 .nav a:hover {
     background: #e3f2fd;
-}
-
-.header .nav ul {
-  list-style: none;
 }
 
 /* --- メインコンテナ --- */
@@ -66,84 +63,31 @@ h1 {
     text-align: center;
 }
 
-/* --- パンくずリスト --- */
-.breadcrumb {
-    margin-bottom: 20px;
-    font-size: 14px;
-    color: #666;
+/* --- 過去問一覧リスト --- */
+.past-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.breadcrumb a {
+.past-list li {
+    margin-bottom: 18px;
+}
+
+.past-list a {
+    display: block;
+    background: #e3f2fd;
     color: #1976d2;
-    text-decoration: none;
-}
-
-.breadcrumb a:hover {
-    text-decoration: underline;
-}
-
-/* --- 過去問詳細 --- */
-.paper-title {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 24px;
-    text-align: center;
-}
-
-.paper-meta {
-    margin-bottom: 30px;
-    color: #666;
-    font-size: 14px;
-    text-align: center;
-}
-
-.past-paper-image {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.past-paper-image img {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.download__btn {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.download-link {
-    display: inline-block;
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 5px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    transition: background 0.2s;
 }
 
-.download-link:hover {
-    background-color: #229954;
-}
-
-/* --- 画像エラー時 --- */
-.image-error {
-    background-color: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    padding: 20px;
-    text-align: center;
-    color: #6c757d;
-    border-radius: 5px;
-    margin: 20px 0;
-}
-
-.image-error p {
-    margin: 5px 0;
-    font-size: 14px;
+.past-list a:hover {
+    background: #bbdefb;
 }
 
 /* --- レスポンシブ --- */
@@ -163,5 +107,9 @@ h1 {
     .logo {
         height: 36px;
         margin-right: 8px;
+    }
+    .past-list a {
+        padding: 10px 8px;
+        font-size: 15px;
     }
 }
