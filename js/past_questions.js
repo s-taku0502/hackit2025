@@ -220,3 +220,52 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('過去問表示ページが正常に読み込まれました');
     }
 });
+
+// Firebaseの設定（初期化）は済んでいる前提です。
+const db = firebase.firestore();
+const auth = firebase.auth(); 
+
+// ページが完全に読み込まれた後に実行
+document.addEventListener('DOMContentLoaded', () => {
+    // ダウンロードボタンを取得
+    const downloadLink = document.querySelector('.download-link');
+    
+    // ダウンロードボタンが存在する場合にイベントリスナーを追加
+    if (downloadLink) {
+        downloadLink.addEventListener('click', (event) => {
+            // クリックされた要素から過去問の情報を取得
+            const paperId = event.target.getAttribute('data-paper-id');
+            const paperTitle = event.target.getAttribute('data-paper-title');
+            
+            // ユーザーがログインしているか確認
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // ログインしていれば履歴を保存
+                    addHistory(user.uid, paperId, paperTitle);
+                } else {
+                    console.log("ユーザーはログインしていません。履歴は保存されません。");
+                }
+            });
+        });
+    }
+});
+
+// Firestoreに履歴を保存する関数
+function addHistory(userId, paperId, paperTitle) {
+    // 既に履歴が存在するか確認する処理を追加することもできますが、
+    // ここではシンプルに毎回追加する方式とします。
+    // 重複を避ける場合は、過去の履歴に同じpaperIdがあるかget()で確認してからadd()を実行します。
+    
+    db.collection("history").add({
+        userId: userId, 
+        paperId: paperId,
+        paperTitle: paperTitle,
+        viewedAt: firebase.firestore.FieldValue.serverTimestamp() // サーバーのタイムスタンプを使用
+    })
+    .then(() => {
+        console.log("閲覧履歴が正常に保存されました。");
+    })
+    .catch((error) => {
+        console.error("閲覧履歴の保存中にエラーが発生しました。", error);
+    });
+}

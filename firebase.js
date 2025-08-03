@@ -1,7 +1,9 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 // .envファイルからFirebase設定を読み込む (Viteなどのビルドツールを想定)
 const firebaseConfig = {
@@ -17,6 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app); // Firestoreのインスタンスを取得
+const storage = getStorage(app); // Storageのインスタンスを取得
 
 // ユーザー登録時にFirestoreにもユーザー情報を保存する関数
 window.signupWithEmailPasswordAndSaveUser = async (email, password, username) => {
@@ -30,6 +33,42 @@ window.signupWithEmailPasswordAndSaveUser = async (email, password, username) =>
     createdAt: serverTimestamp()
   });
   return userCredential;
+};
+
+// 過去問をアップロードする関数
+window.uploadPastPaper = async (year, subject, teacher, file) => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("ユーザーがログインしていません。");
+  }
+
+  // 1. Firestoreに新しいドキュメント参照を作成してIDを取得
+  const newFileRef = doc(collection(db, "files"));
+  const fileId = newFileRef.id;
+
+  // 2. Storageのパスを決定
+  const storagePath = `files/${user.uid}/${fileId}/${file.name.replace(/[/]/g, '_')}`;
+  const storageRef = ref(storage, storagePath);
+
+  // 3. ファイルをStorageにアップロード
+  const uploadResult = await uploadBytes(storageRef, file);
+
+  // 4. ダウンロードURLを取得
+  const url = await getDownloadURL(uploadResult.ref);
+
+  // 5. Firestoreに完全な情報を保存
+  await setDoc(newFileRef, {
+    uid: user.uid,
+    year: Number(year),
+    name: subject,
+    teacher: teacher,
+    url: url,
+    storagePath: storagePath,
+    fileName: file.name,
+    createdAt: serverTimestamp()
+  });
+
+  return { id: fileId, url: url };
 };
 
 // ログイン用の関数をグローバルスコープに公開
@@ -51,4 +90,21 @@ window.onAuth = (callback) => {
 window.getUserProfile = (uid) => {
   const userDocRef = doc(db, "users", uid);
   return getDoc(userDocRef);
+};
+
+// filesコレクションからname,teacher,yearで絞り込み、該当するurlを取得する関数
+window.getFileUrlByMeta = async (name, teacher, year) => {
+  const filesRef = collection(db, "files");
+  const q = query(
+    filesRef,
+    where("name", "==", name),
+    where("teacher", "==", teacher),
+    where("year", "==", year)
+  );
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const docData = querySnapshot.docs[0].data();
+    return docData.url || null;
+  }
+  return null;
 };
