@@ -1,3 +1,18 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    /* ... */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* ★この行を追加または変更★ */
+}
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -5,9 +20,10 @@
     gap: 32px;
     /* 要素間の余白（必要に応じて調整） */
     border-bottom: 2px solid #ccc;
-    /* 追加: 下線 */
-    padding-bottom: 8px;
     /* 線との余白（任意） */
+    padding: 16px 24px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header>div {
@@ -88,12 +104,13 @@ form input[type="file"] {
     text-decoration: none;
     color: #1976d2;
     font-weight: bold;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 4px;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
 }
 
-.header .nav a:hover {
+.header .nav a:hover 
+.header .nav a.active{
     background: #e3f2fd;
 }
 
