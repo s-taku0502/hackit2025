@@ -67,16 +67,23 @@
      margin-left: 4px;
  }
 
- form input[type="text"],
- form input[type="file"] {
-     width: 100%;
-     padding: 10px;
-     border: 1px solid #ccc;
-     border-radius: 6px;
-     box-sizing: border-box;
-     font-size: 1rem;
-     margin-bottom: 18px;
- }
+/* css/question.css の例 */
+form input[type="text"],
+form input[type="file"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+form textarea {
+    resize: vertical; /* 縦方向のリサイズのみ許可 */
+}
 
  form button[type="submit"] {
      background: #1976d2;
