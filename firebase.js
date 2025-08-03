@@ -1,7 +1,7 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
 
 // .envファイルからFirebase設定を読み込む (Viteなどのビルドツールを想定)
 const firebaseConfig = {
@@ -51,4 +51,21 @@ window.onAuth = (callback) => {
 window.getUserProfile = (uid) => {
   const userDocRef = doc(db, "users", uid);
   return getDoc(userDocRef);
+};
+
+// filesコレクションからname,teacher,yearで絞り込み、該当するurlを取得する関数
+window.getFileUrlByMeta = async (name, teacher, year) => {
+  const filesRef = collection(db, "files");
+  const q = query(
+    filesRef,
+    where("name", "==", name),
+    where("teacher", "==", teacher),
+    where("year", "==", year)
+  );
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const docData = querySnapshot.docs[0].data();
+    return docData.url || null;
+  }
+  return null;
 };

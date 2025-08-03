@@ -22,16 +22,87 @@
         </nav>
     </header>
     <main class="container">
-        <h1>過去問一覧</h1>
-        <ul class="past-list">
-            <li><a href="past_questions.html?year=2024&subject=数学">2024年 数学</a></li>
-            <li><a href="past_questions.html?year=2023&subject=英語">2023年 英語</a></li>
-            <li><a href="past_questions.html?year=2022&subject=物理">2022年 物理</a></li>
-            <!-- 必要に応じてリスト追加 -->
-        </ul>
+        <h1>過去問検索</h1>
+        <form id="search-form">
+            <div>
+                <label for="name">科目名</label>
+                <input type="text" id="name" name="name" placeholder="例：数学">
+            </div>
+            <div>
+                <label for="teacher">担当教員名</label>
+                <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
+            </div>
+            <div>
+                <label for="year">年度（西暦）</label>
+                <input type="number" id="year" name="year" placeholder="例：2024">
+            </div>
+            <button type="submit">検索</button>
+        </form>
+        <h2>検索結果</h2>
+        <ul id="result-list" class="past-list"></ul>
     </main>
-    <script>
-        // ここは必要に応じて動的生成も可能です
+    <script type="module" src="/firebase.js"></script>
+    <script type="module">
+        // 検索フォームのsubmitイベントでFirestoreから検索
+        const form = document.getElementById('search-form');
+        const resultList = document.getElementById('result-list');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultList.innerHTML = '';
+            const name = form.name.value.trim();
+            const teacher = form.teacher.value.trim();
+            let year = form.year.value.trim();
+
+            // 年度が入力されていれば数値型に変換
+            if (year) {
+                year = Number(year);
+            } else {
+                year = "";
+            }
+
+            // Firestoreのfilesコレクションを検索
+            const { getFirestore, collection, query, where, getDocs } = await import("firebase/firestore");
+            const db = getFirestore();
+
+            let q = collection(db, "files");
+            let conditions = [];
+            if (name) conditions.push(where("name", "==", name));
+            if (teacher) conditions.push(where("teacher", "==", teacher));
+            if (year !== "") conditions.push(where("year", "==", year));
+            if (conditions.length > 0) {
+                q = query(q, ...conditions);
+            }
+
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) {
+                resultList.innerHTML = '<li>該当する過去問がありません</li>';
+                return;
+            }
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const li = document.createElement('li');
+                if (data.url) {
+                    li.innerHTML = `<a href="${data.url}" target="_blank" class="pdf-link">${data.year || ''} ${data.name || ''} ${data.teacher || ''}</a>`;
+                } else {
+                    li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
+                }
+                resultList.appendChild(li);
+            });
+
+            // PDFリンククリック時にhistoryコレクションへ記録
+            resultList.querySelectorAll('.pdf-link').forEach(link => {
+                link.addEventListener('click', async (e) => {
+                    const url = link.getAttribute('href');
+                    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
+                    const db = getFirestore();
+                    await addDoc(collection(db, "history"), {
+                        url,
+                        time: serverTimestamp()
+                    });
+                });
+            });
+        });
     </script>
 </body>
 </html>
