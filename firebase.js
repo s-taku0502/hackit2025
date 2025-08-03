@@ -1,7 +1,7 @@
 // Firebase SDK の import
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 // .envファイルからFirebase設定を読み込む (Viteなどのビルドツールを想定)
 const firebaseConfig = {
@@ -36,8 +36,11 @@ window.signupWithEmailPasswordAndSaveUser = async (email, password, username) =>
 window.signInWithEmailPassword = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
-// auth_signin_password というエイリアスも追加
-window.auth_signin_password = window.signInWithEmailPassword;
+
+// パスワードリセットメールを送信する関数
+window.sendPasswordReset = (email) => {
+  return sendPasswordResetEmail(auth, email);
+};
 
 // ログイン状態を監視する関数
 window.onAuth = (callback) => {
