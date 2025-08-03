@@ -52,13 +52,6 @@ button {
     font-weight: bold;
 }
 
-.submit {
-    /* 文字の色を白色にする */
-    color: white;
-
-    /* 文字の下線を消す */
-    text-decoration: none;
-}
 
 form {
     background: #f9f9f9;
@@ -145,12 +138,6 @@ a.home:hover {
     /* 削除ボタンの背景色 */
     color: white;
     /* 文字色を白に */
-}
-
-/* --- メインコンテンツ --- */
-.main {
-    text-align: left;
-    margin-top: 24px;
 }
 
 /* --- 画像スタイル --- */
