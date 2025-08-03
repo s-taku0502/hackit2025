@@ -2,17 +2,13 @@
 @import url("header_style.css");
 
 /* --- メインコンテナ --- */
-/* main.containerが利用可能な残りのスペースを全て埋めることで、
-   フッターが自動的に下へ押しやられる */
-main.container {
-    flex: 1; /* 残りのスペースを全て埋めるように伸縮させる */
-    width: 100%; /* 横幅を親要素に合わせる */
-    max-width: 1200px; /* 最大幅を1200pxに制限 */
-    margin: 40px auto; /* 上下のマージンと中央揃え */
+.container {
+    max-width: 700px;
+    margin: 40px auto;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    padding: 32px 24px; /* 上下左右のパディング */
+    padding: 32px 24px;
 }
 
 /* ... 3つ目のコードのその他のスタイルをここに続けます ... */
@@ -53,18 +49,19 @@ h1 {
         margin: 10px;
         padding: 16px;
     }
+
     .header {
         flex-direction: column;
-        gap: 16px;
-        padding: 12px 8px; /* スマホ時のパディング調整 */
+        gap: 8px;
+        padding: 12px 8px;
     }
+
     .nav ul {
         gap: 12px;
     }
 
     .logo {
-        height: 36px; /* スマホ時のロゴサイズ */
+        height: 36px;
         margin-right: 8px;
     }
-
 }
