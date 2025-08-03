@@ -94,7 +94,12 @@
                 const data = doc.data();
                 const li = document.createElement('li');
                 if (data.url) {
-                    li.innerHTML = `<a href="${data.url}" target="_blank" class="pdf-link">${data.year || ''} ${data.name || ''} ${data.teacher || ''}</a>`;
+                    const link = document.createElement('a');
+                    link.href = data.url;
+                    link.target = '_blank';
+                    link.className = 'pdf-link';
+                    link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}`;
+                    li.appendChild(link);
                 } else {
                     li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
                 }
