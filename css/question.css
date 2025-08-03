@@ -67,7 +67,6 @@
      margin-left: 4px;
  }
 
-/* css/question.css の例 */
 form input[type="text"],
 form input[type="file"],
 form textarea,
@@ -85,19 +84,19 @@ form textarea {
     resize: vertical; /* 縦方向のリサイズのみ許可 */
 }
 
- form button[type="submit"] {
-     background: #1976d2;
-     color: #fff;
-     border: none;
-     border-radius: 6px;
-     padding: 12px 24px;
-     font-size: 1rem;
-     cursor: pointer;
-     transition: background 0.2s;
-     width: 100%;
-     margin-top: 12px;
- }
+form button[type="submit"] {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+    margin-top: 12px;
+}
 
- form button[type="submit"]:hover {
-     background: #1565c0;
- }
+form button[type="submit"]:hover {
+    background: #1565c0;
+}
