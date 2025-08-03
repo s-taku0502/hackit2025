@@ -16,7 +16,8 @@
             <a href="/index.html">ホーム</a>
             <a href="/contributor/new.html">過去問投稿</a>
             <a href="/viewer/question/list.html">質問・返答</a>
-            <a href="/login.html">ログイン</a>
+            <!--<a href="/login.html">ログイン</a>-->
+            <a href="#" class="active">ログアウト</a>
         </nav>
     </header>
     <div class="container">
@@ -36,19 +37,10 @@
             <input type="text" id="subject" name="subject" required />
             <button type="submit">質問を投稿</button>
         </form>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const yearSelect = document.getElementById('year');
-                const currentYear = new Date().getFullYear();
-                const startYear = 2000;
-                for (let year = currentYear; year >= startYear; year--) {
-                    const option = document.createElement('option');
-                    option.value = year;
-                    option.textContent = year + '年';
-                    yearSelect.appendChild(option);
-                }
+    </div>
+    <div id="footer-placeholder"></div> 
 
-    </div> <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 年選択ドロップダウンの生成
             const yearSelect = document.getElementById('year');

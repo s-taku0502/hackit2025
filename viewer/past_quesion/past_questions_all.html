@@ -11,14 +11,15 @@
     <div class="wrapper">
         <header class="header">
             <div>
-                <img src="../../img/Hackit.png" alt="Hackit ロゴ" class="logo">
+                <img src="/img/Hackit.png" alt="Hackit ロゴ" class="logo">
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="../../index.html">ホーム</a></li>
+                    <li><a href="/index.html">ホーム</a></li>
                     <li><a href="/contributor/new.html">過去問投稿</a></li>
-                    <li><a href="/viewer/question/new.html">質問・返答</a></li>
-                    <li><a href="/login.html">ログイン</a></li>
+                    <li><a href="/viewer/question/list.html">質問・返答</a></li> 
+                    <!--<li><a href="/login.html">ログイン</a></li>-->
+                    <li><a href="#" class="active">ログアウト</a></li>
                 </ul>
             </nav>
         </header>
@@ -30,29 +31,30 @@
                 <li><a href="past_questions.html?year=2023&subject=英語">2023年 英語</a></li>
                 <li><a href="past_questions.html?year=2022&subject=物理">2022年 物理</a></li>
             </ul>
-        </nav>
-    </header>
-    <main class="container">
-        <h1>過去問検索</h1>
-        <form id="search-form">
-            <div>
-                <label for="name">科目名</label>
-                <input type="text" id="name" name="name" placeholder="例：数学">
-            </div>
-            <div>
-                <label for="teacher">担当教員名</label>
-                <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
-            </div>
-            <div>
-                <label for="year">年度（西暦）</label>
-                <input type="number" id="year" name="year" placeholder="例：2024">
-            </div>
-            <button type="submit">検索</button>
-        </form>
-        <h2>検索結果</h2>
-        <ul id="result-list" class="past-list"></ul>
-    </main>
-    <script type="module" src="/firebase.js"></script>
+
+            <h1>過去問検索</h1>
+            <form id="search-form">
+                <div>
+                    <label for="name">科目名</label>
+                    <input type="text" id="name" name="name" placeholder="例：数学">
+                </div>
+                <div>
+                    <label for="teacher">担当教員名</label>
+                    <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
+                </div>
+                <div>
+                    <label for="year">年度（西暦）</label>
+                    <input type="number" id="year" name="year" placeholder="例：2024">
+                </div>
+                <button type="submit">検索</button>
+            </form>
+            <h2>検索結果</h2>
+            <ul id="result-list" class="past-list"></ul>
+        </main>
+
+        <div id="footer-placeholder"></div>
+
+    </div> <script type="module" src="/firebase.js"></script>
     <script type="module">
         // 検索フォームのsubmitイベントでFirestoreから検索
         const form = document.getElementById('search-form');
@@ -65,15 +67,14 @@
             const teacher = form.teacher.value.trim();
             let year = form.year.value.trim();
 
-            // 年度が入力されていれば数値型に変換
             if (year) {
                 year = Number(year);
             } else {
                 year = "";
             }
 
-            // Firestoreのfilesコレクションを検索
-            const { getFirestore, collection, query, where, getDocs } = await import("firebase/firestore");
+            // Firebase Firestoreモジュールの動的インポートをCDNパスに変更
+            const { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js");
             const db = getFirestore();
 
             let q = collection(db, "files");
@@ -105,14 +106,37 @@
             resultList.querySelectorAll('.pdf-link').forEach(link => {
                 link.addEventListener('click', async (e) => {
                     const url = link.getAttribute('href');
-                    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
-                    const db = getFirestore();
+                    const { addDoc, collection, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js");
+                    const db = getFirestore(); // dbはすでに取得済みだが、スコープのためにここで再度取得または外出し
                     await addDoc(collection(db, "history"), {
                         url,
                         time: serverTimestamp()
                     });
                 });
             });
+        });
+
+        // フッターを動的に読み込むJavaScriptを追加
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadFooter = async () => {
+                try {
+                    const response = await fetch('/components/footer.html'); 
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+                    
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = htmlContent;
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+            loadFooter(); 
         });
     </script>
 </body>

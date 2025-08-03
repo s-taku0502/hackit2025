@@ -4,123 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/index.css">
     <title>ホーム画面</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
-  <div class="wrapper">
-    <header class="header">
-        <div>
-            <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-        </div>
-        <nav class="nav">
-            <ul>
-                <li><a href="index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="container">
-        <h1 class="username">ようこそ, ゲストさん!</h1>
-        
-        <h2 class="past-papers">過去問一覧</h2>
-        <a href="/viewer/past_quesion/past_questions_all.html">
-            <!--過去問の年度を選択!-->
-            <img src="/img/pastpaper.png" alt="過去問一覧" class="pastpapers">
-        </a>
+    <div class="wrapper">
+        <header class="header">
+            <div>
+                <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/index.html">ホーム</a></li> <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/list.html">質問・返答</a></li>
+                    <li><a href="/login.html">ログイン</a></li>
+                </ul>
+            </nav>
+        </header>
 
-        <h2 class="recent-q-and-a">最近のQ&A</h2>
-        <a href="/viewer/question/list.html">
-            <!--最近の質問を表示-->
-            <img src="/img/Q&A.png" alt="最近のQ&A" class="recentQandA">
-        </a>
-        <h2 class="recommend-for-you">過去問履歴</h2>
-        <a href="/viewer/question_history.html">
-            <!--最近見た過去問表示-->
-        <img src="/img/recent for you.png" alt="過去問履歴" class="recent">
-        </a>
-    </main>
+        <main class="container">
+            <h1 class="username">ようこそ, ゲストさん!</h1>
+            
+            <h2 class="past-papers">過去問一覧</h2>
+            <a href="/viewer/past_quesion/past_questions_all.html">
+                <img src="/img/pastpaper.png" alt="過去問一覧" class="pastpapers">
+            </a>
 
-    <script type="module" src="firebase.js"></script>
-    <script type="module">
-      const usernameElement = document.querySelector('.username');
+            <h2 class="recent-q-and-a">最近のQ&A</h2>
+            <a href="/viewer/question/list.html">
+                <img src="/img/Q&A.png" alt="最近のQ&A" class="recentQandA">
+            </a>
 
-      window.onAuth(async (user) => {
-        if (user) {
-          // ユーザーがログインしている場合
-          const userProfile = await window.getUserProfile(user.uid);
-          if (userProfile.exists()) {
-            usernameElement.textContent = `ようこそ, ${userProfile.data().username}さん!`;
-          } else {
-            // Firestoreにユーザー情報がない場合
-            usernameElement.textContent = 'ようこそ, ユーザーさん!';
-          }
-        } else {
-          // ユーザーがログインしていない場合
-          window.location.href = '/login.html';
-        }
-      });
+            <h2 class="recommend-for-you">過去問履歴</h2>
+            <a href="/viewer/question_history.html">
+                <img src="/img/recent for you.png" alt="過去問履歴" class="recent">
+            </a>
 
-      const historyList = document.getElementById('history-list');
-      if (historyList) {
-        const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
-        const db = getFirestore();
-        // 最新順で多めに取得（重複除去のため20件取得）
-        const q = query(collection(db, "history"), orderBy("time", "desc"));
-        const snapshot = await getDocs(q);
+            <ul id="history-list">
+                </ul>
+        </main>
 
-        if (snapshot.empty) {
-            historyList.innerHTML = '<li>閲覧履歴はまだありません</li>';
-        } else {
-            // urlごとに最新1件だけを抽出
-            const urlMap = new Map();
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                if (data.url && !urlMap.has(data.url)) {
-                    urlMap.set(data.url, { ...data });
-                }
-            });
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p><a href="/privacy-policy" class="footer-link">プライバシーポリシー</a></p>
+                <p><a href="/terms" class="footer-link">利用規約</a></p>
+                <p>&copy; 2025 Hackit さぁ、きっと。</p>
+            </div>
+        </footer>
+    </div> <script type="module" src="/firebase.js"></script> <script type="module">
+        document.addEventListener('DOMContentLoaded', async () => {
+            const usernameElement = document.querySelector('.username');
 
-            // 最新の異なるurlで10件だけ表示
-            const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
+            // window.onAuth が定義されていることを確認
+            if (window.onAuth) {
+                window.onAuth(async (user) => {
+                    if (user) {
+                        const userProfile = await window.getUserProfile(user.uid);
+                        if (userProfile && userProfile.exists()) {
+                            usernameElement.textContent = `ようこそ, ${userProfile.data().username}さん!`;
+                        } else {
+                            usernameElement.textContent = 'ようこそ, ユーザーさん!';
+                        }
+                    } else {
+                        // ログインしていない場合はログインページへリダイレクト
+                        window.location.href = '/login.html';
+                    }
+                });
+            } else {
+                console.warn("window.onAuth is not defined. Ensure firebase.js is loaded correctly.");
+            }
 
-            // filesコレクションから必要なurlのみ取得
-            const urlList = urlEntries.map(([url]) => url);
-            let filesData = {};
-            if (urlList.length > 0) {
-                // Firestoreのin句は最大10件なので分割
-                const urlChunks = [];
-                for (let i = 0; i < urlList.length; i += 10) {
-                    urlChunks.push(urlList.slice(i, i + 10));
-                }
-                for (const chunk of urlChunks) {
-                    const filesQ = query(collection(db, "files"), where("url", "in", chunk));
-                    const filesSnap = await getDocs(filesQ);
-                    filesSnap.forEach(doc => {
-                        const d = doc.data();
-                        if (d.url) filesData[d.url] = d;
+            const historyList = document.getElementById('history-list');
+            if (historyList) {
+                // Firebase Firestoreモジュールの動的インポートをCDNパスに変更
+                const { getFirestore, collection, getDocs, orderBy, query, where } = await import("https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js");
+                const db = getFirestore();
+                
+                const q = query(collection(db, "history"), orderBy("time", "desc"));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    historyList.innerHTML = '<li>閲覧履歴はまだありません</li>';
+                } else {
+                    const urlMap = new Map();
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.url && !urlMap.has(data.url)) {
+                            urlMap.set(data.url, { ...data });
+                        }
+                    });
+
+                    const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
+                    const urlList = urlEntries.map(([url]) => url);
+                    let filesData = {};
+
+                    if (urlList.length > 0) {
+                        const urlChunks = [];
+                        for (let i = 0; i < urlList.length; i += 10) {
+                            urlChunks.push(urlList.slice(i, i + 10));
+                        }
+                        for (const chunk of urlChunks) {
+                            const filesQ = query(collection(db, "files"), where("url", "in", chunk));
+                            const filesSnap = await getDocs(filesQ);
+                            filesSnap.forEach(doc => {
+                                const d = doc.data();
+                                if (d.url) filesData[d.url] = d;
+                            });
+                        }
+                    }
+
+                    urlEntries.forEach(([url, data]) => {
+                        const file = filesData[url] || {};
+                        const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="${url}" target="_blank" class="pdf-link">${file.year || ''} ${file.name || ''} ${file.teacher || ''}</a> <span style="font-size:0.9em;color:#888;">${dateStr}</span>`;
+                        historyList.appendChild(li);
                     });
                 }
             }
-
-            urlEntries.forEach(([url, data]) => {
-                const file = filesData[url] || {};
-                const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="${url}" target="_blank" class="pdf-link">${file.year || ''} ${file.name || ''} ${file.teacher || ''}</a> <span style="font-size:0.9em;color:#888;">${dateStr}</span>`;
-                historyList.appendChild(li);
-            });
-        }
-      }
+        });
     </script>
 </body>
-<footer>
-    <div class="footer-content">
-        <p><a href="/#">利用規約</a></p>
-        <p>&copy; 2025 Hackit さぁ、きっと。</p>
-    </div>
-</footer>
+
 </html>

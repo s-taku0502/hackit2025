@@ -98,3 +98,216 @@ h1 {
     }
 
 }
+/* common.css に追記または既存とマージ */
+
+/* --- 全体のレイアウト設定 (フッター固定に必須) --- */
+html, body {
+    height: 100%; /* HTMLとbodyが親要素の高さを持つようにする */
+    margin: 0;
+    padding: 0;
+    display: flex; /* bodyもflexコンテナにする（一部のブラウザ対応のため） */
+    flex-direction: column; /* bodyの子要素を縦に並べる */
+    font-family: 'Arial', sans-serif; /* 全体のフォントを指定（任意） */
+    line-height: 1.6; /* 行の高さを調整（任意） */
+    color: #333; /* 基本の文字色（任意） */
+}
+
+.wrapper {
+    min-height: 100vh; /* 画面の高さの最低値を設定 */
+    display: flex; /* Flexboxコンテナとして設定 */
+    flex-direction: column; /* 子要素を縦方向に並べる */
+    flex: 1; /* 親要素 (body) の残りのスペースを全て占めるようにする */
+}
+
+.container { /* mainタグに付与する想定 */
+    flex: 1; /* メインコンテンツが残りのスペースを全て占有するようにする */
+    padding: 20px; /* コンテンツのパディング */
+    max-width: 960px; /* コンテンツの最大幅 */
+    margin: 0 auto; /* 中央揃え */
+    box-sizing: border-box; /* パディングを幅に含める */
+}
+
+/* --- ヘッダー --- */
+@import url("header.css"); /* header.cssが別に存在し、そこからインポートされる前提 */
+
+.header {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0; /* ヘッダーが縮まないようにする */
+}
+
+.header > div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+    margin: 0; /* ulのデフォルトマージンをリセット */
+    padding: 0; /* ulのデフォルトパディングをリセット */
+}
+
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.header .nav a:hover,
+.header .nav a.active {
+    background: #e3f2fd;
+}
+
+/* --- フッター --- */
+.site-footer { /* footer.html にこのクラスがあることを想定 */
+    margin-top: auto; /* Flexboxでフッターを最下部に押し下げる */
+    flex-shrink: 0;   /* フッターが縮まないようにする */
+    background-color: #f8f8f8; /* 背景色 */
+    color: #555; /* 文字色 */
+    padding: 20px; /* パディング */
+    text-align: center; /* 中央揃え */
+    font-size: 0.85em; /* フォントサイズ */
+    border-top: 1px solid #e0e0e0; /* 上部にボーダー */
+}
+
+.site-footer .footer-content {
+    max-width: 960px; /* フッターコンテンツの最大幅 */
+    margin: 0 auto; /* 中央揃え */
+}
+
+.site-footer p {
+    margin: 5px 0; /* 段落の上下マージン */
+}
+
+.site-footer a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* --- フォームとボタン --- */
+button {
+    margin-top: 24px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+form {
+    background: #f9f9f9;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    margin: 24px auto; /* 上下マージンを追加 */
+}
+
+form > div {
+    margin-bottom: 24px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea, /* textareaもスタイルに追加 */
+form select /* selectもスタイルに追加 */
+{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+form textarea {
+    min-height: 100px; /* textareaの最低高さを設定 */
+    resize: vertical; /* 縦方向のみリサイズ可能にする */
+}
+
+/* --- リンクボタン --- */
+a.home,
+a.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+a.back:hover,
+a.home:hover {
+    background-color: #bbdefb;
+}
+
+/* --- その他の要素 --- */
+.required-mark { 
+    color: #D32F2F;
+    font-weight: normal; /* 太字にならないように調整 */
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.form-buttons .delete,
+.form-buttons .submit {
+    width: 48%;
+    margin-top: 0;
+}
+
+.delete {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete:hover {
+    background-color: #d32f2f; /* ホバー時の色 */
+}
+
+img.pastpapers,
+img.recentQandA,
+img.recent {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 200px;
+}

@@ -17,32 +17,27 @@
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="../index.html">ホーム</a></li>
-                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/index.html">ホーム</a></li> <li><a href="/contributor/new.html">過去問投稿</a></li>
                     <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                    <li><a href="/login.html">ログイン</a></li>
+                    <!--<li><a href="/login.html">ログイン</a></li>-->
+                    <li><a href="#" class="active">ログアウト</a></li>
                 </ul>
             </nav>
         </header>
 
+        <main class="container">
+            <form id="upload-form">
+                <div class="form-message" style="display:none;"></div>
 
-        <form id="upload-form">
-            <!-- メッセージ表示用 -->
-            <div class="form-message" style="display:none;"></div>
-            <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
-
-            <div id="year-input-container">
-                <label for="year">年度（西暦：半角）
-                    <a class="required-mark">*</a>
-                </label>
-                <input type="number" id="year" name="year" required placeholder="例: 2024">
-            </div>
-
+                <div id="year-input-container">
+                    <label for="year">年度（西暦：半角）
+                        <span class="required-mark">*</span> </label>
+                    <input type="number" id="year" name="year" required placeholder="例: 2024">
+                </div>
 
                 <div>
                     <label for="subject">科目
-                        <a class="required-mark">*</a>
-                    </label>
+                        <span class="required-mark">*</span> </label>
                     <input type="text" id="subject" name="subject" required>
                 </div>
 
@@ -53,16 +48,20 @@
 
                 <div>
                     <label for="file">ファイル
-                        <a class="required-mark">*</a>
-                    </label>
+                        <span class="required-mark">*</span> </label>
                     <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
                 </div>
 
                 <button type="submit" class="submit">アップロード</button>
+            </form>
+        </main>
 
         <div id="footer-placeholder"></div>
 
-    </div> <script>
+    </div> <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/contribute.js"></script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loadFooter = async () => {
                 try {
@@ -85,10 +84,10 @@
                 }
             };
 
-        </form>
-    </main>
-    <script type="module" src="/firebase.js"></script>
-    <script type="module" src="/js/contribute.js"></script>
+            // DOMContentLoaded時にフッターを読み込む関数を呼び出す
+            loadFooter(); 
+        });
+    </script>
 </body>
 
 </html>
