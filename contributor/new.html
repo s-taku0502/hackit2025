@@ -25,14 +25,14 @@
     <main class="main">
         <h1 class="username">過去問アップロード</h1>
 
-        <form action="upload.html">
+        <form id="upload-form">
             <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
 
             <div id="year-input-container">
                 <label for="year">年度（西暦：半角）
                     <a class="required-mark">*</a>
                 </label>
-                <!--contribute.jsに記載-->
+                <input type="number" id="year" name="year" required placeholder="例: 2024">
             </div>
 
             <div>
@@ -58,7 +58,8 @@
 
         </form>
     </main>
-    <script src="/js/contributor.js"></script>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/contribute.js"></script>
 </body>
 
 </html>
