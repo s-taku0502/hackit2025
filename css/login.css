@@ -9,10 +9,14 @@ body {
 
 /* ページヘッダー（past_questions.html用） */
 .header {
+    /* 共通のスタイル */
+    margin-bottom: 30px;
+    text-align: center;
+
+    /* ログイン画面用の追加スタイル */
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 15px 0;
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +26,8 @@ body {
 .header img {
     max-width: 250px; 
     height: auto; 
-    transform: translate(10px, 5px); 
+    margin-top: 5px;
+    margin-left: 10px; 
 }
 
 .nav {
@@ -60,10 +65,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 30px;
-}
 
 .logo {
     width: 80px;

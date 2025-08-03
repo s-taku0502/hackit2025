@@ -8,10 +8,6 @@ body {
     padding: 0;
     box-sizing: border-box; /* ★この行を追加または変更★ */
 }
-body, html {
-    margin: 0;
-    padding: 0;
-}
 
 .header {
     display: flex;
@@ -109,7 +105,7 @@ form input[type="file"] {
     transition: background 0.2s ease;
 }
 
-.header .nav a:hover 
+.header .nav a:hover,
 .header .nav a.active{
     background: #e3f2fd;
 }
