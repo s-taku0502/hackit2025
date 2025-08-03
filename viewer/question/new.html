@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Paper Display</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <img src="../../img/Hackit.png" alt="タイトル" class="logo">
+            <a href="#">ホーム</a>
+            <a href="#">過去問</a>
+            <a href="#">Q&A</a>
+            <a href="#">ログイン</a>
+        </nav>
+    </header>
+    <hr>
+    <div class="container">
+        <a href="#">過去問</a> /
+            <span id="subject-name">教科</span>
+        <h1>質問投稿</h1>
+        <form id="questionForm">
+            <label for="title">質問タイトル</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                required
+                size="10"
+            />
+            <label for="detailed">詳細な内容</label>
+            <textarea
+                id="detailed"
+                name="detailed"
+                required
+            ></textarea>
+            <label for="year">年度選択</label>
+            <select name="year" id="year" required>
+                <option value="">--年を選択--</option>
+            </select>
+            <label for="subject">科目選択 <span class="required-mark"></span></label><br>
+            <input type="text" id="subject" name="subject" required><br>
+            <button type="submit">質問を投稿</button>
+        </form>
+        <script>
+               document.addEventListener('DOMContentLoaded', function() {
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            const startYear = 2000;
+            for (let year = currentYear; year >= startYear; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year + '年';
+                yearSelect.appendChild(option);
+            }
+
+            document.getElementById('questionForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                alert('質問を送信しました');
+            });
+        });
+        </script>
+    </div>
+</body>
+</html>
