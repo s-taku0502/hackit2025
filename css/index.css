@@ -78,12 +78,13 @@ form input[type="file"] {
     text-decoration: none;
     color: #1976d2;
     font-weight: bold;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 4px;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
 }
 
-.header .nav a:hover {
+.header .nav a:hover,
+.header .nav a.active{
     background: #e3f2fd;
 }
 

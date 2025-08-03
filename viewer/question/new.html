@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/question.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>質問投稿</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/question.css">
 </head>
 
 <body>
@@ -47,13 +48,50 @@
                     yearSelect.appendChild(option);
                 }
 
-                document.getElementById('questionForm').addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    alert('質問を送信しました');
-                });
+    </div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 年選択ドロップダウンの生成
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            const startYear = 2000;
+            for (let year = currentYear; year >= startYear; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year + '年';
+                yearSelect.appendChild(option);
+            }
+
+            // 質問フォームの送信イベントリスナー
+            document.getElementById('questionForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                alert('質問を送信しました');
             });
-        </script>
-    </div>
+
+            // フッターの読み込み
+            const loadFooter = async () => {
+                try {
+                    // components/footer.html へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer.html'); 
+                    
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+                    
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = htmlContent;
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+
+            loadFooter();
+        });
+    </script>
 </body>
 
 </html>
