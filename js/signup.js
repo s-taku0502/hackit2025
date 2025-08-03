@@ -152,7 +152,21 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('signup error', error);
-                alert('登録に失敗しました: ' + error.message);
+                let errorMessage = '登録に失敗しました。';
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'このメールアドレスは既に使用されています。';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'メールアドレスの形式が正しくありません。';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'パスワードが弱すぎます。もっと複雑なパスワードを設定してください。';
+                        break;
+                    default:
+                        errorMessage = '登録中にエラーが発生しました。しばらくしてから再度お試しください。';
+                }
+                alert(errorMessage);
             });
     });
 });

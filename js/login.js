@@ -32,8 +32,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     case 'auth/invalid-credential':
                         errorMessage = 'メールアドレスまたはパスワードが間違っています。';
                         break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'メールアドレスの形式が正しくありません。';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'このアカウントは無効化されています。';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = '試行回数が多すぎます。後でもう一度お試しください。';
+                        break;
                     default:
-                        errorMessage = 'エラーが発生しました: ' + error.message;
+                        errorMessage = 'エラーが発生しました。しばらくしてから再度お試しください。';
                 }
                 alert(errorMessage);
             });
