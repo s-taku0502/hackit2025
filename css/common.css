@@ -37,7 +37,8 @@
 main.container {
     flex: 1; /* 残りのスペースを全て埋めるように伸縮させる */
     padding: 32px 24px; /* 上下左右のパディング */
-    width: 1200px; /* ★どんな時もこの横幅にする (画面からはみ出す可能性あり)★ */
+    width: 100%; /* 横幅を親要素に合わせる */
+    max-width: 1200px; /* 最大幅を1200pxに制限 */
     margin: 40px auto; /* 上下のマージンと中央揃え */
     background: #fff;
     border-radius: 12px;
