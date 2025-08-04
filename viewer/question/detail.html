@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>質問詳細</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/question.css">
+    <style>
+        .comment-section { margin-top: 40px; }
+        .comment { border-top: 1px solid #eee; padding: 15px 0; }
+        .comment-meta { font-size: 0.9em; color: #888; margin-bottom: 5px; }
+        .comment-form { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+        <nav class="nav">
+            <a href="/index.html">ホーム</a>
+            <a href="/contributor/new.html">過去問投稿</a>
+            <a href="/viewer/question/list.html">質問・返答</a>
+            <a href="/login.html">ログイン</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div id="question-detail-container">
+            <!-- 質問詳細がここに表示されます -->
+        </div>
+
+        <div class="comment-section">
+            <h2>コメント</h2>
+            <div id="comments-container">
+                <!-- コメントがここに表示されます -->
+            </div>
+            <form id="comment-form" class="comment-form">
+                <label for="comment-input">コメントを投稿する</label>
+                <textarea id="comment-input" required></textarea>
+                <button type="submit">投稿</button>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/question-detail.js"></script>
+</body>
+</html>
