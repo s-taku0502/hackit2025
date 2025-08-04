@@ -36,6 +36,13 @@ service cloud.firestore {
       }
     }
 
+    // 履歴コレクション
+    match /history/{historyId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
     // 他のコレクションへのアクセスルールはここに追加
     // 例: 投稿は認証済みユーザーなら誰でも読めるが、作成者のみが更新・削除できる
     // match /posts/{postId} {

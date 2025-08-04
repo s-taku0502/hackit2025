@@ -36,7 +36,7 @@ window.signupWithEmailPasswordAndSaveUser = async (email, password, username) =>
 };
 
 // 過去問をアップロードする関数
-window.uploadPastPaper = async (year, subject, teacher, file) => {
+window.uploadPastPaper = async (year, subject, teacher, exam_name, file) => {
   const user = auth.currentUser;
   if (!user) {
     throw new Error("ユーザーがログインしていません。");
@@ -62,6 +62,7 @@ window.uploadPastPaper = async (year, subject, teacher, file) => {
     year: Number(year),
     name: subject,
     teacher: teacher,
+    exam_name: exam_name,
     url: url,
     storagePath: storagePath,
     fileName: file.name,
@@ -178,6 +179,24 @@ window.deleteComment = async (questionId, commentId) => {
     // 質問の回答数をデクリメント
     transaction.update(questionRef, { ans_count: increment(-1) });
   });
+};
+
+// 全ての過去問ファイルを取得する関数
+window.getAllFiles = async () => {
+  const filesRef = collection(db, "files");
+  // 複合インデックスを必要としないように、年度での降順ソートのみを行う
+  const q = query(filesRef, orderBy("year", "desc"));
+  return await getDocs(q);
+};
+
+// ユーザーの履歴を取得する関数（インデックスエラーを避けるためシンプルなクエリ）
+window.getUserHistory = async () => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const historyRef = collection(db, "history");
+  const q = query(historyRef, where("uid", "==", user.uid));
+  return await getDocs(q);
 };
 
 // ログイン用の関数をグローバルスコープに公開
