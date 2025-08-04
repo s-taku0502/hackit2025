@@ -36,8 +36,14 @@
                     <button type="button" class="search-btn">検索</button>
                 </div>
                 <div class="filter-options">
-                    <input type="text" id="subject-filter" placeholder="科目名を入力..." class="text-filter"> 
-                    
+                                        <select id="category-filter">
+                        <option value="">すべてのカテゴリ</option>
+                        <option value="math">数学</option>
+                        <option value="physics">物理</option>
+                        <option value="chemistry">化学</option>
+                        <option value="programming">プログラミング</option>
+                        <option value="other">その他</option>
+                    </select>
                     <select id="status-filter">
                         <option value="">すべての状態</option>
                         <option value="answered">回答済み</option>
