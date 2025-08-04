@@ -7,27 +7,13 @@ body {
     color: #333;
 }
 
-/* ページヘッダー（past_questions.html用） */
-.header {
-    /* 共通のスタイル */
-    margin-bottom: 30px;
-    text-align: center;
-
-    /* ログイン画面用の追加スタイル */
+/* ページヘッダー（サイト全体のヘッダー用） */
+.header { /* 11行目の定義を維持し、共通ヘッダーのスタイルとして扱う */
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 15px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-}
-
-.header img {
-    max-width: 250px; 
-    height: auto; 
-    margin-top: 5px;
-    margin-left: 10px; 
+    margin-bottom: 20px;
+    /* フォーム内のヘッダー用スタイルをここに追加しない */
 }
 
 .nav {
@@ -65,12 +51,27 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ★修正点★ フォーム内のヘッダー、または特定のコンテナ内のヘッダー用のスタイルとして`.container .header`に統合 */
+/* 以前の53行目からのブロックのスタイルをここに移動・統合 */
+.container .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-.logo {
-    width: 80px;
+/* フォーム内のロゴ用スタイル（もしあれば） */
+/* .container .logo は、フォーム内で使われるロゴのスタイル。もし共通ロゴとサイズが違うなら別途定義する */
+/* 共通ロゴのスタイルと競合する可能性があるので、必要に応じてより詳細なセレクタにする */
+/* 例: .container .form-logo など */
+.logo { /* ここは共通のロゴスタイルとして残すか、必要に応じて`.nav .logo`のような詳細なセレクタに一本化することを検討 */
+    width: 80px; /* 共通ヘッダーのロゴよりも大きい値 */
     height: auto;
     margin-bottom: 20px;
 }
+
+/* 共通ヘッダー内のロゴには .nav .logo が適用されるため、ここで定義された .logo は
+   共通ヘッダー以外の場所（例: ログインフォームなど）で .logo クラスが使われた場合に適用されます */
+/* ただし、もし全てのロゴが同じスタイルなら .nav .logo の定義を削除して .logo に一本化すべきです */
+
 
 .header h1 {
     color: #2c3e50;

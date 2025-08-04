@@ -56,13 +56,15 @@ form label {
 
 form input[type="text"],
 form input[type="number"],
-form input[type="file"] {
+form input[type="file"],
+form select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 1rem;
+    font-family: inherit;
 }
 
 a.home,
@@ -84,7 +86,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark {
+.required-mark {
     color: #D32F2F;
 }
 
