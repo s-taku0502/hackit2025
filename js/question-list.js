@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             
             displayQuestions(allQuestions);
+            updateResultsCount(allQuestions.length, allQuestions.length); // ← ここで件数を更新
         } catch (error) {
             console.error("質問の読み込みに失敗しました:", error);
             questionsContainer.innerHTML = '<p>質問の読み込み中にエラーが発生しました。</p>';
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         if (questions.length === 0) {
             questionsContainer.innerHTML = '<p>条件に一致する質問はありません。</p>';
+            updateResultsCount(0, allQuestions.length); // ← ここで件数を更新
             return;
         }
 
@@ -154,6 +156,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
         });
+
+        updateResultsCount(questions.length, allQuestions.length); // ← ここで件数を更新
     }
 
     function filterAndSortQuestions() {
@@ -204,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         displayQuestions(filteredQuestions);
-        updateResultsCount(filteredQuestions.length, allQuestions.length);
+        // updateResultsCount(filteredQuestions.length, allQuestions.length); ← ここは削除
     }
 
     function updateResultsCount(visibleCount, totalCount) {
@@ -250,6 +254,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             searchSection.appendChild(sortContainer);
             
             sortSelect.addEventListener('change', filterAndSortQuestions);
+
+            // --- ここから追加 ---
+            // クエリパラメータでsort指定があれば初期値をセット
+            const params = new URLSearchParams(window.location.search);
+            const sortParam = params.get('sort');
+            if (sortParam) {
+                sortSelect.value = sortParam;
+                // 並び替えを即時反映
+                setTimeout(filterAndSortQuestions, 0);
+            }
+            // --- ここまで追加 ---
         }
     }
 
