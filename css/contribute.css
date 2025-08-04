@@ -133,3 +133,51 @@ a.home:hover {
     gap: 16px;
     margin-top: 32px;
 }
+
+/* --- */
+/* フッターのスタイル */
+.footer {
+    background-color: #f8f8f8; /* フッターの背景色を明るいグレーに */
+    border-top: 1px solid #e7e7e7; /* 上部に薄い境界線 */
+    padding: 20px 0; /* 上下左右にパディング */
+    margin-top: 40px; /* メインコンテンツとの間に余白 */
+    text-align: center; /* テキストを中央揃えに */
+    color: #555; /* 文字色を少し濃いグレーに */
+    font-size: 0.9em; /* フォントサイズを小さめに */
+}
+
+.footer-content {
+    max-width: 960px; /* コンテンツの最大幅を設定 */
+    margin: 0 auto; /* 中央揃え */
+    padding: 0 20px; /* 左右にパディング */
+    display: flex; /* Flexboxを使い、要素を並べる */
+    flex-direction: column; /* 縦方向に要素を並べる */
+    align-items: center; /* 中央揃え（横方向） */
+    gap: 10px; /* 要素間の隙間 */
+}
+
+.footer-content p {
+    margin: 0; /* 段落のデフォルトマージンをリセット */
+    padding: 0;
+}
+
+.footer-content a {
+    text-decoration: none; /* リンクの下線を削除 */
+    color: #1976d2; /* リンクの色を青に */
+    font-weight: bold; /* リンクの文字を太く */
+    transition: color 0.2s; /* ホバー時の色の変化を滑らかに */
+}
+
+.footer-content a:hover {
+    color: #0056b3; /* ホバー時のリンクの色を濃い青に */
+}
+
+/* レスポンシブ対応 (必要であれば) */
+@media (max-width: 768px) {
+    .footer {
+        padding: 15px 0; /* モバイルでのパディング調整 */
+    }
+    .footer-content {
+        padding: 0 15px; /* モバイルでの左右パディング調整 */
+    }
+}
