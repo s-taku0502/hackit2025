@@ -1,31 +1,5 @@
-.header {
-    display: flex;
-    align-items: center;
-    /* 垂直方向中央揃え */
-    gap: 32px;
-    /* 要素間の余白（必要に応じて調整） */
-    border-bottom: 2px solid #ccc;
-    /* 追加: 下線 */
-    padding-bottom: 8px;
-    /* 線との余白（任意） */
-}
-
-.header>div {
-    display: flex;
-    align-items: center;
-}
-
-.header .logo {
-    height: 48px;
-    /* ロゴサイズ調整（任意） */
-}
-
-.header .nav ul {
-    display: flex;
-    gap: 16px;
-    /* ナビゲーション項目の間隔 */
-    list-style: none;
-}
+@import url("header.css");
+@import url("header_style.css");
 
 .main {
     text-align: left;
@@ -91,19 +65,6 @@ form input[type="file"] {
     font-size: 1rem;
 }
 
-.header .nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.header .nav a:hover {
-    background: #e3f2fd;
-}
-
 a.home,
 a.back {
     display: inline-block;
@@ -123,7 +84,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark{
+.main .required-mark {
     color: #D32F2F;
 }
 
@@ -132,4 +93,12 @@ a.home:hover {
     justify-content: space-between;
     gap: 16px;
     margin-top: 32px;
+}
+
+.form-message {
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: red;
+    display: none;
+
 }

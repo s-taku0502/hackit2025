@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>過去問表示</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/past_questions.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div>
+                <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/">ホーム</a></li>
+                    <li><a href="/contributor/new">過去問投稿</a></li>
+                    <li><a href="/viewer/question/new">質問・返答</a></li>
+                    <li><a href="/login">ログイン</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="container">
+            <h1 class="paper-title" id="paper-title">過去問名</h1>
+            <div class="paper-meta">
+                Professor: <span id="professor">名前</span>
+            </div>
+
+            <div class="past-paper-image">
+                <img src="../img/hana.jpg" alt="過去問画像" id="past-paper-img">
+            </div>
+
+            <div class="download__btn">
+                <a href="../img/hana.jpg" download="過去問_2024_前期.jpg" class="download-link">download</a>
+            </div>
+        </main>
+
+        <div id="footer-placeholder"></div>
+
+    </div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadFooter = async () => {
+                try {
+                    // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer'); 
+                    
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+                    
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = htmlContent;
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+
+            loadFooter();
+        });
+    </script>
+    <script src="../js/past_questions.js"></script>
+</body>
+
+</html>

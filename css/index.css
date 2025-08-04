@@ -1,42 +1,18 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    /* ... */
+@import url("header.css");
+@import url("header_style.css");
+
+.wrapper .header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* ★この行を追加または変更★ */
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    /* 垂直方向中央揃え */
-    gap: 32px;
-    /* 要素間の余白（必要に応じて調整） */
-    border-bottom: 2px solid #ccc;
-    /* 線との余白（任意） */
-    padding: 16px 24px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header>div {
-    display: flex;
-    align-items: center;
-}
-
-.header .logo {
-    height: 48px;
-    /* ロゴサイズ調整（任意） */
-}
-
-.header .nav ul {
-    display: flex;
-    gap: 16px;
-    /* ナビゲーション項目の間隔 */
-    list-style: none;
+.header .nav a:hover,
+.header .nav a.active{
+    background: #e3f2fd;
 }
 
 .main {
@@ -96,20 +72,6 @@ form input[type="file"] {
     font-size: 1rem;
 }
 
-.header .nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-}
-
-.header .nav a:hover,
-.header .nav a.active{
-    background: #e3f2fd;
-}
-
 a.home,
 a.back {
     display: inline-block;
@@ -129,7 +91,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark{
+.main .required-mark {
     color: #D32F2F;
 }
 
@@ -146,7 +108,7 @@ a.home:hover {
     margin-top: 0;
 }
 
-.delete{
+.delete {
     background-color: #f44336;
     /* 削除ボタンの背景色 */
     color: white;
@@ -159,5 +121,6 @@ img.recentQandA,
 img.recent {
     margin-top: 24px;
     width: 100%;
-    max-width: 200px; /* 例: PC表示時の最大幅を200pxに制限 */
+    max-width: 200px;
+    /* 例: PC表示時の最大幅を200pxに制限 */
 }
