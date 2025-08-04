@@ -221,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-<<<<<<< HEAD
 // Firebase v9 モジュラー形式のimport
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -229,11 +228,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 // Firebase インスタンスの取得
 const db = getFirestore();
 const auth = getAuth(); 
-=======
-// Firebaseの設定（初期化）は済んでいる前提です。
-const db = firebase.firestore();
-const auth = firebase.auth();
->>>>>>> 348b5500f49513a49d0129ed07b18abfb442b960
 
 // ページが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', () => {
@@ -265,15 +259,9 @@ function addHistory(userId, paperId, paperTitle) {
     // 既に履歴が存在するか確認する処理を追加することもできますが、
     // ここではシンプルに毎回追加する方式とします。
     // 重複を避ける場合は、過去の履歴に同じpaperIdがあるかget()で確認してからadd()を実行します。
-<<<<<<< HEAD
     
     addDoc(collection(db, "history"), {
         userId: userId, 
-=======
-
-    db.collection("history").add({
-        userId: userId,
->>>>>>> 348b5500f49513a49d0129ed07b18abfb442b960
         paperId: paperId,
         paperTitle: paperTitle,
         viewedAt: serverTimestamp() // v9のserverTimestamp()を使用

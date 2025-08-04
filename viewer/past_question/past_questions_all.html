@@ -42,74 +42,119 @@
             </form>
             <h2>検索結果</h2>
             <ul id="result-list" class="past-list"></ul>
-    </main>
-    <script type="module" src="/firebase.js"></script>
-    <script type="module">
-        // 検索フォームのsubmitイベントでFirestoreから検索
-        const form = document.getElementById('search-form');
-        const resultList = document.getElementById('result-list');
+        </main>
+        <script type="module" src="/firebase.js"></script>
+        <script type="module">
+            // 検索フォームのsubmitイベントでFirestoreから検索
+            const form = document.getElementById('search-form');
+            const resultList = document.getElementById('result-list');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            resultList.innerHTML = '';
-            const name = form.name.value.trim();
-            const teacher = form.teacher.value.trim();
-            let year = form.year.value.trim();
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                resultList.innerHTML = ''; // 検索結果をクリア
 
-            // 年度が入力されていれば数値型に変換
-            if (year) {
-                year = Number(year);
-            } else {
-                year = "";
-            }
+                const name = form.name.value.trim();
+                const teacher = form.teacher.value.trim();
+                let year = form.year.value.trim();
 
-            // Firestoreのfilesコレクションを検索
-            const { getFirestore, collection, query, where, getDocs } = await import("firebase/firestore");
-            const db = getFirestore();
-
-            let q = collection(db, "files");
-            let conditions = [];
-            if (name) conditions.push(where("name", "==", name));
-            if (teacher) conditions.push(where("teacher", "==", teacher));
-            if (year !== "") conditions.push(where("year", "==", year));
-            if (conditions.length > 0) {
-                q = query(q, ...conditions);
-            }
-
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                resultList.innerHTML = '<li>該当する過去問がありません</li>';
-                return;
-            }
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const li = document.createElement('li');
-                if (data.url) {
-                    const link = document.createElement('a');
-                    link.href = data.url;
-                    link.target = '_blank';
-                    link.className = 'pdf-link';
-                    link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}`;
-                    li.appendChild(link);
+                // 年度が入力されていれば数値型に変換
+                if (year) {
+                    year = Number(year);
+                    // 年度に4桁の入力制限を追加 (前回提案のHTML側の設定に加えてJavaScriptでも型変換時にチェック)
+                    if (String(year).length !== 4 || isNaN(year)) {
+                        alert('年度は4桁の半角数字で入力してください。');
+                        return;
+                    }
                 } else {
-                    li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
+                    year = null; // 空文字列ではなくnullを使うと、Firestoreのwhere句で条件をつけないようにできる
                 }
-                resultList.appendChild(li);
+
+                // Firestoreのfilesコレクションを検索
+                const { getFirestore, collection, query, where, orderBy, startAt, endAt, getDocs } = await import("firebase/firestore");
+                const db = getFirestore();
+
+                let q = collection(db, "files");
+                let conditions = [];
+
+                // 科目名検索（前方一致）
+                if (name) {
+                    // Firestoreで前方一致検索を行うためには、orderByとstartAt, endAtを組み合わせます
+                    // `name` フィールドでソートし、`name` で始まり `name` の次の文字の開始で終わる範囲を指定
+                    conditions.push(orderBy("name"));
+                    conditions.push(startAt(name));
+                    conditions.push(endAt(name + '\uf8ff')); // \uf8ff はUnicodeの非常に高い文字で、前方一致の終端として利用
+                }
+
+                // 担当教員名検索（前方一致）
+                if (teacher) {
+                    // `teacher` フィールドでソートし、`teacher` で始まり `teacher` の次の文字の開始で終わる範囲を指定
+                    // 複数のorderByを使う場合は、Firestoreの複合インデックスが必要になる可能性があります
+                    // その場合は、Firebaseコンソールでインデックスを作成するように促されるメッセージが出ます
+                    conditions.push(orderBy("teacher")); 
+                    conditions.push(startAt(teacher));
+                    conditions.push(endAt(teacher + '\uf8ff'));
+                }
+                
+                // 年度検索（完全一致）
+                // 年度検索は依然として完全一致なので、where句を使用します
+                if (year !== null) {
+                    conditions.push(where("year", "==", year));
+                }
+
+                // 複数の条件がある場合はqueryに適用
+                if (conditions.length > 0) {
+                    q = query(q, ...conditions);
+                }
+
+                try {
+                    const snapshot = await getDocs(q);
+                    if (snapshot.empty) {
+                        resultList.innerHTML = '<li>該当する過去問がありません</li>';
+                        return;
+                    }
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const li = document.createElement('li');
+                        if (data.url) {
+                            const link = document.createElement('a');
+                            link.href = data.url;
+                            link.target = '_blank';
+                            link.className = 'pdf-link';
+                            link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}`;
+                            li.appendChild(link);
+                        } else {
+                            li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
+                        }
+                        resultList.appendChild(li);
+                    });
+
+                    // PDFリンククリック時にhistoryコレクションへ記録
+                    resultList.querySelectorAll('.pdf-link').forEach(link => {
+                        link.addEventListener('click', async (e) => {
+                            const url = link.getAttribute('href');
+                            const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
+                            const db = getFirestore();
+                            await addDoc(collection(db, "history"), {
+                                url,
+                                time: serverTimestamp()
+                            });
+                        });
+                    });
+                } catch (error) {
+                    console.error("Firestoreの検索中にエラーが発生しました:", error);
+                    resultList.innerHTML = '<li>検索中にエラーが発生しました。</li>';
+                    // 複合インデックスが必要な場合は、ここでエラーメッセージが表示されることがあります
+                    // 例: "The query requires an index. You can create it here: ..."
+                }
             });
 
-            // PDFリンククリック時にhistoryコレクションへ記録
-            resultList.querySelectorAll('.pdf-link').forEach(link => {
-                link.addEventListener('click', async (e) => {
-                    const url = link.getAttribute('href');
-                    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
-                    const db = getFirestore();
-                    await addDoc(collection(db, "history"), {
-                        url,
-                        time: serverTimestamp()
-                    });
-                });
+            // 年度入力の4桁制限 (HTML側でmaxLengthがあるが、念のためJavaScriptでも対応)
+            const yearInput = document.getElementById('year');
+            yearInput.addEventListener('input', function() {
+                if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4);
+                }
             });
-        });
-    </script>
+        </script>
 </body>
 </html>

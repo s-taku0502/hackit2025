@@ -58,23 +58,6 @@ form input[type="file"] {
     font-size: 1rem;
 }
 
-<<<<<<< HEAD
-.header .nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-}
-
-.header .nav a:hover,
-.header .nav a.active{
-    background: #e3f2fd;
-}
-
-=======
->>>>>>> 348b5500f49513a49d0129ed07b18abfb442b960
 a.home,
 a.back {
     display: inline-block;
