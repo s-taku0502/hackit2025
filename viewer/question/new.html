@@ -47,7 +47,7 @@
 
         <div id="footer-placeholder"></div>
     </div>
-    
+
     <script type="module" src="/firebase.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -60,7 +60,7 @@
             // 質問フォームの送信イベントリスナー
             document.getElementById('questionForm').addEventListener('submit', async function (event) {
                 event.preventDefault();
-                
+
                 const title = document.getElementById('title').value;
                 const detailed = document.getElementById('detailed').value;
                 const subject = document.getElementById('subject').value;
@@ -79,26 +79,26 @@
                     alert(`エラーが発生しました: ${error.message}`);
                 }
             });
-        </script>
+    </script>
     </div>
     <footer>
-            <div class="footer-content">
-                <p><a href="/terms-of-service.html">利用規約</a></p>
-                <p>&copy; 2025 Hackit さぁ、きっと。</p>
-            </div>
-        </footer>
-  <!--
+        <div class="footer-content">
+            <p><a href="/terms-of-service.html">利用規約</a></p>
+            <p>&copy; 2025 Hackit さぁ、きっと。</p>
+        </div>
+    </footer>
+    <script>
             // フッターの読み込み
             const loadFooter = async () => {
                 try {
                     // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
-                    const response = await fetch('/components/footer'); 
-                    
+                    const response = await fetch('/components/footer');
+
                     if (!response.ok) {
                         throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
                     }
                     const htmlContent = await response.text();
-                    
+
                     const footerPlaceholder = document.getElementById('footer-placeholder');
                     if (footerPlaceholder) {
                         // XSS対策のため、安全な方法でフッターを挿入します
@@ -118,8 +118,8 @@
 
             loadFooter();
         });
-    </script> -->
-    
+    </script>
+
 </body>
 
 </html>
