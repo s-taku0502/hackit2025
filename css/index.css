@@ -1,5 +1,21 @@
 @import url("header.css");
-@import url("header_style.css");
+
+.header>div {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    height: 48px;
+    /* ロゴサイズ調整（任意） */
+}
+
+.header .nav ul {
+    display: flex;
+    gap: 16px;
+    /* ナビゲーション項目の間隔 */
+    list-style: none;
+}
 
 .main {
     text-align: left;
@@ -58,6 +74,20 @@ form input[type="file"] {
     font-size: 1rem;
 }
 
+.header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.header .nav a:hover,
+.header .nav a.active{
+    background: #e3f2fd;
+}
+
 a.home,
 a.back {
     display: inline-block;
@@ -78,7 +108,7 @@ a.home:hover {
 }
 
 .main .required-mark {
-    color: #D32F2F;
+    color: #D32F2F
 }
 
 .form-buttons {
@@ -109,4 +139,67 @@ img.recent {
     width: 100%;
     max-width: 200px;
     /* 例: PC表示時の最大幅を200pxに制限 */
+}
+
+/* --- index.cssに追加するスタイル（既存のスタイルは変更せず追記してください） --- */
+
+/* 3つの主要セクションを横並びにするためのコンテナ */
+.main-sections-grid {
+    display: flex; /* Flexboxを有効にして子要素を横並びにします */
+    justify-content: space-around; /* 子要素間のスペースを均等に配分します */
+    align-items: flex-start; /* 子要素の上端を揃えます */
+    flex-wrap: wrap; /* 画面幅が狭い場合に折り返します */
+    gap: 30px; /* 各セクション間の隙間を30pxにします */
+    margin-top: 30px; /* 上部の余白 */
+    margin-bottom: 50px; /* 下部の余白 */
+    padding: 0 20px; /* 左右にパディングを追加し、端に寄るのを防ぎます */
+}
+
+/* main-sections-grid の直接の子要素（各セクションの div）にスタイルを適用 */
+.main-sections-grid > div {
+    display: flex; /* 見出し(h2)と画像(a > img)を縦に並べるためにFlexboxを使います */
+    flex-direction: column; /* 垂直方向に並べます */
+    align-items: center; /* 各セクション内の要素（見出しと画像）を中央揃えにします */
+    text-align: center; /* テキストも中央揃えにします */
+    flex: 1; /* 利用可能なスペースを均等に分配し、各セクションが幅を広げられるようにします */
+    min-width: 150px; /* 各セクションの最小幅を設定します（調整可能） */
+    max-width: 250px; /* 各セクションの最大幅を設定します（調整可能） */
+}
+
+/* 各セクションの見出しに対するスタイル */
+.main-sections-grid h2 {
+    margin-bottom: 10px; /* 見出しと画像の間隔を空けます */
+    /* 既存の .past-papers, .recent-q-and-a, .recommend-for-you クラスのスタイルを尊重し、
+       フォントサイズや色は変更しません。 */
+}
+
+/* 各セクションの画像に対するスタイル */
+/* 既存の img.pastpapers, img.recentQandA, img.recent のサイズを維持します */
+.main-sections-grid img {
+    /* 既存のCSSで以下が設定されているため、ここでは重複させず、既存の値を尊重します */
+    /* width: 100%; */
+    /* max-width: 200px; */
+    /* margin-top: 24px; */
+    height: auto; /* アスペクト比を維持 */
+    border-radius: 8px; /* 角を丸くする（任意、元のborder-radiusがなければ追加） */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 影を追加（任意） */
+    transition: transform 0.2s ease-in-out; /* ホバー時のアニメーション（任意） */
+}
+
+/* 画像にカーソルが乗ったときのスタイル */
+.main-sections-grid img:hover {
+    transform: translateY(-5px); /* ホバーで少し上に移動させます */
+}
+
+/* レスポンシブデザインの調整 */
+@media (max-width: 768px) {
+    .main-sections-grid {
+        flex-direction: column; /* 画面幅が768px以下の場合は縦に並べます */
+        align-items: center; /* 縦並びでも中央揃えにします */
+    }
+
+    .main-sections-grid > div {
+        margin-bottom: 30px; /* 縦並び時の各セクション間の下部余白 */
+        max-width: 80%; /* 縦並び時の各セクションの最大幅を調整 */
+    }
 }
