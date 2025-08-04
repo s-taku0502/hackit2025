@@ -26,7 +26,6 @@
         <h1 class="username">過去問アップロード</h1>
         <p>以下のフォームに必要事項を入力し、過去問をアップロードしてください。</p>
         <p>※アップロードするファイルはPDF形式で、1ファイルあたりのサイズは最大10MBです。</p>
-    </main>
 
     <form id="upload-form">
         <!-- メッセージ表示用 -->
@@ -83,6 +82,7 @@
                         const doc = parser.parseFromString(htmlContent, 'text/html');
                         const footerElement = doc.querySelector('footer');
 
+                        
                         if (footerElement) {
                             footerPlaceholder.appendChild(footerElement.cloneNode(true));
                         }
