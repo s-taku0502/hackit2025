@@ -199,6 +199,7 @@ img.recent {
     .footer-content {
         padding: 0 15px; /* モバイルでの左右パディング調整 */
     max-width: 200px;
+    }
 }
 
 /* --- index.cssに追加するスタイル（既存のスタイルは変更せず追記してください） --- */
