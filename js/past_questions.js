@@ -259,9 +259,16 @@ function addHistory(userId, paperId, paperTitle) {
     // 既に履歴が存在するか確認する処理を追加することもできますが、
     // ここではシンプルに毎回追加する方式とします。
     // 重複を避ける場合は、過去の履歴に同じpaperIdがあるかget()で確認してからadd()を実行します。
+<<<<<<< HEAD
     
     addDoc(collection(db, "history"), {
         userId: userId, 
+=======
+
+    addDoc(collection(db, "history"), {
+        userId: userId, 
+
+>>>>>>> 262cfff6e3295874f5db0079dd0be03eb6692130
         paperId: paperId,
         paperTitle: paperTitle,
         viewedAt: serverTimestamp() // v9のserverTimestamp()を使用
