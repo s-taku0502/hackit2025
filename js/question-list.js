@@ -1,4 +1,93 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    const questionsContainer = document.getElementById('questions-container');
+    if (!questionsContainer) return;
+
+    // ユーザー情報を保持するMap
+    const userCache = new Map();
+
+    async function getUserName(uid) {
+        if (userCache.has(uid)) {
+            return userCache.get(uid);
+        }
+        try {
+            const userProfile = await window.getUserProfile(uid);
+            if (userProfile.exists()) {
+                const username = userProfile.data().username;
+                userCache.set(uid, username);
+                return username;
+            }
+        } catch (e) {
+            console.error("Error fetching user:", e);
+        }
+        userCache.set(uid, '匿名ユーザー');
+        return '匿名ユーザー';
+    }
+
+    async function loadQuestions() {
+        try {
+            const snapshot = await window.getQuestions();
+            questionsContainer.innerHTML = ''; // 既存のコンテンツをクリア
+
+            if (snapshot.empty) {
+                questionsContainer.innerHTML = '<p>まだ質問はありません。</p>';
+                return;
+            }
+
+            for (const doc of snapshot.docs) {
+                const question = doc.data();
+                const questionId = doc.id;
+                const authorName = await getUserName(question.user);
+
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.dataset.id = questionId;
+                card.dataset.category = question.course_label.toLowerCase();
+                card.dataset.status = question.is_solved ? 'answered' : 'unanswered';
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="category-tag ${question.course_label.toLowerCase()}">${question.course_label}</span>
+                        <span class="status ${question.is_solved ? 'answered' : 'unanswered'}">${question.is_solved ? '解決済み' : '未解決'}</span>
+                    </div>
+                    <h3 class="question-title">${question.title}</h3>
+                    <p class="question-preview">${question.content.substring(0, 100)}...</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: ${authorName}</span>
+                        <span class="date">${question.date.toDate().toLocaleString()}</span>
+                        <span class="answers-count">回答数: ${question.ans_count}</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail.html?id=${questionId}" class="view-btn">詳細を見る</a>
+                        <button class="like-btn" data-question-id="${questionId}">👍 ${question.good_count}</button>
+                    </div>
+                `;
+                questionsContainer.appendChild(card);
+            }
+
+            // いいねボタンにイベントリスナーを追加
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const questionId = e.target.dataset.questionId;
+                    try {
+                        await window.incrementQuestionGoodCount(questionId);
+                        const currentCount = parseInt(e.target.textContent.match(/\d+/)[0], 10);
+                        e.target.textContent = `👍 ${currentCount + 1}`;
+                        e.target.disabled = true; // 連続クリック防止
+                    } catch (error) {
+                        console.error("いいねの追加に失敗しました:", error);
+                        alert('いいねに失敗しました。');
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.error("質問の読み込みに失敗しました:", error);
+            questionsContainer.innerHTML = '<p>質問の読み込み中にエラーが発生しました。</p>';
+        }
+    }
+
+    loadQuestions();
+    
     // 検索機能
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.querySelector('.search-btn');
@@ -63,33 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
             filterQuestions();
         }
     });
-
-    // いいね機能
-    const likeButtons = document.querySelectorAll('.like-btn');
-    likeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // 現在のいいね数を取得
-            const currentText = this.textContent;
-            const match = currentText.match(/\d+/);
-            const currentCount = match ? parseInt(match[0], 10) : 0;
-            
-            // いいね状態を切り替え
-            if (this.classList.contains('liked')) {
-                this.classList.remove('liked');
-                this.textContent = `👍 ${currentCount - 1}`;
-                this.style.backgroundColor = '';
-                this.style.color = '';
-            } else {
-                this.classList.add('liked');
-                this.textContent = `👍 ${currentCount + 1}`;
-                this.style.backgroundColor = '#007bff';
-                this.style.color = 'white';
-            }
-        });
-    });
-
-    // ページ読み込み時に結果数を表示
-    updateResultsCount();
 
     // ソート機能
     function addSortFunctionality() {

@@ -17,10 +17,10 @@
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="/">ホーム</a></li>
-                    <li><a href="/contributor/new">過去問投稿</a></li>
-                    <li><a href="/viewer/question/list" class="active">質問・返答</a></li>
-                    <li><a href="/login">ログイン</a></li>
+                    <li><a href="/index.html">ホーム</a></li>
+                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/list.html" class="active">質問・返答</a></li>
+                    <li><a href="/login.html">ログイン</a></li>
                 </ul>
             </nav>
         </header>
@@ -28,7 +28,7 @@
         <main class="container">
             <div class="page-header">
                 <h1>質問・返答一覧</h1>
-                <a href="/viewer/question/new" class="new-question-btn">新しい質問をする</a>
+                <a href="/viewer/question/new.html" class="new-question-btn">新しい質問をする</a>
             </div>
 
             <div class="search-section">
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="questions-container">
+            <div class="questions-container" id="questions-container">
                 <!-- 質問カードはJavaScriptによって動的に生成されます -->
             </div>
 
@@ -78,77 +78,8 @@
         </footer>
     </div>
 
-    <script type="module">
-        import { getAuth, onAuthStateChanged } from "firebase/auth";
-        import '/firebase.js';
-
-        async function renderQuestions() {
-            const questionsContainer = document.querySelector('.questions-container');
-            if (!questionsContainer) return;
-
-            questionsContainer.innerHTML = '<p>質問を読み込んでいます...</p>';
-
-            try {
-                const snapshot = await window.getQuestions();
-                if (snapshot.empty) {
-                    questionsContainer.innerHTML = '<p>まだ質問がありません。</p>';
-                    return;
-                }
-
-                questionsContainer.innerHTML = ''; // ローディングメッセージをクリア
-
-                snapshot.forEach(doc => {
-                    const question = doc.data();
-                    const questionId = doc.id;
-
-                    const card = document.createElement('div');
-                    card.className = 'question-card';
-                    card.dataset.category = question.course_label.toLowerCase();
-                    card.dataset.status = question.is_solved ? 'answered' : 'unanswered';
-                    
-                    const solvedStatus = question.is_solved 
-                        ? '<span class="status answered">回答済み</span>' 
-                        : '<span class="status unanswered">未回答</span>';
-                    
-                    const contentPreview = question.content ? question.content.substring(0, 100) + (question.content.length > 100 ? '...' : '') : '';
-
-                    card.innerHTML = `
-                        <div class="question-header">
-                            <span class="category-tag">${question.course_label || 'カテゴリなし'}</span>
-                            ${solvedStatus}
-                        </div>
-                        <h3 class="question-title">${question.title}</h3>
-                        <p class="question-preview">${contentPreview}</p>
-                        <div class="question-meta">
-                            <span class="author">投稿者: ${question.user.name || '匿名'}</span>
-                            <span class="date">${question.date ? question.date.toDate().toLocaleString('ja-JP') : '日付不明'}</span>
-                            <span class="answers-count">回答数: ${question.ans_count}</span>
-                        </div>
-                        <div class="question-actions">
-                            <a href="/viewer/question/detail.html?id=${questionId}" class="view-btn">詳細を見る</a>
-                            <button class="like-btn">👍 ${question.good_count}</button>
-                        </div>
-                    `;
-                    questionsContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error("質問の読み込みに失敗しました:", error);
-                questionsContainer.innerHTML = '<p>質問の読み込み中にエラーが発生しました。</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    renderQuestions();
-                } else {
-                    window.location.href = '/login.html';
-                }
-            });
-        });
-    </script>
-    <script src="/js/question-list.js" defer></script>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/question-list.js"></script>
 </body>
 
 </html>

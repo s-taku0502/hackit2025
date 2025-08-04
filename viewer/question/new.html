@@ -13,14 +13,14 @@
     <header class="header">
         <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
         <nav class="nav">
-            <a href="/">ホーム</a>
-            <a href="/contributor/new">過去問投稿</a>
-            <a href="/viewer/question/list">質問・返答</a>
-            <a href="/login">ログイン</a>
+            <a href="/index.html">ホーム</a>
+            <a href="/contributor/new.html">過去問投稿</a>
+            <a href="/viewer/question/list.html">質問・返答</a>
+            <a href="/login.html">ログイン</a>
         </nav>
     </header>
     <div class="container">
-        <a href="/viewer/past_question/past_questions_all">過去問</a> /
+        <a href="/viewer/past_question/past_questions_all.html">過去問</a> /
         <span id="subject-name">教科</span>
         <h1>質問投稿</h1>
         <form id="questionForm">
@@ -48,13 +48,10 @@
         <div id="footer-placeholder"></div>
     </div>
     
-    <script type="module">
-        import { getAuth, onAuthStateChanged } from "firebase/auth";
-        import '/firebase.js';
-
+    <script type="module" src="/firebase.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
+            window.onAuth(user => {
                 if (!user) {
                     window.location.href = '/login.html';
                 }
@@ -65,16 +62,16 @@
                 event.preventDefault();
                 
                 const title = document.getElementById('title').value;
-                const content = document.getElementById('detailed').value;
-                const courseLabel = document.getElementById('subject').value;
+                const detailed = document.getElementById('detailed').value;
+                const subject = document.getElementById('subject').value;
 
-                if (!title || !content || !courseLabel) {
+                if (!title || !detailed || !subject) {
                     alert('すべての必須項目を入力してください。');
                     return;
                 }
 
                 try {
-                    await window.addQuestion(title, content, courseLabel);
+                    await window.addQuestion(title, detailed, subject);
                     alert('質問を送信しました');
                     window.location.href = '/viewer/question/list.html';
                 } catch (error) {
@@ -86,8 +83,8 @@
             // フッターの読み込み
             const loadFooter = async () => {
                 try {
-                    // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
-                    const response = await fetch('/components/footer'); 
+                    // components/footer.html へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer.html'); 
                     
                     if (!response.ok) {
                         throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
