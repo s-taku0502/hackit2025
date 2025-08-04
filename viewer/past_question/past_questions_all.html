@@ -36,80 +36,77 @@
                 </div>
                 <div>
                     <label for="year">年度（西暦）</label>
-                    <input type="number" id="year" name="year" placeholder="例：2024">
+                    <input type="number" id="year" name="year" placeholder="例：2024"
+                           min="1900" max="2100"           
+                           oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                           maxLength="4" 
+                           required>
                 </div>
                 <button type="submit">検索</button>
             </form>
             <h2>検索結果</h2>
             <ul id="result-list" class="past-list"></ul>
-    </main>
-    <script type="module" src="/firebase.js"></script>
-    <script type="module">
-        // 検索フォームのsubmitイベントでFirestoreから検索
-        const form = document.getElementById('search-form');
-        const resultList = document.getElementById('result-list');
+        </main>
+        <script type="module" src="/firebase.js"></script>
+        <script type="module">
+            // --- ここからJavaScriptの修正箇所 ---
+            // Firebase関数とdbインスタンスをイベントリスナーの外で一度だけ初期化
+            import { getFirestore, collection, query, where, orderBy, startAt, endAt, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+            const db = getFirestore(); // Firestoreデータベースインスタンスを一度取得
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            resultList.innerHTML = '';
-            const name = form.name.value.trim();
-            const teacher = form.teacher.value.trim();
-            let year = form.year.value.trim();
+            const form = document.getElementById('search-form');
+            const resultList = document.getElementById('result-list');
+            const yearInput = document.getElementById('year'); // 年度入力フィールドも取得
 
-            // 年度が入力されていれば数値型に変換
-            if (year) {
-                year = Number(year);
-            } else {
-                year = "";
-            }
-
-            // Firestoreのfilesコレクションを検索
-            const { getFirestore, collection, query, where, getDocs } = await import("firebase/firestore");
-            const db = getFirestore();
-
-            let q = collection(db, "files");
-            let conditions = [];
-            if (name) conditions.push(where("name", "==", name));
-            if (teacher) conditions.push(where("teacher", "==", teacher));
-            if (year !== "") conditions.push(where("year", "==", year));
-            if (conditions.length > 0) {
-                q = query(q, ...conditions);
-            }
-
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                resultList.innerHTML = '<li>該当する過去問がありません</li>';
-                return;
-            }
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const li = document.createElement('li');
-                if (data.url) {
-                    const link = document.createElement('a');
-                    link.href = data.url;
-                    link.target = '_blank';
-                    link.className = 'pdf-link';
-                    link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}`;
-                    li.appendChild(link);
-                } else {
-                    li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
+            // 年度入力の4桁制限をJavaScriptでも実装（HTMLのmaxLengthとoninputに加えて）
+            yearInput.addEventListener('input', function() {
+                if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4);
                 }
-                resultList.appendChild(li);
             });
 
-            // PDFリンククリック時にhistoryコレクションへ記録
-            resultList.querySelectorAll('.pdf-link').forEach(link => {
-                link.addEventListener('click', async (e) => {
-                    const url = link.getAttribute('href');
-                    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
-                    const db = getFirestore();
-                    await addDoc(collection(db, "history"), {
-                        url,
-                        time: serverTimestamp()
-                    });
+            // 検索フォームのsubmitイベントでFirestoreから検索
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                resultList.innerHTML = ''; // 検索結果をクリア
+
+                const name = form.name.value.trim();
+                const teacher = form.teacher.value.trim();
+                let year = form.year.value.trim();
+
+                // 年度が入力されていれば数値型に変換
+                if (year) {
+                    year = Number(year);
+                    // 年度に4桁の入力制限を追加 (JavaScriptでも型変換時にチェック)
+                    if (String(year).length !== 4 || isNaN(year)) {
+                        alert('年度は4桁の半角数字で入力してください。');
+                        return; // ここで処理を中断
+                    }
+                } else {
+                    year = null; // 空文字列ではなくnullを使うと、Firestoreのwhere句で条件をつけないようにできる
+                }
+
+                let q = collection(db, "files"); // dbインスタンスから"files"コレクションを取得
+                if (name) {
+                    q = query(q, where("name", "==", name));
+                }
+                if (teacher) {
+                    q = query(q, where("teacher", "==", teacher));
+                }
+                if (year) {
+                    q = query(q, where("year", "==", year));
+                }
+                q = query(q, orderBy("createdAt", "desc"));
+
+                const snapshot = await getDocs(q);
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const li = document.createElement('li');
+                    li.textContent = `${data.name} - ${data.teacher} (${data.year})`;
+                    resultList.appendChild(li);
                 });
             });
-        });
-    </script>
+        </script>
+    </div>
 </body>
 </html>

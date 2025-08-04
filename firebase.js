@@ -1,7 +1,7 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs, addDoc, updateDoc, increment, orderBy, runTransaction } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs, addDoc, updateDoc, increment, orderBy, runTransaction, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
@@ -136,6 +136,49 @@ window.addComment = async (questionId, answer) => {
   });
 };
 
+// 質問の解決状態を切り替える関数
+window.toggleQuestionSolved = async (questionId, isSolved) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  return await updateDoc(questionRef, {
+    is_solved: isSolved
+  });
+};
+
+// コメントのいいねを増やす関数
+window.incrementCommentGood = async (questionId, commentId) => {
+  const commentRef = doc(db, "questions", questionId, "comments", commentId);
+  return await updateDoc(commentRef, {
+    good: increment(1)
+  });
+};
+
+// 質問を削除する関数
+window.deleteQuestion = async (questionId) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  return await deleteDoc(questionRef);
+};
+
+// コメントを削除する関数
+window.deleteComment = async (questionId, commentId) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  const commentRef = doc(db, "questions", questionId, "comments", commentId);
+
+  await runTransaction(db, async (transaction) => {
+    // コメントを削除
+    transaction.delete(commentRef);
+    // 質問の回答数をデクリメント
+    transaction.update(questionRef, { ans_count: increment(-1) });
+  });
+};
 
 // ログイン用の関数をグローバルスコープに公開
 window.signInWithEmailPassword = (email, password) => {

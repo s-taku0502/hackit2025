@@ -26,7 +26,6 @@
         <h1 class="username">過去問アップロード</h1>
         <p>以下のフォームに必要事項を入力し、過去問をアップロードしてください。</p>
         <p>※アップロードするファイルはPDF形式で、1ファイルあたりのサイズは最大10MBです。</p>
-    </main>
 
     <form id="upload-form">
         <!-- メッセージ表示用 -->
@@ -37,7 +36,7 @@
             <label for="year">年度（西暦：半角）
                 <a class="required-mark">*</a>
             </label>
-            <input type="number" id="year" name="year" required placeholder="例: 2024">
+            <input type="number" id="year" name="year" placeholder="例: 2024" required>
         </div>
 
         <div>
@@ -86,6 +85,7 @@
                         const doc = parser.parseFromString(htmlContent, 'text/html');
                         const footerElement = doc.querySelector('footer');
 
+                        
                         if (footerElement) {
                             footerPlaceholder.appendChild(footerElement.cloneNode(true));
                         }

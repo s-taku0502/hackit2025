@@ -11,6 +11,36 @@
         .comment { border-top: 1px solid #eee; padding: 15px 0; }
         .comment-meta { font-size: 0.9em; color: #888; margin-bottom: 5px; }
         .comment-form { margin-top: 20px; }
+        .question-meta-header { margin-bottom: 20px; }
+        .question-status { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .status-badge { 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+        }
+        .status-badge.solved { background-color: #d4edda; color: #155724; }
+        .status-badge.unsolved { background-color: #f8d7da; color: #721c24; }
+        .solved-toggle-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .solved-toggle-btn.solved { background-color: #28a745; color: white; }
+        .solved-toggle-btn.unsolved { background-color: #dc3545; color: white; }
+        .solved-toggle-btn:hover { opacity: 0.8; }
+        .question-content { line-height: 1.6; margin: 20px 0; }
+        .comment-like-btn.liked {
+            background-color: #007bff !important;
+            color: white !important;
+            border-color: #007bff !important;
+        }
+        .delete-btn:hover {
+            background-color: #c82333 !important;
+        }
     </style>
 </head>
 <body>
