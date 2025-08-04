@@ -1,7 +1,7 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs, addDoc, orderBy } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
@@ -69,6 +69,37 @@ window.uploadPastPaper = async (year, subject, teacher, file) => {
   });
 
   return { id: fileId, url: url };
+};
+
+// 質問を投稿する関数
+window.addQuestion = async (title, content, courseLabel) => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("ユーザーがログインしていません。");
+  }
+  const userProfile = await window.getUserProfile(user.uid);
+  const username = userProfile.exists() ? userProfile.data().username : '匿名ユーザー';
+
+  await addDoc(collection(db, "questions"), {
+    title: title,
+    content: content,
+    course_label: courseLabel,
+    user: {
+      uid: user.uid,
+      name: username
+    },
+    date: serverTimestamp(),
+    ans_count: 0,
+    good_count: 0,
+    is_solved: false
+  });
+};
+
+// 質問一覧を取得する関数
+window.getQuestions = async () => {
+  const q = query(collection(db, "questions"), orderBy("date", "desc"));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot;
 };
 
 // ログイン用の関数をグローバルスコープに公開
