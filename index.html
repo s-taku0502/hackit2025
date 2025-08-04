@@ -2,53 +2,53 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/index.css">
-    <title>ホーム画面</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/index.css">
+  <title>ホーム画面</title>
 </head>
 
 <body>
   <div class="wrapper">
     <header class="header">
-        <div>
-            <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-        </div>
-        <nav class="nav">
-            <ul>
-                <li><a href="/">ホーム</a></li>
-                <li><a href="/contributor/new">過去問投稿</a></li>
-                <li><a href="/viewer/question/list">質問・返答</a></li>
-                <li><a href="/login">ログイン</a></li>
-            </ul>
-        </nav>
+      <div>
+        <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+      </div>
+      <nav class="nav">
+        <ul>
+          <li><a href="/">ホーム</a></li>
+          <li><a href="/contributor/new">過去問投稿</a></li>
+          <li><a href="/viewer/question/list">質問・返答</a></li>
+          <li><a href="/login">ログイン</a></li>
+        </ul>
+      </nav>
     </header>
     <main class="container">
-        <h1 class="username">ようこそ, ゲストさん!</h1>
-        
-        <div class="main-sections-grid">
-            <div>
-                <h2 class="past-papers">過去問一覧</h2>
-                <a href="/viewer/past_question/past_questions_all.html">
-                    <img src="/img/pastpaper.png" alt="過去問一覧" class="pastpapers">
-                </a>
-            </div>
+      <h1 class="username">ようこそ, ゲストさん!</h1>
 
-            <div>
-                <h2 class="recent-q-and-a">最近のQ&A</h2>
-                <a href="/viewer/question/list.html">
-                    <img src="/img/Q&A.png" alt="最近のQ&A" class="recentQandA">
-                </a>
-            </div>
-
-            <div>
-                <h2 class="recommend-for-you">過去問履歴</h2>
-                <a href="/viewer/question_history.html">
-                    <img src="/img/recent for you.png" alt="過去問履歴" class="recent">
-                </a>
-            </div>
+      <div class="main-sections-grid">
+        <div>
+          <a href="/viewer/past_question/past_questions_all.html">
+          <h2 class="past-papers">過去問一覧</h2>
+          <img src="/img/pastpaper.png" alt="過去問一覧" class="pastpapers">
+          </a>
         </div>
-        </main>
+
+        <div>
+          <a href="/viewer/question/list.html">
+            <h2 class="recent-q-and-a">最近のQ&A</h2>
+            <img src="/img/Q&A.png" alt="最近のQ&A" class="recentQandA">
+          </a>
+        </div>
+
+        <div>
+          <a href="/viewer/question_history.html">
+            <h2 class="recommend-for-you">過去問履歴</h2>
+            <img src="/img/recent for you.png" alt="過去問履歴" class="recent">
+          </a>
+        </div>
+      </div>
+    </main>
 
 
     <script type="module" src="firebase.js"></script>
@@ -69,74 +69,74 @@
           // ユーザーログイン後に履歴を読み込み
           const historyList = document.getElementById('history-list');
           // historyList が null でなければ処理を実行
-          if (historyList) { 
-              const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
-              const db = getFirestore();
-              
-              // 現在のユーザーの履歴のみを取得（プライバシー保護）
-              const q = query(
-                collection(db, "history"), 
-                where("uid", "==", user.uid), 
-                orderBy("time", "desc")
-              );
-              const snapshot = await getDocs(q);
+          if (historyList) {
+            const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
+            const db = getFirestore();
 
-              if (snapshot.empty) {
-                  const li = document.createElement('li');
-                  li.textContent = '閲覧履歴はまだありません';
-                  historyList.appendChild(li);
-              } else {
-                  // urlごとに最新1件だけを抽出
-                  const urlMap = new Map();
-                  snapshot.forEach(doc => {
-                      const data = doc.data();
-                      if (data.url && !urlMap.has(data.url)) {
-                          urlMap.set(data.url, { ...data });
-                      }
+            // 現在のユーザーの履歴のみを取得（プライバシー保護）
+            const q = query(
+              collection(db, "history"),
+              where("uid", "==", user.uid),
+              orderBy("time", "desc")
+            );
+            const snapshot = await getDocs(q);
+
+            if (snapshot.empty) {
+              const li = document.createElement('li');
+              li.textContent = '閲覧履歴はまだありません';
+              historyList.appendChild(li);
+            } else {
+              // urlごとに最新1件だけを抽出
+              const urlMap = new Map();
+              snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.url && !urlMap.has(data.url)) {
+                  urlMap.set(data.url, { ...data });
+                }
+              });
+
+              // 最新の異なるurlで10件だけ表示
+              const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
+
+              // filesコレクションから必要なurlのみ取得
+              const urlList = urlEntries.map(([url]) => url);
+              let filesData = {};
+              if (urlList.length > 0) {
+                // Firestoreのin句は最大10件なので分割
+                const urlChunks = [];
+                for (let i = 0; i < urlList.length; i += 10) {
+                  urlChunks.push(urlList.slice(i, i + 10));
+                }
+                for (const chunk of urlChunks) {
+                  const filesQ = query(collection(db, "files"), where("url", "in", chunk));
+                  const filesSnap = await getDocs(filesQ);
+                  filesSnap.forEach(doc => {
+                    const d = doc.data();
+                    if (d.url) filesData[d.url] = d;
                   });
-
-                  // 最新の異なるurlで10件だけ表示
-                  const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
-
-                  // filesコレクションから必要なurlのみ取得
-                  const urlList = urlEntries.map(([url]) => url);
-                  let filesData = {};
-                  if (urlList.length > 0) {
-                      // Firestoreのin句は最大10件なので分割
-                      const urlChunks = [];
-                      for (let i = 0; i < urlList.length; i += 10) {
-                          urlChunks.push(urlList.slice(i, i + 10));
-                      }
-                      for (const chunk of urlChunks) {
-                          const filesQ = query(collection(db, "files"), where("url", "in", chunk));
-                          const filesSnap = await getDocs(filesQ);
-                          filesSnap.forEach(doc => {
-                              const d = doc.data();
-                              if (d.url) filesData[d.url] = d;
-                          });
-                      }
-                  }
-
-                  urlEntries.forEach(([url, data]) => {
-                      const file = filesData[url] || {};
-                      const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
-                      const li = document.createElement('li');
-                      
-                      const link = document.createElement('a');
-                      link.href = url;
-                      link.target = '_blank';
-                      link.className = 'pdf-link';
-                      link.textContent = `${file.year || ''} ${file.name || ''} ${file.teacher || ''}`;
-
-                      const dateSpan = document.createElement('span');
-                      dateSpan.style.cssText = 'font-size:0.9em;color:#888;';
-                      dateSpan.textContent = ` ${dateStr}`;
-
-                      li.appendChild(link);
-                      li.appendChild(dateSpan);
-                      historyList.appendChild(li);
-                  });
+                }
               }
+
+              urlEntries.forEach(([url, data]) => {
+                const file = filesData[url] || {};
+                const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
+                const li = document.createElement('li');
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.className = 'pdf-link';
+                link.textContent = `${file.year || ''} ${file.name || ''} ${file.teacher || ''}`;
+
+                const dateSpan = document.createElement('span');
+                dateSpan.style.cssText = 'font-size:0.9em;color:#888;';
+                dateSpan.textContent = ` ${dateStr}`;
+
+                li.appendChild(link);
+                li.appendChild(dateSpan);
+                historyList.appendChild(li);
+              });
+            }
           }
         } else {
           // ユーザーがログインしていない場合
@@ -148,12 +148,12 @@
       const loadFooter = async () => {
         try {
           const response = await fetch('/components/footer');
-          
+
           if (!response.ok) {
             throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}`);
           }
           const htmlContent = await response.text();
-          
+
           const footerPlaceholder = document.getElementById('footer-placeholder');
           if (footerPlaceholder) {
             // XSS対策のため、安全な方法でフッターを挿入
@@ -174,7 +174,7 @@
       await loadFooter();
     </script>
   </div>
-  
+
   <div id="footer-placeholder"></div>
 </body>
 
