@@ -28,13 +28,17 @@ function clearMessage() {
 }
 
 // バリデーション用のヘルパー関数
-function validateForm(year, subject, file) {
+function validateForm(year, subject, exam_name, file) {
     if (!year) {
         showMessage('年度を入力してください。', 'error');
         return false;
     }
     if (!subject) {
         showMessage('科目名を入力してください。', 'error');
+        return false;
+    }
+    if (!exam_name) {
+        showMessage('試験種別を選択してください。', 'error');
         return false;
     }
     if (!file) {
@@ -52,9 +56,10 @@ form.addEventListener('submit', async (e) => {
     const year = form.year.value;
     const subject = form.subject.value;
     const teacher = form.teacher.value;
+    const exam_name = form.exam_name.value;
     const file = form.file.files[0];
 
-    if (!validateForm(year, subject, file)) {
+    if (!validateForm(year, subject, exam_name, file)) {
         return;
     }
 
@@ -63,7 +68,7 @@ form.addEventListener('submit', async (e) => {
     submitButton.textContent = 'アップロード中...';
 
     try {
-        await window.uploadPastPaper(year, subject, teacher, file);
+        await window.uploadPastPaper(year, subject, teacher, exam_name, file);
         showMessage('過去問が正常にアップロードされました！', 'success');
         form.reset(); // フォームをリセット
     } catch (error) {

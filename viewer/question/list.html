@@ -17,10 +17,10 @@
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="/">ホーム</a></li>
-                    <li><a href="/contributor/new">過去問投稿</a></li>
-                    <li><a href="/viewer/question/list" class="active">質問・返答</a></li>
-                    <li><a href="/login">ログイン</a></li>
+                    <li><a href="/index.html">ホーム</a></li>
+                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/list.html" class="active">質問・返答</a></li>
+                    <!-- <li><a href="/login.html">ログイン</a></li> -->
                 </ul>
             </nav>
         </header>
@@ -36,22 +36,26 @@
                     <button type="button" class="search-btn">検索</button>
                 </div>
                 <div class="filter-options">
-                                        <select id="category-filter">
-                        <option value="">すべてのカテゴリ</option>
-                        <option value="math">数学</option>
-                        <option value="physics">物理</option>
-                        <option value="chemistry">化学</option>
-                        <option value="programming">プログラミング</option>
-                        <option value="other">その他</option>
+                    <select id="category-filter">
+                        <option value="all">すべての課程</option>
+                        <option value="修学基礎">修学基礎</option>
+                        <option value="人間形成基礎">人間形成基礎</option>
+                        <option value="生涯スポーツ">生涯スポーツ</option>
+                        <option value="英語">英語</option>
+                        <option value="数理基礎">数理基礎</option>
+                        <option value="基礎プロジェクト">基礎プロジェクト</option>
+                        <option value="教職">教職</option>
+                        <option value="文理横断">文理横断</option>
+                        <option value="専門">専門</option>
+                        <option value="その他">その他</option>
                     </select>
                     <select id="status-filter">
-                        <option value="">すべての状態</option>
-                        <option value="answered">回答済み</option>
-                        <option value="unanswered">未回答</option>
+                        <option value="all">すべてのステータス</option>
+                        <option value="answered">解決済み</option>
+                        <option value="unanswered">未解決</option>
                     </select>
                 </div>
             </div>
-
             <div class="questions-container">
                 <div class="question-card" data-category="math" data-status="answered" data-date="2025-08-01" data-likes="5" data-answers="3">
                     <div class="question-header">
@@ -153,13 +157,14 @@
 
         <footer>
             <div class="footer-content">
-                <p><a href="/#">利用規約</a></p>
+                <p><a href="/terms.html">利用規約</a></p>
                 <p>&copy; 2025 Hackit さぁ、きっと。</p>
             </div>
         </footer>
     </div>
 
-    <script src="/js/question-list.js"></script>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/question-list.js"></script>
 </body>
 
 </html>

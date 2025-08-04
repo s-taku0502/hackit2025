@@ -20,10 +20,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     input.addEventListener('input', () => {
         const val = input.value;
-        if (/^\d{4}$/.test(val) && Number(val) >= 2000 && Number(val) <= nowyear) {
+        if (/^\d{4}$/.test(val) && Number(val) >= 2020 && Number(val) <= nowyear) {
             input.setCustomValidity('');
         } else {
-            input.setCustomValidity('2000以上' + nowyear + '以下の西暦4桁で入力してください');
+            input.setCustomValidity('2020以上' + nowyear + '以下の西暦4桁で入力してください');
         }
     });
 });

@@ -1,7 +1,7 @@
 // Firebase SDK の import
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs, addDoc, updateDoc, increment, orderBy, runTransaction, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
@@ -36,7 +36,7 @@ window.signupWithEmailPasswordAndSaveUser = async (email, password, username) =>
 };
 
 // 過去問をアップロードする関数
-window.uploadPastPaper = async (year, subject, teacher, file) => {
+window.uploadPastPaper = async (year, subject, teacher, exam_name, file) => {
   const user = auth.currentUser;
   if (!user) {
     throw new Error("ユーザーがログインしていません。");
@@ -62,6 +62,7 @@ window.uploadPastPaper = async (year, subject, teacher, file) => {
     year: Number(year),
     name: subject,
     teacher: teacher,
+    exam_name: exam_name,
     url: url,
     storagePath: storagePath,
     fileName: file.name,
@@ -69,6 +70,133 @@ window.uploadPastPaper = async (year, subject, teacher, file) => {
   });
 
   return { id: fileId, url: url };
+};
+
+// 質問を投稿する関数
+window.addQuestion = async (title, content, courseLabel) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  return await addDoc(collection(db, "questions"), {
+    title: title,
+    content: content,
+    course_label: courseLabel,
+    user: user.uid,
+    date: serverTimestamp(),
+    ans_count: 0,
+    good_count: 0,
+    is_solved: false
+  });
+};
+
+// 質問一覧を取得する関数
+window.getQuestions = async () => {
+  const q = query(collection(db, "questions"), orderBy("date", "desc"));
+  return await getDocs(q);
+};
+
+// 質問のいいねを増やす関数
+window.incrementQuestionGoodCount = async (questionId) => {
+  const questionRef = doc(db, "questions", questionId);
+  return await updateDoc(questionRef, {
+    good_count: increment(1)
+  });
+};
+
+// IDで質問を取得する関数
+window.getQuestionById = async (questionId) => {
+  const questionRef = doc(db, "questions", questionId);
+  return await getDoc(questionRef);
+};
+
+// 質問に対するコメントを取得する関数
+window.getCommentsForQuestion = async (questionId) => {
+  const commentsRef = collection(db, "questions", questionId, "comments");
+  const q = query(commentsRef, orderBy("date", "asc"));
+  return await getDocs(q);
+};
+
+// コメントを投稿する関数
+window.addComment = async (questionId, answer) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  const commentsRef = collection(db, "questions", questionId, "comments");
+
+  await runTransaction(db, async (transaction) => {
+    // コメントを追加
+    transaction.set(doc(commentsRef), {
+      answer: answer,
+      user: user.uid,
+      date: serverTimestamp(),
+      good: 0
+    });
+    // 質問の回答数をインクリメント
+    transaction.update(questionRef, { ans_count: increment(1) });
+  });
+};
+
+// 質問の解決状態を切り替える関数
+window.toggleQuestionSolved = async (questionId, isSolved) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  return await updateDoc(questionRef, {
+    is_solved: isSolved
+  });
+};
+
+// コメントのいいねを増やす関数
+window.incrementCommentGood = async (questionId, commentId) => {
+  const commentRef = doc(db, "questions", questionId, "comments", commentId);
+  return await updateDoc(commentRef, {
+    good: increment(1)
+  });
+};
+
+// 質問を削除する関数
+window.deleteQuestion = async (questionId) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  return await deleteDoc(questionRef);
+};
+
+// コメントを削除する関数
+window.deleteComment = async (questionId, commentId) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const questionRef = doc(db, "questions", questionId);
+  const commentRef = doc(db, "questions", questionId, "comments", commentId);
+
+  await runTransaction(db, async (transaction) => {
+    // コメントを削除
+    transaction.delete(commentRef);
+    // 質問の回答数をデクリメント
+    transaction.update(questionRef, { ans_count: increment(-1) });
+  });
+};
+
+// 全ての過去問ファイルを取得する関数
+window.getAllFiles = async () => {
+  const filesRef = collection(db, "files");
+  // 複合インデックスを必要としないように、年度での降順ソートのみを行う
+  const q = query(filesRef, orderBy("year", "desc"));
+  return await getDocs(q);
+};
+
+// ユーザーの履歴を取得する関数（インデックスエラーを避けるためシンプルなクエリ）
+window.getUserHistory = async () => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインしていません。");
+
+  const historyRef = collection(db, "history");
+  const q = query(historyRef, where("uid", "==", user.uid));
+  return await getDocs(q);
 };
 
 // ログイン用の関数をグローバルスコープに公開

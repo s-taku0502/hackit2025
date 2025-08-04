@@ -6,107 +6,116 @@
     <title>過去問一覧</title>
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/past_questions_all.css">
+    <style>
+        #search-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        #search-form > div {
+            flex: 1 1 200px;
+        }
+        #search-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        #search-form input, #search-form select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        #search-form button {
+            padding: 8px 16px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 35px;
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <header class="header">
+    <header class="header">
+        <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
+        <nav class="nav">
+            <a href="/index.html">ホーム</a>
+            <a href="/contributor/new.html">過去問投稿</a>
+            <a href="/viewer/question/list.html">質問・返答</a>
+            <a href="/login.html">ログイン</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>過去問検索</h1>
+        <form id="search-form">
             <div>
                 <img src="../../img/hackit.png" alt="Hackit ロゴ" class="logo">
+                <label for="search-name">科目名</label>
+                <input type="text" id="search-name" name="name" placeholder="例: コンピュータサイエンス">
             </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="/">ホーム</a></li>
-                    <li><a href="/contributor/new">過去問投稿</a></li>
-                    <li><a href="/viewer/question/list">質問・返答</a></li>
-                    <li><a href="/login">ログイン</a></li>
                 </ul>
             </nav>
         </header>
-        
-        <main class="container">
-            <h1>過去問検索</h1>
-            <form id="search-form">
-                <div>
-                    <label for="name">科目名</label>
-                    <input type="text" id="name" name="name" placeholder="例：数学">
-                </div>
-                <div>
-                    <label for="teacher">担当教員名</label>
-                    <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
-                </div>
-                <div>
-                    <label for="year">年度（西暦）</label>
-                    <input type="number" id="year" name="year" placeholder="例：2024"
-                           min="1900" max="2100"           
-                           oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                           maxLength="4" 
-                           required>
-                </div>
-                <button type="submit">検索</button>
-            </form>
-            <h2>検索結果</h2>
-            <ul id="result-list" class="past-list"></ul>
-        </main>
-        <script type="module" src="/firebase.js"></script>
-        <script type="module">
-            // --- ここからJavaScriptの修正箇所 ---
-            // Firebase関数とdbインスタンスをイベントリスナーの外で一度だけ初期化
-            import { getFirestore, collection, query, where, orderBy, startAt, endAt, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
-            const db = getFirestore(); // Firestoreデータベースインスタンスを一度取得
-
-            const form = document.getElementById('search-form');
-            const resultList = document.getElementById('result-list');
-            const yearInput = document.getElementById('year'); // 年度入力フィールドも取得
-
-            // 年度入力の4桁制限をJavaScriptでも実装（HTMLのmaxLengthとoninputに加えて）
-            yearInput.addEventListener('input', function() {
-                if (this.value.length > 4) {
-                    this.value = this.value.slice(0, 4);
-                }
-            });
-
-            // 検索フォームのsubmitイベントでFirestoreから検索
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                resultList.innerHTML = ''; // 検索結果をクリア
-
-                const name = form.name.value.trim();
-                const teacher = form.teacher.value.trim();
-                let year = form.year.value.trim();
-
-                // 年度が入力されていれば数値型に変換
-                if (year) {
-                    year = Number(year);
-                    // 年度に4桁の入力制限を追加 (JavaScriptでも型変換時にチェック)
-                    if (String(year).length !== 4 || isNaN(year)) {
-                        alert('年度は4桁の半角数字で入力してください。');
-                        return; // ここで処理を中断
-                    }
-                } else {
-                    year = null; // 空文字列ではなくnullを使うと、Firestoreのwhere句で条件をつけないようにできる
-                }
-
-                let q = collection(db, "files"); // dbインスタンスから"files"コレクションを取得
-                if (name) {
-                    q = query(q, where("name", "==", name));
-                }
-                if (teacher) {
-                    q = query(q, where("teacher", "==", teacher));
-                }
-                if (year) {
-                    q = query(q, where("year", "==", year));
-                }
-                q = query(q, orderBy("createdAt", "desc"));
-
-                const snapshot = await getDocs(q);
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const li = document.createElement('li');
-                    li.textContent = `${data.name} - ${data.teacher} (${data.year})`;
-                    resultList.appendChild(li);
-                });
-            });
-        </script>
+            <div>
+                <label for="search-teacher">担当教員名</label>
+                <input type="text" id="search-teacher" name="teacher" placeholder="例: 田中教授">
+            </div>
+            <div>
+                <label for="search-year">年度</label>
+                <input type="number" id="search-year" name="year" placeholder="例: 2024">
+            </div>
+            <div>
+                <label for="search-exam-name">試験種別</label>
+                <select id="search-exam-name" name="exam_name">
+                    <option value="">すべて</option>
+                    <option value="小テスト">小テスト</option>
+                    <option value="中間試験">中間試験</option>
+                    <option value="期末試験">期末試験</option>
+                    <option value="達成度確認試験">達成度確認試験</option>
+                </select>
+            </div>
+            <button type="submit">検索</button>
+        </form>        
+        <h2>検索結果</h2>
+        <ul id="results-list" class="past-list">
+            <!-- 検索結果がここに表示されます -->
+        </ul>
     </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/past_questions_all.js"></script>
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadFooter = async () => {
+                try {
+                    const response = await fetch('/components/footer.html');
+                    if (!response.ok) throw new Error('フッターの読み込みに失敗しました');
+                    const htmlContent = await response.text();
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込みエラー:', error);
+                }
+            };
+            await loadFooter();
+        });
+    </script>
 </body>
 </html>

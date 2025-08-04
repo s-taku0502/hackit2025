@@ -18,7 +18,7 @@
                 <li><a href="../">ホーム</a></li>
                 <li><a href="/contributor/new">過去問投稿</a></li>
                 <li><a href="/viewer/question/list">質問・返答</a></li>
-                <li><a href="/login">ログイン</a></li>
+                <!-- <li><a href="/login">ログイン</a></li> -->
             </ul>
         </nav>
     </header>
@@ -32,18 +32,28 @@
         <div class="form-message" style="display:none;"></div>
         <!-- <form action="upload" method="post" enctype="multipart/form-data"> -->
 
-        <div id="year-input-container">
-            <label for="year">年度（西暦：半角）
-                <a class="required-mark">*</a>
-            </label>
-            <input type="number" id="year" name="year" placeholder="例: 2024" required>
-        </div>
+        <label id="year-input-container">
+            年度（西暦：半角）<a class="required-mark">*</a> 
+        </label>
 
         <div>
             <label for="subject">科目
                 <a class="required-mark">*</a>
             </label>
             <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div>
+            <label for="exam_name">試験種別
+                <a class="required-mark">*</a>
+            </label>
+            <select id="exam_name" name="exam_name" required>
+                <option value="">--選択してください--</option>
+                <option value="小テスト">小テスト</option>
+                <option value="中間試験">中間試験</option>
+                <option value="期末試験">期末試験</option>
+                <option value="達成度確認試験">達成度確認試験</option>
+            </select>
         </div>
 
         <div>
@@ -115,6 +125,7 @@
     </script>
     <script type="module" src="/firebase.js"></script>
     <script type="module" src="/js/contribute.js"></script>
+    <script type="module" src="/js/contributor.js"></script>
 </body>
 
 </html>
