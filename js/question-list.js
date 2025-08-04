@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     async function getUserName(uid) {
+        // uidの妥当性チェックを追加
+        if (!uid || typeof uid !== 'string') {
+            console.warn('Invalid uid provided:', uid);
+            return '匿名ユーザー';
+        }
+
         if (userCache.has(uid)) {
             return userCache.get(uid);
         }
@@ -53,7 +59,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             for (const doc of snapshot.docs) {
                 const question = doc.data();
                 const questionId = doc.id;
-                const authorName = await getUserName(question.user);
+                
+                // question.userの妥当性もチェック
+                const authorName = question.user ? await getUserName(question.user) : '匿名ユーザー';
                 
                 allQuestions.push({
                     id: questionId,
