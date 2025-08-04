@@ -59,6 +59,17 @@
             <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
         </div>
 
+        <div>
+            <label for="exam_name">試験種別<a class="required-mark">*</a></label>
+            <select id="exam_name" name="exam_name" required>
+                <option value="" disabled selected>選択してください</option>
+                <option value="小テスト">小テスト</option>
+                <option value="中間試験">中間試験</option>
+                <option value="期末試験">期末試験</option>
+                <option value="達成度確認試験">達成度確認試験</option>
+            </select>
+        </div>
+
         <button type="submit" class="submit">アップロード</button>
 
     </form>

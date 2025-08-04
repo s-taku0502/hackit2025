@@ -23,9 +23,81 @@
         </nav>
     </header>
     <main class="main">
-  <h1>過去問履歴</h1>
-  <ul id="history-list">
-    </ul>
+        <h1>過去問履歴</h1>
+        <p>以下は、最近閲覧した過去問の履歴です。</p>
+        <script>// ユーザーログイン後に履歴を読み込み
+            const historyList = document.getElementById('history-list');
+            if (historyList) {
+                const { getFirestore, collection, getDocs, orderBy, query, where } = await import("firebase/firestore");
+                const db = getFirestore();
+
+                // 現在のユーザーの履歴のみを取得（プライバシー保護）
+                const q = query(
+                    collection(db, "history"),
+                    where("uid", "==", user.uid),
+                    orderBy("time", "desc")
+                );
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    const li = document.createElement('li');
+                    li.textContent = '閲覧履歴はまだありません';
+                    historyList.appendChild(li);
+                } else {
+                    // urlごとに最新1件だけを抽出
+                    const urlMap = new Map();
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.url && !urlMap.has(data.url)) {
+                            urlMap.set(data.url, { ...data });
+                        }
+                    });
+
+                    // 最新の異なるurlで10件だけ表示
+                    const urlEntries = Array.from(urlMap.entries()).slice(0, 10);
+
+                    // filesコレクションから必要なurlのみ取得
+                    const urlList = urlEntries.map(([url]) => url);
+                    let filesData = {};
+                    if (urlList.length > 0) {
+                        // Firestoreのin句は最大10件なので分割
+                        const urlChunks = [];
+                        for (let i = 0; i < urlList.length; i += 10) {
+                            urlChunks.push(urlList.slice(i, i + 10));
+                        }
+                        for (const chunk of urlChunks) {
+                            const filesQ = query(collection(db, "files"), where("url", "in", chunk));
+                            const filesSnap = await getDocs(filesQ);
+                            filesSnap.forEach(doc => {
+                                const d = doc.data();
+                                if (d.url) filesData[d.url] = d;
+                            });
+                        }
+                    }
+
+                    urlEntries.forEach(([url, data]) => {
+                        const file = filesData[url] || {};
+                        const dateStr = data.time && data.time.toDate ? data.time.toDate().toLocaleString() : '';
+                        const li = document.createElement('li');
+
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.target = '_blank';
+                        link.className = 'pdf-link';
+                        link.textContent = `${file.year || ''} ${file.name || ''} ${file.teacher || ''}`;
+
+                        const dateSpan = document.createElement('span');
+                        dateSpan.style.cssText = 'font-size:0.9em;color:#888;';
+                        dateSpan.textContent = ` ${dateStr}`;
+
+                        li.appendChild(link);
+                        li.appendChild(dateSpan);
+                        historyList.appendChild(li);
+                    });
+                }
+            }</script>
+        <ul id="history-list">
+        </ul>
     </main>
 </body>
 

@@ -38,6 +38,16 @@
                     <label for="year">年度（西暦）</label>
                     <input type="number" id="year" name="year" placeholder="例：2024">
                 </div>
+                <div>
+                    <label for="exam_name">試験種別</label>
+                    <select id="exam_name" name="exam_name">
+                        <option value="" selected>選択してください</option>
+                        <option value="小テスト">小テスト</option>
+                        <option value="中間試験">中間試験</option>
+                        <option value="期末試験">期末試験</option>
+                        <option value="達成度確認試験">達成度確認試験</option>
+                    </select>
+                </div>
                 <button type="submit">検索</button>
             </form>
             <h2>検索結果</h2>
@@ -55,6 +65,7 @@
             const name = form.name.value.trim();
             const teacher = form.teacher.value.trim();
             let year = form.year.value.trim();
+            const exam_name = form.exam_name.value; // セレクトボックスなのでtrim不要
 
             // 年度が入力されていれば数値型に変換
             if (year) {
@@ -72,6 +83,7 @@
             if (name) conditions.push(where("name", "==", name));
             if (teacher) conditions.push(where("teacher", "==", teacher));
             if (year !== "") conditions.push(where("year", "==", year));
+            if (exam_name) conditions.push(where("exam_name", "==", exam_name));
             if (conditions.length > 0) {
                 q = query(q, ...conditions);
             }
@@ -89,10 +101,10 @@
                     link.href = data.url;
                     link.target = '_blank';
                     link.className = 'pdf-link';
-                    link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}`;
+                    link.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''} ${data.exam_name || ''}`;
                     li.appendChild(link);
                 } else {
-                    li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''}（ファイルなし）`;
+                    li.textContent = `${data.year || ''} ${data.name || ''} ${data.teacher || ''} ${data.exam_name || ''}（ファイルなし）`;
                 }
                 resultList.appendChild(li);
             });
