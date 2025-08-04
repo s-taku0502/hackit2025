@@ -38,15 +38,20 @@
                 </div>
                 <div class="filter-options">
                     <select id="category-filter">
-                        <option value="">すべてのカテゴリ</option>
-                        <option value="math">数学</option>
-                        <option value="physics">物理</option>
-                        <option value="chemistry">化学</option>
-                        <option value="programming">プログラミング</option>
-                        <option value="other">その他</option>
+                        <option value="all">すべての課程</option>
+                        <option value="修学基礎">修学基礎</option>
+                        <option value="人間形成基礎">人間形成基礎</option>
+                        <option value="生涯スポーツ">生涯スポーツ</option>
+                        <option value="英語">英語</option>
+                        <option value="数理基礎">数理基礎</option>
+                        <option value="基礎プロジェクト">基礎プロジェクト</option>
+                        <option value="教職">教職</option>
+                        <option value="文理横断">文理横断</option>
+                        <option value="専門">専門</option>
+                        <option value="その他">その他</option>
                     </select>
                     <select id="status-filter">
-                        <option value="">すべての状態</option>
+                        <option value="all">すべてのステータス</option>
                         <option value="answered">回答済み</option>
                         <option value="unanswered">未回答</option>
                     </select>
@@ -54,95 +59,7 @@
             </div>
 
             <div class="questions-container">
-                <div class="question-card" data-category="math" data-status="answered" data-date="2025-08-01" data-likes="5" data-answers="3">
-                    <div class="question-header">
-                        <span class="category-tag math">数学</span>
-                        <span class="status answered">回答済み</span>
-                    </div>
-                    <h3 class="question-title">微分積分の基本定理について教えてください</h3>
-                    <p class="question-preview">微分積分の基本定理の意味と使い方がよくわからないので、具体例を交えて教えてもらえませんか？</p>
-                    <div class="question-meta">
-                        <span class="author">投稿者: 田中太郎</span>
-                        <span class="date">2025年8月1日</span>
-                        <span class="answers-count">回答数: 3</span>
-                    </div>
-                    <div class="question-actions">
-                        <a href="/viewer/question/detail.html?id=1" class="view-btn">詳細を見る</a>
-                        <button class="like-btn">👍 5</button>
-                    </div>
-                </div>
-
-                <div class="question-card">
-                    <div class="question-header">
-                        <span class="category-tag programming">プログラミング</span>
-                        <span class="status unanswered">未回答</span>
-                    </div>
-                    <h3 class="question-title">JavaScriptの非同期処理について</h3>
-                    <p class="question-preview">Promise と async/await の使い分けがわからないです。どのような場面で使い分けるべきでしょうか？</p>
-                    <div class="question-meta">
-                        <span class="author">投稿者: 佐藤花子</span>
-                        <span class="date">2025年8月2日</span>
-                        <span class="answers-count">回答数: 0</span>
-                    </div>
-                    <div class="question-actions">
-                        <a href="/viewer/question/detail.html?id=2" class="view-btn">詳細を見る</a>
-                        <button class="like-btn">👍 2</button>
-                    </div>
-                </div>
-
-                <div class="question-card">
-                    <div class="question-header">
-                        <span class="category-tag physics">物理</span>
-                        <span class="status answered">回答済み</span>
-                    </div>
-                    <h3 class="question-title">波動方程式の解法について</h3>
-                    <p class="question-preview">波動方程式を解く際の変数分離法の手順がよく理解できません。具体的な解法を教えてください。</p>
-                    <div class="question-meta">
-                        <span class="author">投稿者: 山田一郎</span>
-                        <span class="date">2025年7月30日</span>
-                        <span class="answers-count">回答数: 2</span>
-                    </div>
-                    <div class="question-actions">
-                        <a href="/viewer/question/detail.html?id=3" class="view-btn">詳細を見る</a>
-                        <button class="like-btn">👍 8</button>
-                    </div>
-                </div>
-
-                <div class="question-card">
-                    <div class="question-header">
-                        <span class="category-tag chemistry">化学</span>
-                        <span class="status answered">回答済み</span>
-                    </div>
-                    <h3 class="question-title">有機化学の反応機構</h3>
-                    <p class="question-preview">SN1反応とSN2反応の違いがよくわからないので、それぞれの特徴と見分け方を教えてください。</p>
-                    <div class="question-meta">
-                        <span class="author">投稿者: 鈴木次郎</span>
-                        <span class="date">2025年7月28日</span>
-                        <span class="answers-count">回答数: 1</span>
-                    </div>
-                    <div class="question-actions">
-                        <a href="/viewer/question/detail.html?id=4" class="view-btn">詳細を見る</a>
-                        <button class="like-btn">👍 4</button>
-                    </div>
-                </div>
-
-                <div class="question-card">
-                    <div class="question-header">
-                        <span class="category-tag other">その他</span>
-                        <span class="status unanswered">未回答</span>
-                    </div>
-                    <h3 class="question-title">統計学の検定について</h3>
-                    <p class="question-preview">t検定とカイ二乗検定の使い分けがわからないです。どのような場合にどちらを使うべきでしょうか？</p>
-                    <div class="question-meta">
-                        <span class="author">投稿者: 田村三郎</span>
-                        <span class="date">2025年7月26日</span>
-                        <span class="answers-count">回答数: 0</span>
-                    </div>
-                    <div class="question-actions">
-                        <a href="/viewer/question/detail.html?id=5" class="view-btn">詳細を見る</a>
-                        <button class="like-btn">👍 1</button>
-                    </div>
-                </div>
+                <!-- 質問カードはJavaScriptによって動的に生成されます -->
             </div>
 
             <!-- ページネーション -->
@@ -161,7 +78,77 @@
         </footer>
     </div>
 
-    <script src="/js/question-list.js"></script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "firebase/auth";
+        import '/firebase.js';
+
+        async function renderQuestions() {
+            const questionsContainer = document.querySelector('.questions-container');
+            if (!questionsContainer) return;
+
+            questionsContainer.innerHTML = '<p>質問を読み込んでいます...</p>';
+
+            try {
+                const snapshot = await window.getQuestions();
+                if (snapshot.empty) {
+                    questionsContainer.innerHTML = '<p>まだ質問がありません。</p>';
+                    return;
+                }
+
+                questionsContainer.innerHTML = ''; // ローディングメッセージをクリア
+
+                snapshot.forEach(doc => {
+                    const question = doc.data();
+                    const questionId = doc.id;
+
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.dataset.category = question.course_label.toLowerCase();
+                    card.dataset.status = question.is_solved ? 'answered' : 'unanswered';
+                    
+                    const solvedStatus = question.is_solved 
+                        ? '<span class="status answered">回答済み</span>' 
+                        : '<span class="status unanswered">未回答</span>';
+                    
+                    const contentPreview = question.content ? question.content.substring(0, 100) + (question.content.length > 100 ? '...' : '') : '';
+
+                    card.innerHTML = `
+                        <div class="question-header">
+                            <span class="category-tag">${question.course_label || 'カテゴリなし'}</span>
+                            ${solvedStatus}
+                        </div>
+                        <h3 class="question-title">${question.title}</h3>
+                        <p class="question-preview">${contentPreview}</p>
+                        <div class="question-meta">
+                            <span class="author">投稿者: ${question.user.name || '匿名'}</span>
+                            <span class="date">${question.date ? question.date.toDate().toLocaleString('ja-JP') : '日付不明'}</span>
+                            <span class="answers-count">回答数: ${question.ans_count}</span>
+                        </div>
+                        <div class="question-actions">
+                            <a href="/viewer/question/detail.html?id=${questionId}" class="view-btn">詳細を見る</a>
+                            <button class="like-btn">👍 ${question.good_count}</button>
+                        </div>
+                    `;
+                    questionsContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error("質問の読み込みに失敗しました:", error);
+                questionsContainer.innerHTML = '<p>質問の読み込み中にエラーが発生しました。</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    renderQuestions();
+                } else {
+                    window.location.href = '/login.html';
+                }
+            });
+        });
+    </script>
+    <script src="/js/question-list.js" defer></script>
 </body>
 
 </html>

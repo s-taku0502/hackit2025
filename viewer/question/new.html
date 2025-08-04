@@ -28,35 +28,59 @@
             <input type="text" id="title" name="title" required />
             <label for="detailed">詳細な内容 <span class="required-mark">*</span></label>
             <textarea id="detailed" name="detailed" required></textarea>
-            <label for="year">年度選択 <span class="required-mark">*</span></label>
-            <select name="year" id="year" required>
-                <option value="">--年を選択--</option>
+            <label for="subject">課程選択 <span class="required-mark">*</span></label>
+            <select id="subject" name="subject" required>
+                <option value="">--課程を選択--</option>
+                <option value="修学基礎">修学基礎</option>
+                <option value="人間形成基礎">人間形成基礎</option>
+                <option value="生涯スポーツ">生涯スポーツ</option>
+                <option value="英語">英語</option>
+                <option value="数理基礎">数理基礎</option>
+                <option value="基礎プロジェクト">基礎プロジェクト</option>
+                <option value="教職">教職</option>
+                <option value="文理横断">文理横断</option>
+                <option value="専門">専門</option>
+                <option value="その他">その他</option>
             </select>
-            <label for="subject">科目選択 <span class="required-mark">*</span></label>
-            <input type="text" id="subject" name="subject" required />
             <button type="submit">質問を投稿</button>
         </form>
 
         <div id="footer-placeholder"></div>
     </div>
     
-    <script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "firebase/auth";
+        import '/firebase.js';
+
         document.addEventListener('DOMContentLoaded', () => {
-            // 年選択ドロップダウンの生成
-            const yearSelect = document.getElementById('year');
-            const currentYear = new Date().getFullYear();
-            const startYear = 2000;
-            for (let year = currentYear; year >= startYear; year--) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year + '年';
-                yearSelect.appendChild(option);
-            }
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+                if (!user) {
+                    window.location.href = '/login.html';
+                }
+            });
 
             // 質問フォームの送信イベントリスナー
-            document.getElementById('questionForm').addEventListener('submit', function (event) {
+            document.getElementById('questionForm').addEventListener('submit', async function (event) {
                 event.preventDefault();
-                alert('質問を送信しました');
+                
+                const title = document.getElementById('title').value;
+                const content = document.getElementById('detailed').value;
+                const courseLabel = document.getElementById('subject').value;
+
+                if (!title || !content || !courseLabel) {
+                    alert('すべての必須項目を入力してください。');
+                    return;
+                }
+
+                try {
+                    await window.addQuestion(title, content, courseLabel);
+                    alert('質問を送信しました');
+                    window.location.href = '/viewer/question/list.html';
+                } catch (error) {
+                    console.error("質問の投稿に失敗しました:", error);
+                    alert(`エラーが発生しました: ${error.message}`);
+                }
             });
 
             // フッターの読み込み
