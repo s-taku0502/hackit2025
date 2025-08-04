@@ -1,6 +1,20 @@
 @import url("header.css");
 @import url("header_style.css");
 
+.wrapper .header .nav a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.header .nav a:hover,
+.header .nav a.active{
+    background: #e3f2fd;
+}
+
 .main {
     text-align: left;
     /* 追加: 左寄せ */

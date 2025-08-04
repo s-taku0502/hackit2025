@@ -15,10 +15,10 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="../index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
+                <li><a href="../">ホーム</a></li>
+                <li><a href="/contributor/new">過去問投稿</a></li>
+                <li><a href="/viewer/question/list">質問・返答</a></li>
+                <li><a href="/login">ログイン</a></li>
             </ul>
         </nav>
     </header>
@@ -30,7 +30,7 @@
     <form id="upload-form">
         <!-- メッセージ表示用 -->
         <div class="form-message" style="display:none;"></div>
-        <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
+        <!-- <form action="upload" method="post" enctype="multipart/form-data"> -->
 
         <div id="year-input-container">
             <label for="year">年度（西暦：半角）
@@ -70,8 +70,8 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const loadFooter = async () => {
                 try {
-                    // components/footer.html へのパスを指定。サイトのルートからの相対パスが最も安全です。
-                    const response = await fetch('/components/footer.html');
+                    // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer');
 
                     if (!response.ok) {
                         throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
@@ -108,7 +108,7 @@
                     document.getElementById('upload-form').style.display = 'block';
                 } else {
                     // ユーザーがログインしていない場合、ログインページへリダイレクト
-                    window.location.href = '/login.html';
+                    window.location.href = '/login';
                 }
             });
         });
