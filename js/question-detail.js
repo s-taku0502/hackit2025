@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function getUserName(uid) {
+        // uidの妥当性チェックを追加
+        if (!uid || typeof uid !== 'string') {
+            console.warn('Invalid uid provided:', uid);
+            return '匿名ユーザー';
+        }
+
         if (userCache.has(uid)) return userCache.get(uid);
         try {
             const userProfile = await window.getUserProfile(uid);
@@ -40,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             userCache.set(uid, username);
             return username;
         } catch (e) {
+            console.error("Error fetching user:", e);
             return '匿名ユーザー';
         }
     }

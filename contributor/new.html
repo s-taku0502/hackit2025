@@ -18,7 +18,7 @@
                 <li><a href="../">ホーム</a></li>
                 <li><a href="/contributor/new">過去問投稿</a></li>
                 <li><a href="/viewer/question/list">質問・返答</a></li>
-                <li><a href="/login">ログイン</a></li>
+                <!-- <li><a href="/login">ログイン</a></li> -->
             </ul>
         </nav>
     </header>
@@ -41,6 +41,19 @@
                 <a class="required-mark">*</a>
             </label>
             <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div>
+            <label for="exam_name">試験種別
+                <a class="required-mark">*</a>
+            </label>
+            <select id="exam_name" name="exam_name" required>
+                <option value="">--選択してください--</option>
+                <option value="小テスト">小テスト</option>
+                <option value="中間試験">中間試験</option>
+                <option value="期末試験">期末試験</option>
+                <option value="達成度確認試験">達成度確認試験</option>
+            </select>
         </div>
 
         <div>
