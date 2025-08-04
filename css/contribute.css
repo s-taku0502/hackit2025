@@ -1,31 +1,5 @@
-.header {
-    display: flex;
-    align-items: center;
-    /* 垂直方向中央揃え */
-    gap: 32px;
-    /* 要素間の余白（必要に応じて調整） */
-    border-bottom: 2px solid #ccc;
-    /* 追加: 下線 */
-    padding-bottom: 8px;
-    /* 線との余白（任意） */
-}
-
-.header>div {
-    display: flex;
-    align-items: center;
-}
-
-.header .logo {
-    height: 48px;
-    /* ロゴサイズ調整（任意） */
-}
-
-.header .nav ul {
-    display: flex;
-    gap: 16px;
-    /* ナビゲーション項目の間隔 */
-    list-style: none;
-}
+@import url("header.css");
+@import url("header_style.css");
 
 .main {
     text-align: left;
@@ -82,26 +56,15 @@ form label {
 
 form input[type="text"],
 form input[type="number"],
-form input[type="file"] {
+form input[type="file"],
+form select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 1rem;
-}
-
-.header .nav a {
-    text-decoration: none;
-    color: #1976d2;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.header .nav a:hover {
-    background: #e3f2fd;
+    font-family: inherit;
 }
 
 a.home,
@@ -123,7 +86,7 @@ a.home:hover {
     background-color: #bbdefb;
 }
 
-.main .required-mark{
+.required-mark {
     color: #D32F2F;
 }
 
@@ -180,4 +143,5 @@ a.home:hover {
     .footer-content {
         padding: 0 15px; /* モバイルでの左右パディング調整 */
     }
+
 }

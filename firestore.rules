@@ -7,6 +7,42 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
+    // 過去問ファイル情報のコレクション
+    match /files/{fileId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
+    // 質問コレクション
+    match /questions/{questionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.user == request.auth.uid;
+      // is_solvedとgood_countの更新は誰でも許可
+      allow update: if request.auth != null && 
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['is_solved', 'good_count']) || 
+        resource.data.user == request.auth.uid);
+      allow delete: if request.auth != null && resource.data.user == request.auth.uid;
+
+      // コメントサブコレクション
+      match /comments/{commentId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null && request.resource.data.user == request.auth.uid;
+        // goodの更新は誰でも許可、その他の更新・削除は作成者のみ
+        allow update: if request.auth != null &&
+          (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['good']) ||
+          resource.data.user == request.auth.uid);
+        allow delete: if request.auth != null && resource.data.user == request.auth.uid;
+      }
+    }
+
+    // 履歴コレクション
+    match /history/{historyId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
     // 他のコレクションへのアクセスルールはここに追加
     // 例: 投稿は認証済みユーザーなら誰でも読めるが、作成者のみが更新・削除できる
     // match /posts/{postId} {

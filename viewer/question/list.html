@@ -10,145 +10,160 @@
 </head>
 
 <body>
-    <header class="header">
-        <div>
-            <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-        </div>
-        <nav class="nav">
-            <ul>
-                <li><a href="/index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html" class="active">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="main">
-        <div class="page-header">
-            <h1>質問・返答一覧</h1>
-            <a href="/viewer/question/new.html" class="new-question-btn">新しい質問をする</a>
-        </div>
-
-        <!-- 検索・フィルター -->
-        <div class="search-section">
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="質問を検索...">
-                <button type="button" class="search-btn">検索</button>
+    <div class="wrapper">
+        <header class="header">
+            <div>
+                <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
             </div>
-            <div class="filter-options">
-                <select id="category-filter">
-                    <option value="">すべてのカテゴリ</option>
-                    <option value="math">数学</option>
-                    <option value="physics">物理</option>
-                    <option value="chemistry">化学</option>
-                    <option value="programming">プログラミング</option>
-                    <option value="other">その他</option>
-                </select>
-                <select id="status-filter">
-                    <option value="">すべての状態</option>
-                    <option value="answered">回答済み</option>
-                    <option value="unanswered">未回答</option>
-                </select>
-            </div>
-        </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/index.html">ホーム</a></li>
+                    <li><a href="/contributor/new.html">過去問投稿</a></li>
+                    <li><a href="/viewer/question/list.html" class="active">質問・返答</a></li>
+                    <!-- <li><a href="/login.html">ログイン</a></li> -->
+                </ul>
+            </nav>
+        </header>
 
-        <!-- 質問一覧 -->
-        <div class="questions-container">
-            <!-- 質問カード1 -->
-            <div class="question-card" data-category="math" data-status="answered" data-date="2025-08-01" data-likes="5" data-answers="3">
-                <div class="question-header">
-                    <span class="category-tag math">数学</span>
-                    <span class="status answered">回答済み</span>
+        <main class="container">
+            <div class="page-header">
+                <h1>質問・返答一覧</h1>
+                <a href="/viewer/question/new" class="new-question-btn">新しい質問をする</a>
+            </div>
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="質問を検索...">
+                    <button type="button" class="search-btn">検索</button>
                 </div>
-                <h3 class="question-title">微分積分の基本定理について教えてください</h3>
-                <p class="question-preview">微分積分の基本定理の意味と使い方がよくわからないので、具体例を交えて教えてもらえませんか？</p>
-                <div class="question-meta">
-                    <span class="author">投稿者: 田中太郎</span>
-                    <span class="date">2025年8月1日</span>
-                    <span class="answers-count">回答数: 3</span>
-                </div>
-                <div class="question-actions">
-                    <a href="/viewer/question/detail.html?id=1" class="view-btn">詳細を見る</a>
-                    <button class="like-btn">👍 5</button>
+                <div class="filter-options">
+                    <select id="category-filter">
+                        <option value="all">すべての課程</option>
+                        <option value="修学基礎">修学基礎</option>
+                        <option value="人間形成基礎">人間形成基礎</option>
+                        <option value="生涯スポーツ">生涯スポーツ</option>
+                        <option value="英語">英語</option>
+                        <option value="数理基礎">数理基礎</option>
+                        <option value="基礎プロジェクト">基礎プロジェクト</option>
+                        <option value="教職">教職</option>
+                        <option value="文理横断">文理横断</option>
+                        <option value="専門">専門</option>
+                        <option value="その他">その他</option>
+                    </select>
+                    <select id="status-filter">
+                        <option value="all">すべてのステータス</option>
+                        <option value="answered">解決済み</option>
+                        <option value="unanswered">未解決</option>
+                    </select>
                 </div>
             </div>
+            <div class="questions-container">
+                <div class="question-card" data-category="math" data-status="answered" data-date="2025-08-01" data-likes="5" data-answers="3">
+                    <div class="question-header">
+                        <span class="category-tag math">数学</span>
+                        <span class="status answered">回答済み</span>
+                    </div>
+                    <h3 class="question-title">微分積分の基本定理について教えてください</h3>
+                    <p class="question-preview">微分積分の基本定理の意味と使い方がよくわからないので、具体例を交えて教えてもらえませんか？</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: 田中太郎</span>
+                        <span class="date">2025年8月1日</span>
+                        <span class="answers-count">回答数: 3</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail?id=1" class="view-btn">詳細を見る</a>
+                        <button class="like-btn">👍 5</button>
+                    </div>
+                </div>
 
-            <!-- 質問カード2 -->
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="category-tag programming">プログラミング</span>
-                    <span class="status unanswered">未回答</span>
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="category-tag programming">プログラミング</span>
+                        <span class="status unanswered">未回答</span>
+                    </div>
+                    <h3 class="question-title">JavaScriptの非同期処理について</h3>
+                    <p class="question-preview">Promise と async/await の使い分けがわからないです。どのような場面で使い分けるべきでしょうか？</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: 佐藤花子</span>
+                        <span class="date">2025年8月2日</span>
+                        <span class="answers-count">回答数: 0</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail?id=2" class="view-btn">詳細を見る</a>
+                        <button class="like-btn">👍 2</button>
+                    </div>
                 </div>
-                <h3 class="question-title">JavaScriptの非同期処理について</h3>
-                <p class="question-preview">Promise と async/await の使い分けがわからないです。どのような場面で使い分けるべきでしょうか？</p>
-                <div class="question-meta">
-                    <span class="author">投稿者: 佐藤花子</span>
-                    <span class="date">2025年8月2日</span>
-                    <span class="answers-count">回答数: 0</span>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="category-tag physics">物理</span>
+                        <span class="status answered">回答済み</span>
+                    </div>
+                    <h3 class="question-title">波動方程式の解法について</h3>
+                    <p class="question-preview">波動方程式を解く際の変数分離法の手順がよく理解できません。具体的な解法を教えてください。</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: 山田一郎</span>
+                        <span class="date">2025年7月30日</span>
+                        <span class="answers-count">回答数: 2</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail?id=3" class="view-btn">詳細を見る</a>
+                        <button class="like-btn">👍 8</button>
+                    </div>
                 </div>
-                <div class="question-actions">
-                    <a href="/viewer/question/detail.html?id=2" class="view-btn">詳細を見る</a>
-                    <button class="like-btn">👍 2</button>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="category-tag chemistry">化学</span>
+                        <span class="status answered">回答済み</span>
+                    </div>
+                    <h3 class="question-title">有機化学の反応機構</h3>
+                    <p class="question-preview">SN1反応とSN2反応の違いがよくわからないので、それぞれの特徴と見分け方を教えてください。</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: 鈴木次郎</span>
+                        <span class="date">2025年7月28日</span>
+                        <span class="answers-count">回答数: 1</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail?id=4" class="view-btn">詳細を見る</a>
+                        <button class="like-btn">👍 4</button>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="category-tag other">その他</span>
+                        <span class="status unanswered">未回答</span>
+                    </div>
+                    <h3 class="question-title">統計学の検定について</h3>
+                    <p class="question-preview">t検定とカイ二乗検定の使い分けがわからないです。どのような場合にどちらを使うべきでしょうか？</p>
+                    <div class="question-meta">
+                        <span class="author">投稿者: 田村三郎</span>
+                        <span class="date">2025年7月26日</span>
+                        <span class="answers-count">回答数: 0</span>
+                    </div>
+                    <div class="question-actions">
+                        <a href="/viewer/question/detail?id=5" class="view-btn">詳細を見る</a>
+                        <button class="like-btn">👍 1</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 質問カード3 -->
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="category-tag physics">物理</span>
-                    <span class="status answered">回答済み</span>
-                </div>
-                <h3 class="question-title">波動方程式の解法について</h3>
-                <p class="question-preview">波動方程式を解く際の変数分離法の手順がよく理解できません。具体的な解法を教えてください。</p>
-                <div class="question-meta">
-                    <span class="author">投稿者: 山田一郎</span>
-                    <span class="date">2025年7月30日</span>
-                    <span class="answers-count">回答数: 2</span>
-                </div>
-                <div class="question-actions">
-                    <a href="/viewer/question/detail.html?id=3" class="view-btn">詳細を見る</a>
-                    <button class="like-btn">👍 8</button>
-                </div>
+            <div class="pagination">
+                <button class="page-btn" disabled>前へ</button>
+                <span class="page-info">1 / 1</span>
+                <button class="page-btn" disabled>次へ</button>
             </div>
+        </main>
 
-            <!-- 質問カード4 -->
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="category-tag chemistry">化学</span>
-                    <span class="status answered">回答済み</span>
-                </div>
-                <h3 class="question-title">有機化学の反応機構</h3>
-                <p class="question-preview">SN1反応とSN2反応の違いがよくわからないので、それぞれの特徴と見分け方を教えてください。</p>
-                <div class="question-meta">
-                    <span class="author">投稿者: 鈴木次郎</span>
-                    <span class="date">2025年7月28日</span>
-                    <span class="answers-count">回答数: 1</span>
-                </div>
-                <div class="question-actions">
-                    <a href="/viewer/question/detail.html?id=4" class="view-btn">詳細を見る</a>
-                    <button class="like-btn">👍 4</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ページネーション -->
-        <div class="pagination">
-            <button class="page-btn" disabled>前へ</button>
-            <span class="page-info">1 / 1</span>
-            <button class="page-btn" disabled>次へ</button>
-        </div>
-    </main>
-
-    <script src="/js/question-list.js"></script>
-    <footer>
+        <footer>
             <div class="footer-content">
-                <p><a href="/terms-of-service.html">利用規約</a></p>
+                <p><a href="/terms.html">利用規約</a></p>
                 <p>&copy; 2025 Hackit さぁ、きっと。</p>
             </div>
         </footer>
-
-
+    </div>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/question-list.js"></script>
 </body>
 
 </html>

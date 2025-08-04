@@ -15,58 +15,116 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="../index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
+                <li><a href="../">ホーム</a></li>
+                <li><a href="/contributor/new">過去問投稿</a></li>
+                <li><a href="/viewer/question/list">質問・返答</a></li>
+                <!-- <li><a href="/login">ログイン</a></li> -->
             </ul>
         </nav>
     </header>
     <main class="main">
         <h1 class="username">過去問アップロード</h1>
+        <p>以下のフォームに必要事項を入力し、過去問をアップロードしてください。</p>
+        <p>※アップロードするファイルはPDF形式で、1ファイルあたりのサイズは最大10MBです。</p>
 
-        <form action="upload.html">
-            <!-- <form action="upload.html" method="post" enctype="multipart/form-data"> -->
+    <form id="upload-form">
+        <!-- メッセージ表示用 -->
+        <div class="form-message" style="display:none;"></div>
+        <!-- <form action="upload" method="post" enctype="multipart/form-data"> -->
 
-            <div id="year-input-container">
-                <label for="year">年度（西暦：半角）
-                    <a class="required-mark">*</a>
-                </label>
-                <!--contribute.jsに記載-->
-            </div>
+        <label id="year-input-container">
+            年度（西暦：半角）<a class="required-mark">*</a> 
+        </label>
 
-            <div>
-                <label for="subject">科目
-                    <a class="required-mark">*</a>
-                </label>
-                <input type="text" id="subject" name="subject" required>
-            </div>
+        <div>
+            <label for="subject">科目
+                <a class="required-mark">*</a>
+            </label>
+            <input type="text" id="subject" name="subject" required>
+        </div>
 
-            <div>
-                <label for="teacher">担当教員名（任意）</label>
-                <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
-            </div>
+        <div>
+            <label for="exam_name">試験種別
+                <a class="required-mark">*</a>
+            </label>
+            <select id="exam_name" name="exam_name" required>
+                <option value="">--選択してください--</option>
+                <option value="小テスト">小テスト</option>
+                <option value="中間試験">中間試験</option>
+                <option value="期末試験">期末試験</option>
+                <option value="達成度確認試験">達成度確認試験</option>
+            </select>
+        </div>
 
-            <div>
-                <label for="file">ファイル
-                    <a class="required-mark">*</a>
-                </label>
-                <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
-            </div>
+        <div>
+            <label for="teacher">担当教員名（任意）</label>
+            <input type="text" id="teacher" name="teacher" placeholder="例：山田太郎">
+        </div>
 
-            <button type="submit" class="submit">アップロード</button>
+        <div>
+            <label for="file">ファイル
+                <a class="required-mark">*</a>
+            </label>
+            <input type="file" id="file" name="file" accept=".pdf,application/pdf" required>
+        </div>
 
-        </form>
+        <button type="submit" class="submit">アップロード</button>
+
+    </form>
     </main>
-    <script src="/js/contributor.js"></script>
-    <footer>
-            <div class="footer-content">
-                <p><a href="/terms-of-service.html">利用規約</a></p>
-                <p>&copy; 2025 Hackit さぁ、きっと。</p>
-            </div>
-        </footer>
+    <div id="footer-placeholder"></div>
+    </div>
 
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadFooter = async () => {
+                try {
+                    // components/footer へのパスを指定。サイトのルートからの相対パスが最も安全です。
+                    const response = await fetch('/components/footer');
 
+                    if (!response.ok) {
+                        throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}. パスを確認してください。`);
+                    }
+                    const htmlContent = await response.text();
+
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        // XSS対策: DOMParserを使用してHTMLを安全に解析
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+
+                        
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
+                    } else {
+                        console.error('エラー: フッターのプレースホルダー要素 (ID: footer-placeholder) が見つかりません。');
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込み中にエラーが発生しました:', error);
+                }
+            };
+
+            await loadFooter();
+
+            // Firebaseの初期化と認証チェック
+            const { getAuth, onAuthStateChanged } = await import("firebase/auth");
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // ユーザーがログインしている場合、フォームを表示
+                    document.getElementById('upload-form').style.display = 'block';
+                } else {
+                    // ユーザーがログインしていない場合、ログインページへリダイレクト
+                    window.location.href = '/login';
+                }
+            });
+        });
+    </script>
+    <script type="module" src="/firebase.js"></script>
+    <script type="module" src="/js/contribute.js"></script>
+    <script type="module" src="/js/contributor.js"></script>
 </body>
 
 </html>

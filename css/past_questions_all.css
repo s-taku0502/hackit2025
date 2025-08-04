@@ -1,4 +1,5 @@
-/* --- 過去問一覧ページ専用スタイル --- */
+@import url("header.css");
+
 body {
     font-family: 'Helvetica Neue', Arial, 'Meiryo', sans-serif;
     background-color: #f5f5f5;
@@ -7,7 +8,6 @@ body {
     color: #333;
 }
 
-/* --- 過去問一覧リスト --- */
 .past-list {
     list-style: none;
     padding: 0;
@@ -26,7 +26,7 @@ body {
     text-decoration: none;
     padding: 12px 18px;
     border-radius: 8px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
     transition: background 0.2s;
 }
 
@@ -34,7 +34,6 @@ body {
     background: #bbdefb;
 }
 
-/* --- レスポンシブ（このページ専用のレスポンシブスタイル） --- */
 @media (max-width: 600px) {
     .past-list a {
         padding: 10px 8px;
