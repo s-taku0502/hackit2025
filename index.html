@@ -16,10 +16,10 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="index.html">ホーム</a></li>
-                <li><a href="/contributor/new.html">過去問投稿</a></li>
-                <li><a href="/viewer/question/list.html">質問・返答</a></li>
-                <li><a href="/login.html">ログイン</a></li>
+                <li><a href="/">ホーム</a></li>
+                <li><a href="/contributor/new">過去問投稿</a></li>
+                <li><a href="/viewer/question/list">質問・返答</a></li>
+                <li><a href="/login">ログイン</a></li>
             </ul>
         </nav>
     </header>
@@ -49,6 +49,7 @@
             </div>
         </div>
         </main>
+
 
     <script type="module" src="firebase.js"></script>
     <script type="module">
@@ -146,7 +147,7 @@
       // フッターの読み込み
       const loadFooter = async () => {
         try {
-          const response = await fetch('/components/footer.html');
+          const response = await fetch('/components/footer');
           
           if (!response.ok) {
             throw new Error(`フッターの読み込みに失敗しました: ${response.status} ${response.statusText}`);
