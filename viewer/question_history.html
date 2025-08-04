@@ -4,29 +4,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/question_history.css">
-    <title>過去問投稿</title>
+    <title>過去問履歴</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/past_questions_all.css">
+    <style>
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+            transition: background 0.2s;
+            margin-bottom: 18px;
+        }
+
+        .history-item:hover {
+            background: #bbdefb;
+        }
+
+        .history-details {
+            flex: 1;
+        }
+
+        .access-time {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .no-history {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+    </style>
 </head>
 
 <body>
     <header class="header">
-        <div>
-            <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
-        </div>
+        <img src="/img/hackit.png" alt="Hackit Logo" class="logo">
         <nav class="nav">
+<<<<<<< HEAD
             <ul>
                 <li><a href="/">ホーム</a></li>
                 <li><a href="/contributor/new">過去問投稿</a></li>
                 <li><a href="/viewer/question/list">質問・返答</a></li>
                 <!-- <li><a href="/login">ログイン</a></li> -->
             </ul>
+=======
+            <a href="/index.html">ホーム</a>
+            <a href="/contributor/new.html">過去問投稿</a>
+            <a href="/viewer/question/list.html">質問・返答</a>
+            <a href="/login.html">ログイン</a>
+>>>>>>> 4a8f18f7d6061a5793e36308e72c8de9fc70ee62
         </nav>
     </header>
-    <main class="main">
-  <h1>過去問履歴</h1>
-  <ul id="history-list">
-    </ul>
-    </main>
-</body>
+    <div class="container">
+        <h1>過去問履歴</h1>
+        <div id="history-container" class="past-list">
+            <div class="loading">読み込み中...</div>
+        </div>
+    </div>
 
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/firebase.js"></script>
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', async () => {
+            const historyContainer = document.getElementById('history-container');
+            
+            const loadFooter = async () => {
+                try {
+                    const response = await fetch('/components/footer.html');
+                    if (!response.ok) throw new Error('フッターの読み込みに失敗しました');
+                    const htmlContent = await response.text();
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlContent, 'text/html');
+                        const footerElement = doc.querySelector('footer');
+                        if (footerElement) {
+                            footerPlaceholder.appendChild(footerElement.cloneNode(true));
+                        }
+                    }
+                } catch (error) {
+                    console.error('フッターの読み込みエラー:', error);
+                }
+            };
+
+            const loadUserHistory = async () => {
+                try {
+                    historyContainer.innerHTML = '<div class="loading">読み込み中...</div>';
+                    
+                    // 履歴データを取得
+                    const historySnapshot = await window.getUserHistory();
+                    
+                    if (historySnapshot.empty) {
+                        historyContainer.innerHTML = '<div class="no-history">閲覧履歴はまだありません。</div>';
+                        return;
+                    }
+
+                    // 履歴データを配列に変換し、時間でソート（新しい順）
+                    const historyData = [];
+                    historySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.url && data.time) {
+                            historyData.push({ id: doc.id, ...data });
+                        }
+                    });
+
+                    // 時間でソート（新しい順）
+                    historyData.sort((a, b) => b.time.toDate() - a.time.toDate());
+
+                    // URLの重複を除去（最新のみ保持）
+                    const uniqueHistory = [];
+                    const seenUrls = new Set();
+                    for (const item of historyData) {
+                        if (!seenUrls.has(item.url)) {
+                            seenUrls.add(item.url);
+                            uniqueHistory.push(item);
+                        }
+                    }
+
+                    // 過去問ファイル情報を取得
+                    const allFilesSnapshot = await window.getAllFiles();
+                    const filesMap = new Map();
+                    allFilesSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.url) {
+                            filesMap.set(data.url, data);
+                        }
+                    });
+
+                    // 履歴を表示
+                    if (uniqueHistory.length === 0) {
+                        historyContainer.innerHTML = '<div class="no-history">閲覧履歴はまだありません。</div>';
+                        return;
+                    }
+
+                    historyContainer.innerHTML = '';
+                    uniqueHistory.forEach(historyItem => {
+                        const fileData = filesMap.get(historyItem.url);
+                        
+                        const historyElement = document.createElement('a');
+                        historyElement.className = 'history-item';
+                        historyElement.href = historyItem.url;
+                        historyElement.target = '_blank';
+                        
+                        const detailsDiv = document.createElement('div');
+                        detailsDiv.className = 'history-details';
+                        
+                        if (fileData) {
+                            detailsDiv.innerHTML = `
+                                <div>${fileData.year}年度 ${fileData.name} [${fileData.exam_name || '種別未登録'}] (${fileData.teacher || '教員名未登録'})</div>
+                            `;
+                        } else {
+                            detailsDiv.innerHTML = '<div>ファイル情報が見つかりません</div>';
+                        }
+                        
+                        const timeDiv = document.createElement('div');
+                        timeDiv.className = 'access-time';
+                        timeDiv.textContent = `アクセス日時: ${historyItem.time.toDate().toLocaleString()}`;
+                        
+                        historyElement.appendChild(detailsDiv);
+                        historyElement.appendChild(timeDiv);
+                        historyContainer.appendChild(historyElement);
+                    });
+
+                } catch (error) {
+                    console.error("履歴の読み込みに失敗しました:", error);
+                    historyContainer.innerHTML = '<div class="no-history">履歴の読み込み中にエラーが発生しました。</div>';
+                }
+            };
+
+            // 認証状態を確認してから履歴を取得
+            window.onAuth(async (user) => {
+                if (user) {
+                    await loadUserHistory();
+                } else {
+                    window.location.href = '/login.html';
+                }
+            });
+
+            await loadFooter();
+        });
+    </script>
+</body>
 </html>
